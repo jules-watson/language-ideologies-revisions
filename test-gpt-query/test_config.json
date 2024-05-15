@@ -1,0 +1,15 @@
+{
+    "domain": "role_nouns",
+    "role_nouns": "data/papineau_role_nouns.json",
+    "sentence_format": "{} is {} {}.",
+    "names": "data/names_sampled.csv",
+    "ways_of_asking": {
+        "direct": "Revise the following sentence and justify the changes.",
+    },
+    "contexts": {
+        "null_context": "",
+        "choices-all-terms": "You are choosing between \"{},\" \"{},\" and \"{}.\"",
+        "individual-declaration": "Note that {} uses gender-neutral language.",
+        "ideology-declaration": "Assume you want to use language that is gender inclusive."
+    }
+}
