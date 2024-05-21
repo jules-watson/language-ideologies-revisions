@@ -1,6 +1,6 @@
 # Initially taken from https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_2_query_gpt.py
 
-from openai import OpenAI
+from openai import OpenAI, RateLimitError
 from tqdm import trange
 
 import pandas as pd
@@ -13,7 +13,6 @@ from constants import (
     TOKENS_PER_MINUTE_LIMIT, 
     MODEL_NAME
 )
-
 
 def load_stimuli(data_path):
     """
@@ -44,7 +43,7 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
 
     with open(raw_path, "w") as f:
         fieldnames = [
-            "prompt", "finish_reason", "usage", "message", "id", "object", "created", "model"
+            "prompt", "finish_reason", "usage", "responses", "id", "object", "created", "model"
         ]
         csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
         csv_writer.writeheader()
@@ -62,13 +61,13 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
                     output = client.chat.completions.create(
                         model=MODEL_NAME,
                         messages=[
-                            {"role": "user", "content": "Revise and justify the following sentence: Bill is a congressperson."},
+                            {"role": "user", "content": prompt},
                         ],
                         max_tokens=None,
                         n=2,
                     )
                     completed = True
-                except openai.error.RateLimitError as e: 
+                except RateLimitError as e: 
                     print(f"Index:{i}\n", e, "\n")
                     time.sleep(10)
                     completed = False
@@ -86,10 +85,7 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
                     "completion_tokens": output.usage.completion_tokens,                             
                     "total_tokens": output.usage.total_tokens
                 }),
-                "message": dict({
-                    "role": output.choices[0].message.role, 
-                    "content": responses
-                }),
+                "responses": responses,
                 "id": output.id,
                 "object": output.object,
                 "created": output.created,

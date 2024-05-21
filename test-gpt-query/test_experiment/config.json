@@ -4,9 +4,13 @@
     "sentence_format": "{} is {} {}.",
     "names": "data/names_sampled.csv",
     "ways_of_asking": {
-        "direct": "Revise the following sentence and justify the changes.",
+        "direct": "Revise the following sentence and justify the changes."
     },
     "contexts": {
-        "null_context": "",
-    }
+        "null_context": ""
+    },
+    "ind_vars": [
+        "name_gender",
+        "item_gender"
+    ]
 }
