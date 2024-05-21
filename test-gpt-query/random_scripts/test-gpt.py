@@ -3,7 +3,6 @@ Test the GPT3.5 chat completions API.
 """
 
 from openai import OpenAI
-import json
 
 def pretty_print(obj):
     """
