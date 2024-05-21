@@ -8,8 +8,5 @@
     },
     "contexts": {
         "null_context": "",
-        "choices-all-terms": "You are choosing between \"{},\" \"{},\" and \"{}.\"",
-        "individual-declaration": "Note that {} uses gender-neutral language.",
-        "ideology-declaration": "Assume you want to use language that is gender inclusive."
     }
 }
