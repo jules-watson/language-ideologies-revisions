@@ -1,4 +1,6 @@
-# Initially taken from https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_2_query_gpt.py
+"""
+Query a GPT model for responses to prompts, for a specific configuration and set of stimuli.
+"""
 
 from openai import OpenAI, RateLimitError
 from tqdm import trange
@@ -27,11 +29,12 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
     """
     For each stimuli sentence: queries GPT-3's API for num_generation text responses.
     Unbatched: for potential batching, see
-    https://platform.openai.com/docs/guides/rate-limits/error-mitigation
+    https://platform.openai.com/docs/guides/batch
     """
-    # Initialize varialbes to track API rate limitations
-    # For help understanding token limit: 
-    #       https://platform.openai.com/tokenizer shows how gpt-3.5 tokenizer breaks words down
+
+    # Initialize variables to track API rate limitations for queries and tokens per minute
+    # see https://platform.openai.com/docs/guides/rate-limits for more information
+    # see https://platform.openai.com/tokenizer for how gpt-3.5 tokenizer breaks words down into tokens
     queries_avail = REQUESTS_PER_MINUTE_LIMIT
     tokens_avail = TOKENS_PER_MINUTE_LIMIT
     max_tokens_per_request = 500*num_generations
@@ -93,7 +96,6 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
             })
         
         # Sleep to ensure that request per minute or token per minute limits are not breached
-        # Source: https://platform.openai.com/docs/guides/rate-limits/overview
         end_time = time.time()
         queries_avail -= num_generations
         tokens_avail -= output.usage.total_tokens
