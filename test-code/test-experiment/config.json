@@ -1,0 +1,25 @@
+{
+    "domain": "role_nouns",
+    "role_nouns": "data/papineau_role_nouns.json",
+    "sentence_format": "{} is {} {}.",
+    "names": "data/names_sampled.csv",
+    "task_wording": {
+        "direct": "Revise the following sentence and justify the changes."
+    },
+    "contexts": {
+        "null_context": ""
+    },
+    "ind_var_cols": [
+        "name_gender",
+        "item_gender"
+    ],
+    "keep_cols": [
+        "name",
+        "item",
+        "form_set"
+    ],
+    "query_api_args": {
+        "num_responses": 3,
+        "max_tokens_per_response": 500
+    }
+}
