@@ -18,11 +18,15 @@ if __name__ == "__main__":
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": "Revise and justify the following sentence: Bill is a congressperson."},
+            {"role": "user", "content": "Give an improved version of this sentence in italics and list the specific improvements: Alex has passed many bills while working as a congressperson."},
         ],
         max_tokens=None,
         n=2,
     )
 
+    # Print it as a json object
+    # print(json.dumps(json.loads(response.model_dump_json()), indent=4))
+    # print(response.model_dump_json())
+
     # Print the attributes of response
-    pretty_print(response)
+    # pretty_print(response)

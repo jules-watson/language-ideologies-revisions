@@ -8,6 +8,7 @@ from tqdm import trange
 import pandas as pd
 import csv
 import os
+import json
 import time
 
 from constants import (
@@ -15,6 +16,7 @@ from constants import (
     TOKENS_PER_MINUTE_LIMIT, 
     MODEL_NAME
 )
+
 
 def load_stimuli(data_path):
     """
@@ -25,7 +27,18 @@ def load_stimuli(data_path):
     return result
 
 
-def query_gpt(raw_path, loaded_stimuli, num_generations=2):
+def load_config(data_path):
+    """
+    Load the query api configuration for this experiment
+    """
+    # Open and read the JSON file
+    with open(data_path, 'r') as file:
+        data = json.load(file)
+    
+    return data
+
+
+def query_gpt(raw_path, loaded_stimuli, config):
     """
     For each stimuli sentence: queries GPT-3's API for num_generation text responses.
     Unbatched: for potential batching, see
@@ -37,7 +50,9 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
     # see https://platform.openai.com/tokenizer for how gpt-3.5 tokenizer breaks words down into tokens
     queries_avail = REQUESTS_PER_MINUTE_LIMIT
     tokens_avail = TOKENS_PER_MINUTE_LIMIT
-    max_tokens_per_request = 500*num_generations
+    
+    query_api_args = config["query_api_args"] # Extract relevant data from configuration
+    max_tokens_per_request = query_api_args["max_tokens_per_response"] * query_api_args["num_responses"]
 
     client = OpenAI()
 
@@ -45,29 +60,27 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
     mins = 0 
 
     with open(raw_path, "w") as f:
-        fieldnames = [
-            "prompt", "finish_reason", "usage", "responses", "id", "object", "created", "model"
-        ]
-        csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
+        field_names = ["index"] + config["ind_vars"] + config["ind_var_vals"] + ["prompt", "output"]
+        csv_writer = csv.DictWriter(f, fieldnames=field_names)
         csv_writer.writeheader()
 
         for i in trange(len(loaded_stimuli)):
             prompt = loaded_stimuli.loc[i, "prompt_text"]
 
-            # Repeatedly attempts to query the api until success- 
-            # (the code should not stop prematurely and result in a loss of progress and tokens, 
+            # Repeatedly attempts to query the api until success-
+            # (the code should not stop prematurely and result in a loss of progress and tokens,
             # although this try-except does not cover all errors that may occur)
             completed = False
 
-            while not completed: 
+            while not completed:
                 try:
                     output = client.chat.completions.create(
                         model=MODEL_NAME,
                         messages=[
                             {"role": "user", "content": prompt},
                         ],
-                        max_tokens=None,
-                        n=2,
+                        max_tokens=query_api_args["max_tokens_per_response"],
+                        n=query_api_args["num_responses"],
                     )
                     completed = True
                 except RateLimitError as e: 
@@ -79,25 +92,19 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
                     completed = False
             
             # Format raw GPT output into a row in output CSV
-            responses = [output.choices[i].message.content for i in range(len(output.choices))]
-            csv_writer.writerow({
+            row_dict = {
+                "output": output.model_dump_json(), # raw GPT output, formatted as JSON string
                 "prompt": prompt,
-                "finish_reason": output.choices[0].finish_reason,
-                "usage": dict({
-                    "prompt_tokens": output.usage.prompt_tokens, 
-                    "completion_tokens": output.usage.completion_tokens,                             
-                    "total_tokens": output.usage.total_tokens
-                }),
-                "responses": responses,
-                "id": output.id,
-                "object": output.object,
-                "created": output.created,
-                "model": output.model
-            })
+                "index": i
+            } 
+            for v in config["ind_vars"] + config["ind_var_vals"]: # add independent variables to output
+                row_dict[v] = loaded_stimuli.loc[i, v]
+            csv_writer.writerow(row_dict)
+            
         
         # Sleep to ensure that request per minute or token per minute limits are not breached
         end_time = time.time()
-        queries_avail -= num_generations
+        queries_avail -= query_api_args["num_responses"]
         tokens_avail -= output.usage.total_tokens
         if queries_avail <= 1 or tokens_avail <= max_tokens_per_request and (end_time - start_time) < 60:
             remaining = 60 - (end_time - start_time)
@@ -111,6 +118,49 @@ def query_gpt(raw_path, loaded_stimuli, num_generations=2):
             start_time = time.time()
 
 
+def process_raw(raw_path, processed_path, config):
+    """
+    Process the raw data in raw.csv into a cleaner output:
+    each response in its own row, the raw model output parsed into separate fields.
+    """
+
+    raw_outputs = pd.read_csv(raw_path)
+    raw_outputs["output"] = [json.loads(item) for item in raw_outputs["output"]]
+
+    with open(processed_path, 'w') as f:
+        fieldnames = ["index"] + config["ind_vars"] + [
+            "prompt", "finish_reason", "usage", "responses", "id", "object", "created", "model"
+        ]
+        csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
+        csv_writer.writeheader()
+
+        for i in range(len(raw_outputs)):
+            output = raw_outputs.loc[i, "output"]
+            prompt = raw_outputs.loc[i, "prompt"]
+
+            # Convert a row in the raw output into a row in processed output CSV
+            responses = [output["choices"][i]["message"]["content"] for i in range(len(output["choices"]))]
+            for response in responses:
+                row_dict = {
+                    "index": i,
+                    "prompt": prompt,
+                    "finish_reason": output["choices"][0]["finish_reason"],
+                    "usage": dict({
+                        "prompt_tokens": output["usage"]["prompt_tokens"], 
+                        "completion_tokens": output["usage"]["completion_tokens"],                             
+                        "total_tokens": output["usage"]["total_tokens"]
+                    }),
+                    "responses": response,
+                    "id": output["id"],
+                    "object": output["object"],
+                    "created": output["created"],
+                    "model": output["model"]
+                }
+                for v in config["ind_vars"]: # add independent variables to output
+                    row_dict[v] = raw_outputs.loc[i, v]
+                csv_writer.writerow(row_dict)
+
+
 def main(config):
     """
     For each stimuli sentence: query the model and save the output of the model.
@@ -120,13 +170,18 @@ def main(config):
 
     dirname = "/".join(config.split("/")[:-1])
     input_path = f"{dirname}/stimuli.csv"
+    config_path = f"{dirname}/config.json"
     raw_path = f"{dirname}/{MODEL_NAME}/raw.csv"
+    processed_path = f"{dirname}/{MODEL_NAME}/processed.csv"
 
     if not os.path.exists(f"{dirname}/{MODEL_NAME}"):
         os.mkdir(f"{dirname}/{MODEL_NAME}")
 
     input_sentences = load_stimuli(input_path)
-    query_gpt(raw_path, input_sentences, num_generations=5)
+    config = load_config(config_path)
+    query_gpt(raw_path, input_sentences, config)
+    process_raw(raw_path, processed_path, config)
+
 
 if __name__ == "__main__":
     main("test_experiment/config.json")
