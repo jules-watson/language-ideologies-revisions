@@ -9,11 +9,11 @@
     "contexts": {
         "null_context": ""
     },
-    "ind_vars": [
+    "ind_var_cols": [
         "name_gender",
         "item_gender"
     ],
-    "ind_var_vals": [
+    "keep_cols": [
         "name",
         "item",
         "form_set"

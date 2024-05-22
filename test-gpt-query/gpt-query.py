@@ -60,7 +60,7 @@ def query_gpt(raw_path, loaded_stimuli, config):
     mins = 0 
 
     with open(raw_path, "w") as f:
-        field_names = ["index"] + config["ind_vars"] + config["ind_var_vals"] + ["prompt", "output"]
+        field_names = ["index"] + config["ind_var_cols"] + config["keep_cols"] + ["prompt", "output"]
         csv_writer = csv.DictWriter(f, fieldnames=field_names)
         csv_writer.writeheader()
 
@@ -97,7 +97,7 @@ def query_gpt(raw_path, loaded_stimuli, config):
                 "prompt": prompt,
                 "index": i
             } 
-            for v in config["ind_vars"] + config["ind_var_vals"]: # add independent variables to output
+            for v in config["ind_var_cols"] + config["keep_cols"]: # add independent variables to output
                 row_dict[v] = loaded_stimuli.loc[i, v]
             csv_writer.writerow(row_dict)
             
@@ -128,7 +128,7 @@ def process_raw(raw_path, processed_path, config):
     raw_outputs["output"] = [json.loads(item) for item in raw_outputs["output"]]
 
     with open(processed_path, 'w') as f:
-        fieldnames = ["index"] + config["ind_vars"] + [
+        fieldnames = ["index"] + config["ind_var_cols"] + config["keep_cols"] + [
             "prompt", "finish_reason", "usage", "responses", "id", "object", "created", "model"
         ]
         csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -156,7 +156,7 @@ def process_raw(raw_path, processed_path, config):
                     "created": output["created"],
                     "model": output["model"]
                 }
-                for v in config["ind_vars"]: # add independent variables to output
+                for v in config["ind_var_cols"] + config["keep_cols"]: # add independent variables to output
                     row_dict[v] = raw_outputs.loc[i, v]
                 csv_writer.writerow(row_dict)
 
@@ -184,4 +184,4 @@ def main(config):
 
 
 if __name__ == "__main__":
-    main("test_experiment/config.json")
+    main("test-experiment/config.json")
