@@ -16,8 +16,9 @@ def query_gpt(dir_path):
     client = OpenAI()
 
     for m in models:
+        print(f"Querying {m}")
+        
         with tqdm(total=len(prompts) * len(stimuli)) as pbar: # progress bar
-            print(f"Querying {m}")
             data[m] = {}
 
             for p in prompts:
@@ -45,5 +46,4 @@ def query_gpt(dir_path):
 
 
 if __name__ == "__main__":
-    # main("test-split/test.json")
-    query_gpt("test-split")
+    query_gpt("test-split/outputs")
