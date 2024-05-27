@@ -3,10 +3,10 @@ Split the responses to prompts into configuration and stimuli.
 """
 import pandas as pd
 import csv
-import json
+import re
 
 from constants import MODEL_NAME
-
+from common import load_config
 
 def load_processed(data_path):
     """
@@ -16,17 +16,6 @@ def load_processed(data_path):
     result["form_set"] = [eval(item) for item in result["form_set"]]
     result["usage"] = [eval(item) for item in result["usage"]]
     return result
-
-
-def load_config(data_path):
-    """
-    Load the configuration for this experiment
-    """
-    # Open and read the JSON file
-    with open(data_path, 'r') as file:
-        data = json.load(file)
-    
-    return data
 
 
 def newline_split(response):
@@ -43,13 +32,14 @@ def newline_split(response):
 
 def label_split(response):
     """
-    Strategy: Revision is string in between the substrings 'Sentence' and 'Explanation'
+    Strategy: Revision is string in between the substrings 'Sentence' and 'Explanation', 
+    including puncutation immediately around those substrings.
     Justification is after 'Explanation'.
     """    
-    rev_pos = response.find("Sentence")
-    just_pos = response.find("Explanation")
-    if rev_pos != -1 and just_pos != -1:
-        return response[rev_pos + len("Sentence"):just_pos].strip(), response[just_pos + len("Explanation"):].strip()
+    rev_match = re.search("([\*]*)Sentence([: \*]*)", response)
+    just_match = re.search("([\*]*)Explanation([: \*]*)", response)
+    if rev_match and just_match:
+        return response[rev_match.end():just_match.start()].strip(), response[just_match.end():].strip()
     else:
         return None, None
 
