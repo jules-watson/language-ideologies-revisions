@@ -1,17 +1,22 @@
 {
     "domain": "role_nouns",
-    "role_nouns": "data/papineau_role_nouns.json",
+    "role_nouns": "data/role_nouns.json",
     "sentence_format": "{} is {} {}.",
-    "names": "data/names_sampled.csv",
+    "names": "data/names.csv",
     "task_wording": {
-        "direct": "Revise the following sentence and justify the changes."
+        "direct": "Improve the following sentence and explain the changes made.",
+        "label": "Improve the following sentence and explain the changes made. Label the improved sentence with 'Sentence' and the explanation with 'Explanation'.",
+        "punc": "Improve the following sentence and explain the changes made. Wrap the improved sentence in square brackets, and list the explanation using bullet points immediately after."
     },
     "contexts": {
-        "null_context": ""
+        "congress": "[name] has passed many bills while working as a [congressperson].",
+        "photo": "[name] looked very [attractive] in the photo."
     },
     "ind_var_cols": [
         "name_gender",
-        "item_gender"
+        "item_gender",
+        "task_wording",
+        "context"
     ],
     "keep_cols": [
         "name",

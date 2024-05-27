@@ -16,6 +16,7 @@ from constants import (
     TOKENS_PER_MINUTE_LIMIT, 
     MODEL_NAME
 )
+from common import load_config
 
 
 def load_stimuli(data_path):
@@ -25,17 +26,6 @@ def load_stimuli(data_path):
     result = pd.read_csv(data_path, index_col="index")
     result["form_set"] = [eval(item) for item in result["form_set"]]
     return result
-
-
-def load_config(data_path):
-    """
-    Load the query api configuration for this experiment
-    """
-    # Open and read the JSON file
-    with open(data_path, 'r') as file:
-        data = json.load(file)
-    
-    return data
 
 
 def query_gpt(raw_path, loaded_stimuli, config):
@@ -129,7 +119,7 @@ def process_raw(raw_path, processed_path, config):
 
     with open(processed_path, 'w') as f:
         fieldnames = ["index"] + config["ind_var_cols"] + config["keep_cols"] + [
-            "prompt", "finish_reason", "usage", "responses", "id", "object", "created", "model"
+            "prompt", "finish_reason", "usage", "response", "id", "object", "created", "model"
         ]
         csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
         csv_writer.writeheader()
@@ -150,7 +140,7 @@ def process_raw(raw_path, processed_path, config):
                         "completion_tokens": output["usage"]["completion_tokens"],                             
                         "total_tokens": output["usage"]["total_tokens"]
                     }),
-                    "responses": response,
+                    "response": response,
                     "id": output["id"],
                     "object": output["object"],
                     "created": output["created"],
