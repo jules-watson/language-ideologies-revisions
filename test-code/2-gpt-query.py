@@ -129,7 +129,7 @@ def process_raw(raw_path, processed_path, config):
 
     with open(processed_path, 'w') as f:
         fieldnames = ["index"] + config["ind_var_cols"] + config["keep_cols"] + [
-            "prompt", "finish_reason", "usage", "responses", "id", "object", "created", "model"
+            "prompt", "finish_reason", "usage", "response", "id", "object", "created", "model"
         ]
         csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
         csv_writer.writeheader()
@@ -150,7 +150,7 @@ def process_raw(raw_path, processed_path, config):
                         "completion_tokens": output["usage"]["completion_tokens"],                             
                         "total_tokens": output["usage"]["total_tokens"]
                     }),
-                    "responses": response,
+                    "response": response,
                     "id": output["id"],
                     "object": output["object"],
                     "created": output["created"],

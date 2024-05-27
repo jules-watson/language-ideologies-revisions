@@ -46,4 +46,4 @@ def query_gpt(dir_path):
 
 
 if __name__ == "__main__":
-    query_gpt("test-split/outputs")
+    query_gpt("random-scripts/test-split/outputs")
