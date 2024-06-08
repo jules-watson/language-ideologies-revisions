@@ -1,10 +1,11 @@
-"""Generates stimuli to feed into LLMs.
+"""
+Generate the stimuli file of prompts to be queried by LLMs.
 
-This is done for the domain of role nounrs.
-The resulting stimuli are stored in stimuli_role_noun.csv.
-The most important columns for querying LLMs are:
-* prompt_text: Includes the prompt text, where [FORM] should be replaced with each of the relevant forms.
-* form_set: The possible variants that can replace [FORM] in prompt_text.
+This file is a modified version of part_1_stimuli.py,
+which can be found at: https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_1_stimuli.py
+
+Author: Raymond Liu
+Date: Jun 2024
 """
 
 import collections

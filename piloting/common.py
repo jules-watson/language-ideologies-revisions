@@ -1,5 +1,8 @@
 """
 Common functions used within the pipeline.
+
+Author: Raymond Liu
+Date: May 2024
 """
 
 import json

@@ -1,6 +1,10 @@
 """
 Split the responses to prompts into configuration and stimuli.
+
+Author: Raymond Liu
+Date: May 2024
 """
+
 import pandas as pd
 import csv
 

@@ -1,5 +1,8 @@
 """
 Condense the split.csv file to create a new file only showing the post-split revisions and justifications.
+
+Author: Raymond Liu
+Date: May 2024
 """
 
 import pandas as pd

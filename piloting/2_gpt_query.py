@@ -1,5 +1,11 @@
 """
 Query a GPT model for responses to prompts, for a specific configuration and set of stimuli.
+
+This file is a modified version of part_2_query_gpt.py,
+which can be found at: https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_2_query_gpt.py
+
+Author: Raymond Liu
+Date: May 2024
 """
 
 from openai import OpenAI, RateLimitError

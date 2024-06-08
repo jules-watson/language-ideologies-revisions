@@ -1,12 +1,16 @@
 """
-Prepare names and sentences to be used.
-Taken from https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_0_prepare_names_sentences.py
+Prepare names to be used for prompting.
+
+This file is a modified version of part_0_prepare_names_sentences.py,
+which can be found at: https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_0_prepare_names_sentences.py
+
+Author: Raymond Liu
+Date: Jun 2024
 """
 
 import csv
 import numpy as np
 import pandas as pd
-import random
 import json
 
 
@@ -72,57 +76,6 @@ def prepare_names(n_names=2, output_csv=False):
 
 
 
-def parse_camilliere_sentence_formats():
-    """
-    Format all sentences in camilliere_stimuli.csv to prepare for model querying and save to "stimuli/standard.csv"
-    Generate masked form of sentence and add reference to determiner. 
-    """
-    data = pd.read_csv(CAMILLIERE_DATA_PATH)
-    data = data.loc[data["cond"] == "ngname"]
-    result = []
-    for _, row in data.iterrows():
-        curr_sentence = row["sentence"]
-        curr_sentence = curr_sentence.replace(row["form"], "[FORM]")
-        curr_sentence = curr_sentence.replace(row["antecedent"], "[NOUN]")
-        curr_sentence = curr_sentence.replace(row["antecedent"], "[NOUN]")
-        
-        result.append({
-            "itm": row["itm"],
-            "sentence": curr_sentence,
-            "form": row["form"]
-        })
-
-    result_df = pd.DataFrame(result)
-    result_df.to_csv("data/camilliere_formats.csv", index=False)
-
-
-def sample_forms():
-    # Sample forms for the pilot. This loads from the original camilliere formats
-    # file, which had a mistake for item #15 (It had "the laundromat attendant"
-    # as the antecedent, rather than "the cowboy". This is becuase of a mistake
-    # in the original Camilliere stimuli file, which only affected one of the 
-    # versions of that item.)
-    data = pd.read_csv("data/camilliere_formats-original.csv")
-    forms = ["themselves", "them", "their", "they"]
-    df = pd.DataFrame()
-    for form in forms: 
-        cur_data = data.loc[data["form"] == form]
-        rand1 = random.randint(0, len(cur_data) - 1)
-        form1 = cur_data.iloc[rand1-1:rand1]
-        rand2 = random.randint(0, len(cur_data) - 1)
-        while rand2 == rand1:
-            rand2 = random.randint(0, len(cur_data) - 1)
-        form2 = cur_data.iloc[rand2-1:rand2]
-        df = pd.concat([df, form1, form2])
-    df.to_csv("data/camilliere_subset.csv", index=False)
-
-
-def prepare_singular_pronouns_sentences():
-    parse_camilliere_sentence_formats()
-    # sample_forms()   # Sample for pilot -- only run this once
-
-
 if __name__ == "__main__":
-    # prepare_singular_pronouns_sentences()
     prepare_names()
     pass
