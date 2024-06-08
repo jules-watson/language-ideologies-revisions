@@ -139,4 +139,4 @@ def analyze_results(output_dir_path, splits_dir_path, model):
 
 if __name__=="__main__":
     for m in models:
-        analyze_results("random-scripts/test-split/outputs", "random-scripts/test-split/split-attempt", m)
+        analyze_results("random_scripts/test_split/outputs", "random_scripts/test_split/split_attempt", m)

@@ -8,9 +8,6 @@ The most important columns for querying LLMs are:
 """
 
 import collections
-import csv
-import itertools
-import json
 import pandas as pd
 
 from common import load_json
