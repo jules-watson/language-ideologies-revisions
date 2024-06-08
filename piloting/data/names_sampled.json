@@ -1,16 +1,16 @@
 {
     "neutral": [
-        "Morgan",
-        "Remi",
         "Hayden",
+        "Landry",
+        "Dakota",
         "Alex"
     ],
     "feminine": [
-        "Emma",
-        "Adeline"
+        "Elizabeth",
+        "Amanda"
     ],
     "masculine": [
-        "John",
-        "Grant"
+        "Zach",
+        "Daniel"
     ]
 }

@@ -1,7 +1,7 @@
 """
 Generate the stimuli file of prompts to be queried by LLMs.
 
-This file is a modified version of part_1_stimuli.py,
+This file is inspired from part_1_stimuli.py,
 which can be found at: https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_1_stimuli.py
 
 Author: Raymond Liu
