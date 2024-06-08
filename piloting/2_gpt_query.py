@@ -16,16 +16,7 @@ from constants import (
     TOKENS_PER_MINUTE_LIMIT, 
     MODEL_NAME
 )
-from common import load_config
-
-
-def load_stimuli(data_path):
-    """
-    Load the stimuli from csv into a list of rows, each corresponding to a prompt
-    """
-    result = pd.read_csv(data_path, index_col="index")
-    result["form_set"] = [eval(item) for item in result["form_set"]]
-    return result
+from common import load_json, load_csv
 
 
 def query_gpt(raw_path, loaded_stimuli, config):
@@ -167,11 +158,11 @@ def main(config):
     if not os.path.exists(f"{dirname}/{MODEL_NAME}"):
         os.mkdir(f"{dirname}/{MODEL_NAME}")
 
-    input_sentences = load_stimuli(input_path)
-    config = load_config(config_path)
+    input_sentences = load_csv(input_path)
+    config = load_json(config_path)
     query_gpt(raw_path, input_sentences, config)
     process_raw(raw_path, processed_path, config)
 
 
 if __name__ == "__main__":
-    main("test-experiment/config.json")
+    main("experiment/config.json")

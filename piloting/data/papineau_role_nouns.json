@@ -1,0 +1,50 @@
+{
+    "neutral": [
+        "anchor",
+        "flight attendant",
+        "businessperson",
+        "camera operator",
+        "congressperson",
+        "craftperson",
+        "crewmember",
+        "firefighter",
+        "foreperson",
+        "layperson",
+        "police officer",
+        "salesperson",
+        "stunt double",
+        "meterologist"
+    ],
+    "masculine": {
+        "anchor": "anchorman",
+        "flight attendant": "steward",
+        "businessperson": "businessman",
+        "camera operator": "cameraman",
+        "congressperson": "congressman",
+        "craftperson": "craftsman",
+        "crewmember": "crewman",
+        "firefighter": "fireman",
+        "foreperson": "foreman",
+        "layperson": "layman",
+        "police officer": "policeman",
+        "salesperson": "salesman",
+        "stunt double": "stuntman",
+        "meterologist": "weatherman"
+    },
+    "feminine": {
+        "anchor": "anchorwoman",
+        "flight attendant": "stewardess",
+        "businessperson": "businesswoman",
+        "camera operator": "camerawoman",
+        "congressperson": "congresswoman",
+        "craftperson": "craftswoman",
+        "crewmember": "crewwoman",
+        "firefighter": "firewoman",
+        "foreperson": "forewoman",
+        "layperson": "laywoman",
+        "police officer": "policewoman",
+        "salesperson": "saleswoman",
+        "stunt double": "stuntwoman",
+        "meterologist": "weatherwoman"
+    }
+}
