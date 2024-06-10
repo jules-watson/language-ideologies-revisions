@@ -1,0 +1,50 @@
+{
+    "neutral": {
+        "anchor": "anchor",
+        "flight attendant": "flight attendant",
+        "businessperson": "businessperson",
+        "camera operator": "camera operator",
+        "congressperson": "congressperson",
+        "craftsperson": "craftsperson",
+        "crewmember": "crewmember",
+        "firefighter": "firefighter",
+        "foreperson": "foreperson",
+        "layperson": "layperson",
+        "police officer": "police officer",
+        "salesperson": "salesperson",
+        "stunt double": "stunt double",
+        "meteorologist": "meteorologist"
+    },
+    "masculine": {
+        "anchor": "anchorman",
+        "flight attendant": "steward",
+        "businessperson": "businessman",
+        "camera operator": "cameraman",
+        "congressperson": "congressman",
+        "craftsperson": "craftsman",
+        "crewmember": "crewman",
+        "firefighter": "fireman",
+        "foreperson": "foreman",
+        "layperson": "layman",
+        "police officer": "policeman",
+        "salesperson": "salesman",
+        "stunt double": "stuntman",
+        "meteorologist": "weatherman"
+    },
+    "feminine": {
+        "anchor": "anchorwoman",
+        "flight attendant": "stewardess",
+        "businessperson": "businesswoman",
+        "camera operator": "camerawoman",
+        "congressperson": "congresswoman",
+        "craftsperson": "craftswoman",
+        "crewmember": "crewwoman",
+        "firefighter": "firewoman",
+        "foreperson": "forewoman",
+        "layperson": "laywoman",
+        "police officer": "policewoman",
+        "salesperson": "saleswoman",
+        "stunt double": "stuntwoman",
+        "meteorologist": "weatherwoman"
+    }
+}

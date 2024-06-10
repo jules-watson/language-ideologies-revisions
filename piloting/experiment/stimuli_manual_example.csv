@@ -1,4 +1,0 @@
-index,name,name_gender,role_noun,role_noun_gender,role_noun_label,task_wording,sentence,prompt_text
-0,Alex,neutral,congressperson,neutral,congressperson,simple,Alex is a congressperson.,"Improve the following sentence and explain the changes made. Alex is a congressperson."
-1,Alex,neutral,congressman,male,congressperson,simple,Alex is a congressman.,"Improve the following sentence and explain the changes made. Alex is a congressman."
-2,Alex,neutral,congresswoman,female,congressperson,simple,Alex is a congresswoman.,"Improve the following sentence and explain the changes made. Alex is a congresswoman."
