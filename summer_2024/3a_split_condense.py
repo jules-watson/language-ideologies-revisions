@@ -33,7 +33,7 @@ def main(config):
     split_path = f"{dirname}/{MODEL_NAME}/split.csv"
     split_condensed_path = f"{dirname}/{MODEL_NAME}/split_condensed.csv"
 
-    condense(split_path, split_condensed_path, ['task_wording', 'sentence', 'revision', 'justification'])
+    condense(split_path, split_condensed_path, ['index', 'task_wording', 'sentence', 'revision', 'justification'])
 
 if __name__ == "__main__":
     main(f"{EXPERIMENT_PATH}/config.json")

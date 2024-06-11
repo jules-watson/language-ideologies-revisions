@@ -18,7 +18,7 @@ def calculate_bleu(reference, candidate):
     reference_tokens = [word_tokenize(reference)]
     candidate_tokens = word_tokenize(candidate)
 
-    smoothing_function = SmoothingFunction().method1
+    smoothing_function = SmoothingFunction().method4
 
     weights = (0.25, 0.25, 0.25, 0.25) # equally weigh unigrams, bigrams, trigrams, 4-grams
     return sentence_bleu(reference_tokens, candidate_tokens, weights=weights, smoothing_function=smoothing_function)
