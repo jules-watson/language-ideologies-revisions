@@ -10,7 +10,21 @@ import csv
 
 from constants import MODEL_NAME, EXPERIMENT_PATH
 from common import load_json
-from split_algos import bleu_split
+from split_algos import split_using_similarity
+
+# Old splitting functions used in past experiments
+# old_split_funcs = {
+#     "simple": bleu_split
+#     "direct": newline_split,
+#     "label": label_split,
+#     "punc": punc_split
+# }
+
+# Current splitting function
+split_func_dict = {
+    "simple": split_using_similarity
+}
+
 
 def load_processed(data_path):
     """
@@ -42,6 +56,16 @@ def split(config, processed, split_path, split_func_dict):
             csv_writer.writerow(split_row)
         
 
+def condense(split_path, split_condensed_path, cols):
+    split_df = pd.read_csv(split_path)
+    
+    # Select only the specified columns
+    split_condensed_df = split_df[cols]
+    
+    # Write the filtered dataframe to a new CSV file
+    split_condensed_df.to_csv(split_condensed_path, index=False)
+    
+
 def main(config):
     """
     For each response: split the response into revision and justification.
@@ -57,11 +81,11 @@ def main(config):
     config = load_json(config_path)
     processed = load_processed(processed_path)
 
-    split_func_dict = {
-        "simple": bleu_split,
-    }
-
     split(config, processed, split_path, split_func_dict) 
+
+    # Created a split_condensed.csv file with only the original sentence, revision, and justification
+    split_condensed_path = f"{dirname}/{MODEL_NAME}/split_condensed.csv"
+    condense(split_path, split_condensed_path, ['index', 'task_wording', 'sentence', 'revision', 'justification'])
 
 
 if __name__ == "__main__":

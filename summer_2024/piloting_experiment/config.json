@@ -1,4 +1,5 @@
 {
+    "notes": "",
     "domain": "role_nouns",
     "role_nouns": "data/papineau_role_nouns_pilot.json",
     "names": "data/names_sampled.json",
