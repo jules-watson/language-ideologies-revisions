@@ -61,11 +61,7 @@ def split_using_similarity(original, response, similarity_algo=calculate_meteor)
 
     # Step 4: Anything following the revision is the justification.
     if revision:
-        # Join the later sentences after the revision
-        # revision_index = sentences.index(revision)
-        # justification = " ".join(sentences[revision_index + 1:])
-
-        # alternatively: find the substring in the response after the revision sentence
+        # Justification = substring in the response after the revision sentence
         revision_index = response.find(revision)
         justification = response[revision_index + len(revision):]
 
