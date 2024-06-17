@@ -10,19 +10,11 @@ import csv
 
 from constants import MODEL_NAME, EXPERIMENT_PATH
 from common import load_json
-from split_algos import split_using_similarity
-
-# Old splitting functions used in past experiments
-# old_split_funcs = {
-#     "simple": bleu_split
-#     "direct": newline_split,
-#     "label": label_split,
-#     "punc": punc_split
-# }
+from split_algos import meteor_similarity_split
 
 # Current splitting function
 split_func_dict = {
-    "simple": split_using_similarity
+    "meteor_similarity": meteor_similarity_split
 }
 
 
@@ -35,10 +27,13 @@ def load_processed(data_path):
     return result
 
 
-def split(config, processed, split_path, split_func_dict):
+def split(config, processed, split_path):
     """
     Split the processed sentences, given a dictionary of splitting functions corresponding to the task wording.
     """
+    split_func = split_func_dict[config["split_func"]]
+    split_func_args = config["split_func_args"]
+
     with open(split_path, 'w') as f:
         fieldnames = ["index"] + config["ind_var_cols"] + config["keep_cols"] + [
             "prompt", "finish_reason", "usage", "response", "id", "object", "created", "model"
@@ -50,9 +45,7 @@ def split(config, processed, split_path, split_func_dict):
             split_row = row.to_dict()
 
             # Split using corresponding splitting function; will return None, None if unsuccessful.
-            split_func = split_func_dict[row["task_wording"]]
-            split_row["revision"], split_row["justification"] = split_func(row["sentence"], row["response"])
-
+            split_row["revision"], split_row["justification"] = split_func(row["sentence"], row["response"], split_func_args)
             csv_writer.writerow(split_row)
         
 
@@ -81,7 +74,7 @@ def main(config):
     config = load_json(config_path)
     processed = load_processed(processed_path)
 
-    split(config, processed, split_path, split_func_dict) 
+    split(config, processed, split_path) 
 
     # Created a split_condensed.csv file with only the original sentence, revision, and justification
     split_condensed_path = f"{dirname}/{MODEL_NAME}/split_condensed.csv"
