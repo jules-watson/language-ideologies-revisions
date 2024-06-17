@@ -21,7 +21,7 @@ def meteor_similarity_split(original, response, split_func_args):
     """
     Strategy: 
     1. Split the sentences of the response. Make sure colons are a split delimiter too
-    2. For each sentence: calculate the similarity with the original sentence, using similarity_algo.
+    2. For each sentence: calculate the similarity with the original sentence, using METEOR scores.
     3. Choose the sentence that is most similar, but not equal to the original response.
        This sentence is the revision.
     4. Anything following that is the justification.
@@ -39,7 +39,7 @@ def meteor_similarity_split(original, response, split_func_args):
     sentences = sent_tokenize(response.replace(":", "."))
     strip_chars = (string.whitespace + string.punctuation).replace('.', '')
 
-    # dict of sentence: similarity score using similarity_algo
+    # dict of sentence: similarity score using METEOR scores
     sentence_scores = {}
     for sentence in sentences:
         s = sentence.strip(strip_chars)
@@ -48,7 +48,6 @@ def meteor_similarity_split(original, response, split_func_args):
     # revision = sentence with the maximum similarity score
     revision = max((s for s in sentence_scores if s != original), key=sentence_scores.get, default=None)
 
-    # Step 4: Anything following the revision is the justification.
     if revision:
         # Justification = substring in the response after the revision sentence
         revision_index = response.find(revision)
@@ -67,7 +66,7 @@ def bleu_similarity_split(original, response):
     """
     Strategy: 
     1. Split the sentences of the response. Make sure colons are a split delimiter too
-    2. For each sentence: calculate the similarity with the original sentence, using similarity_algo.
+    2. For each sentence: calculate the similarity with the original sentence, using BLEU scores.
     3. Choose the sentence that is most similar, but not equal to the original response.
        This sentence is the revision.
     4. Anything following that is the justification.
@@ -87,7 +86,7 @@ def bleu_similarity_split(original, response):
     sentences = sent_tokenize(response.replace(":", "."))
     strip_chars = (string.whitespace + string.punctuation).replace('.', '')
 
-    # dict of sentence: similarity score using similarity_algo
+    # dict of sentence: similarity score using BLEU scores
     sentence_scores = {}
     for sentence in sentences:
         s = sentence.strip(strip_chars)
@@ -96,7 +95,6 @@ def bleu_similarity_split(original, response):
     # revision = sentence with the maximum similarity score
     revision = max((s for s in sentence_scores if s != original), key=sentence_scores.get, default=None)
 
-    # Step 4: Anything following the revision is the justification.
     if revision:
         # Justification = substring in the response after the revision sentence
         revision_index = response.find(revision)
