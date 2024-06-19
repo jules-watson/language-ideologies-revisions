@@ -1,0 +1,33 @@
+{
+    "notes": "Stimuli file manually created for testing splitting algorithms.",
+    "domain": "role_nouns",
+    "role_nouns": "",
+    "names": "",
+    "sentence_formats": "",
+    "task_wording": {
+        "simple": "Improve the following sentence and explain the changes made."
+    },
+    "ind_var_cols": [
+        "name_gender",
+        "variant_gender",
+        "sentence_domain",
+        "task_wording"
+    ],
+    "keep_cols": [
+        "name",
+        "variant",
+        "variant_label",
+        "sentence",
+        "sentence_format"
+    ],
+    "query_api_args": {
+        "num_responses": 4,
+        "max_tokens_per_response": 500
+    },
+    "split_func": "meteor_similarity",
+    "split_func_args": {
+        "alpha": 0.5,
+        "beta": 2.0,
+        "gamma": 0.3
+    }
+}

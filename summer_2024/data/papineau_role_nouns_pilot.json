@@ -1,0 +1,23 @@
+{
+    "neutral": {
+        "businessperson": "businessperson",
+        "congressperson": "congressperson",
+        "firefighter": "firefighter",
+        "police officer": "police officer",
+        "meterologist": "meterologist"
+    },
+    "masculine": {
+        "businessperson": "businessman",
+        "congressperson": "congressman",
+        "firefighter": "fireman",
+        "police officer": "policeman",
+        "meterologist": "weatherman"
+    },
+    "feminine": {
+        "businessperson": "businesswoman",
+        "congressperson": "craftswoman",
+        "firefighter": "firewoman",
+        "police officer": "policewoman",
+        "meterologist": "weatherwoman"
+    }
+}
