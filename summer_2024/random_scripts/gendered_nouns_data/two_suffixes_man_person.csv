@@ -1,0 +1,5 @@
+index,stem,words,total_frequency
+0,drafts,"['draftsman', 'draftsperson']",317
+1,un,"['unman', 'unperson']",70
+2,wait,"['waitperson', 'waitman']",27
+3,es,"['esman', 'esperson']",9
