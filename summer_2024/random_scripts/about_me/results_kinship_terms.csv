@@ -1,0 +1,44 @@
+kinship_group,term,neutral_count,masculine_count,feminine_count
+sibling,sibling,119,,
+sibling,brother,,2496,
+sibling,sister,,,2582
+TOTAL SUM FOR GROUP,sibling,119,2496,2582
+child,child,7429,,
+child,kid,2425,,
+child,son,,5245,
+child,daughter,,,5036
+TOTAL SUM FOR GROUP,child,9854,5245,5036
+grandchild,grandchild,100,,
+grandchild,grandkid,5,,
+grandchild,grandson,,294,
+grandchild,granddaughter,,,272
+TOTAL SUM FOR GROUP,grandchild,105,294,272
+parent,parent,1893,,
+parent,father,,6405,
+parent,dad,,2970,
+parent,mother,,,8184
+parent,mum,,,1285
+parent,mom,,,5300
+TOTAL SUM FOR GROUP,parent,1893,9375,14769
+nibling,nibling,0,,
+nibling,nephew,,206,
+nibling,niece,,,144
+TOTAL SUM FOR GROUP,nibling,0,206,144
+grandparent,grandparent,76,,
+grandparent,grandfather,,1167,
+grandparent,grandpa,,185,
+grandparent,grandmother,,,1337
+grandparent,grandma,,,471
+TOTAL SUM FOR GROUP,grandparent,76,1352,1808
+partner,partner,4768,,
+partner,spouse,334,,
+partner,significant other,65,,
+partner,s/o,6,,
+partner,husband,,9534,
+partner,boyfriend,,547,
+partner,bf,,45,
+partner,wife,,,9004
+partner,girlfriend,,,512
+partner,gf,,,50
+TOTAL SUM FOR GROUP,partner,5173,10126,9566
+TOTAL SUM,,17220,29094,34177

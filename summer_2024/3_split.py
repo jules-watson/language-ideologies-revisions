@@ -78,7 +78,7 @@ def main(config):
 
     # Created a split_condensed.csv file with only the original sentence, revision, and justification
     split_condensed_path = f"{dirname}/{MODEL_NAME}/split_condensed.csv"
-    condense(split_path, split_condensed_path, ['index', 'task_wording', 'sentence', 'revision', 'justification'])
+    condense(split_path, split_condensed_path, ['index', 'sentence', 'revision', 'justification'])
 
 
 if __name__ == "__main__":

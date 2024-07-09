@@ -1,0 +1,890 @@
+index,stem,words,total_frequency
+0,hu,['human'],7143
+1,sha,['shaman'],1082
+2,front ,['front man'],658
+3,ger,['german'],364
+4,infantry,['infantryman'],317
+5,line,['lineman'],292
+6,city council,['city councilman'],199
+7,commercial fisher,['commercial fisherman'],181
+8,sea,['seaman'],173
+9,shop fore,['shop foreman'],168
+10,oklaho,['oklahoman'],161
+11,hospital corps,['hospital corpsman'],156
+12,land,['landman'],141
+13,patrol,['patrolman'],131
+14,rifle,['rifleman'],95
+15,skilled crafts,['skilled craftsman'],90
+16,bats,['batsman'],87
+17,test ,['test man'],79
+18,crew,['crewman'],78
+19,handy ,['handy man'],75
+20,grounds,['groundsman'],65
+21,defense,['defenseman'],65
+22,architectural drafts,['architectural draftsman'],60
+23,idea ,['idea man'],56
+24,brake,['brakeman'],56
+25,mail,['mailman'],50
+26,medicine ,['medicine man'],48
+27,press,['pressman'],47
+28,general fore,['general foreman'],45
+29,check air,['check airman'],45
+30,woods,['woodsman'],43
+31,bell,['bellman'],40
+32,construction fore,['construction foreman'],36
+33,merchant sea,['merchant seaman'],34
+34,radio,['radioman'],34
+35,bail bonds,['bail bondsman'],32
+36,repair ,['repair man'],32
+37,milk,['milkman'],31
+38,ro,['roman'],31
+39,spearfisher,['spearfisherman'],31
+40,hunts,['huntsman'],31
+41,middle,['middleman'],29
+42,ma,['maman'],29
+43,superhu,['superhuman'],28
+44,midship,['midshipman'],28
+45,yeo,['yeoman'],27
+46,for,['forman'],27
+47,longshore,['longshoreman'],25
+48,wood crafts,['wood craftsman'],25
+49,tar ,['tar man'],24
+50,defence,['defenceman'],24
+51,boat,['boatman'],23
+52,leather crafts,['leather craftsman'],23
+53,store,['storeman'],22
+54,axe,['axeman'],21
+55,bass,['bassman'],20
+56,chari,['chariman'],19
+57,door to door sales,['door to door salesman'],18
+58,sax,['saxman'],18
+59,bush,['bushman'],18
+60,lines,['linesman'],18
+61,artillery,['artilleryman'],18
+62,dairy,['dairyman'],17
+63,switch,['switchman'],17
+64,design drafts,['design draftsman'],17
+65,body ,['body man'],17
+66,jazz,['jazzman'],17
+67,television camera,['television cameraman'],17
+68,crew fore,['crew foreman'],16
+69,lens,['lensman'],16
+70,ring,['ringman'],16
+71,lobster,['lobsterman'],16
+72,ordinary sea,['ordinary seaman'],16
+73,frog,['frogman'],15
+74,law,['lawman'],15
+75,maintenance fore,['maintenance foreman'],15
+76,able sea,['able seaman'],14
+77,cad drafts,['cad draftsman'],14
+78,track,['trackman'],13
+79,flyfisher,['flyfisherman'],13
+80,snow,['snowman'],13
+81,lumber,['lumberman'],13
+82,production fore,['production foreman'],12
+83,landscape fore,['landscape foreman'],12
+84,carpenter fore,['carpenter foreman'],12
+85,lobster fisher,['lobster fisherman'],12
+86,ice,['iceman'],12
+87,body,['bodyman'],12
+88,upperclass,['upperclassman'],12
+89,pararescue,['pararescueman'],12
+90,garbage,['garbageman'],12
+91,house,['houseman'],11
+92,fuller brush ,['fuller brush man'],11
+93,stick,['stickman'],10
+94,engine,['engineman'],10
+95,bow,['bowman'],10
+96,city alder,['city alderman'],10
+97,railway,['railwayman'],10
+98,motor,['motorman'],10
+99,professional bass fisher,['professional bass fisherman'],10
+100,ice cream ,['ice cream man'],10
+101,journeyman line,['journeyman lineman'],10
+102,oil,['oilman'],10
+103,song,['songman'],9
+104,attack,['attackman'],9
+105,foundry,['foundryman'],9
+106,rod,['rodman'],9
+107,dust,['dustman'],9
+108,smithbusiness,['smithbusinessman'],9
+109,underclass,['underclassman'],9
+110,dog,['dogman'],9
+111,cochair,['cochairman'],8
+112,naval aircrew,['naval aircrewman'],8
+113,gun,['gunman'],8
+114,electrical fore,['electrical foreman'],8
+115,electrical journey,['electrical journeyman'],8
+116,machine repair,['machine repairman'],8
+117,radio repair,['radio repairman'],7
+118,barrel,['barrelman'],7
+119,cellar,['cellarman'],7
+120,chain,['chainman'],7
+121,shoe repair,['shoe repairman'],7
+122,tax,['taxman'],7
+123,bird,['birdman'],7
+124,book,['bookman'],7
+125,plow,['plowman'],6
+126,minute,['minuteman'],6
+127,mastercrafts,['mastercraftsman'],6
+128,yard fore,['yard foreman'],6
+129,tile ,['tile man'],6
+130,television repair,['television repairman'],6
+131,shanty,['shantyman'],6
+132,bicycle repair,['bicycle repairman'],6
+133,turned-business,['turned-businessman'],6
+134,session-,['session-man'],6
+135,hoo,['hooman'],6
+136,riksspel,['riksspelman'],6
+137,guitar,['guitarman'],6
+138,spear-fisher,['spear-fisherman'],6
+139,axe-,['axe-man'],6
+140,vestry,['vestryman'],6
+141,setup ,['setup man'],5
+142,o-line,['o-lineman'],5
+143,rounds,['roundsman'],5
+144,concrete fore,['concrete foreman'],5
+145,music,['musicman'],5
+146,gentle-,['gentle-man'],5
+147,plains,['plainsman'],5
+148,parts sales,['parts salesman'],5
+149,corner,['cornerman'],5
+150,layout ,['layout man'],5
+151,crab fisher,['crab fisherman'],5
+152,stern,['sternman'],5
+153,fire control,['fire controlman'],5
+154,field,['fieldman'],5
+155,family,['familyman'],5
+156,power line,['power lineman'],5
+157,sportfisher,['sportfisherman'],5
+158,kerry,['kerryman'],5
+159,lighting-camera,['lighting-cameraman'],5
+160,electrical line,['electrical lineman'],5
+161,railroad brake,['railroad brakeman'],5
+162,landscape construction fore,['landscape construction foreman'],5
+163,oyster,['oysterman'],5
+164,woodcrafts,['woodcraftsman'],5
+165,woodworking crafts,['woodworking craftsman'],5
+166,trash,['trashman'],5
+167,bir,['birman'],5
+168,bin,['binman'],5
+169,wheel,['wheelman'],5
+170,session,['sessionman'],4
+171,waste ,['waste man'],4
+172,cavalry,['cavalryman'],4
+173,band,['bandman'],4
+174,womb,['wombman'],4
+175,cut,['cutman'],4
+176,nightwatch,['nightwatchman'],4
+177,mortar,['mortarman'],4
+178,m1a1 tank crew,['m1a1 tank crewman'],4
+179,ground,['groundman'],4
+180,star,['starman'],4
+181,train,['trainman'],4
+182,het,['hetman'],4
+183,locomotive fire,['locomotive fireman'],4
+184,egg,['eggman'],4
+185,hunter,['hunterman'],4
+186,able bodied sea,['able bodied seaman'],4
+187,rocket,['rocketman'],4
+188,pump,['pumpman'],4
+189,hit-,['hit-man'],4
+190,beards,['beardsman'],4
+191,party,['partyman'],4
+192,maintenance journey,['maintenance journeyman'],4
+193,automobile sales,['automobile salesman'],4
+194,cork,['corkman'],4
+195,boogie,['boogieman'],4
+196,manx,['manxman'],4
+197,foot,['footman'],4
+198,tribes,['tribesman'],4
+199,fly,['flyman'],4
+200,tub,['tubman'],4
+201,brah,['brahman'],4
+202,founder-chair,['founder-chairman'],4
+203,medicine-,['medicine-man'],4
+204,pac,['pacman'],4
+205,chantey,['chanteyman'],4
+206,tv repair,['tv repairman'],3
+207,master-crafts,['master-craftsman'],3
+208,boom ,['boom man'],3
+209,match,['matchman'],3
+210,mountain,['mountainman'],3
+211,route sales,['route salesman'],3
+212,alaba,['alabaman'],3
+213,honor,['honorman'],3
+214,sand,['sandman'],3
+215,piano,['pianoman'],3
+216,printing press,['printing pressman'],3
+217,agri-business,['agri-businessman'],3
+218,staff,['staffman'],3
+219,fish,['fishman'],3
+220,small-business,['small-businessman'],3
+221,grants,['grantsman'],3
+222,professional bonds,['professional bondsman'],3
+223,muscle,['muscleman'],3
+224,sound-,['sound-man'],3
+225,space,['spaceman'],3
+226,gott,['gottman'],3
+227,ax,['axman'],3
+228,hair,['hairman'],3
+229,slaughter,['slaughterman'],3
+230,hand,['handman'],3
+231,polish,['polishman'],3
+232,hard,['hardman'],3
+233,grass,['grassman'],3
+234,phdchair,['phdchairman'],3
+235,sticks,['sticksman'],3
+236,crave,['craveman'],3
+237,cutter,['cutterman'],3
+238,kins,['kinsman'],3
+239,day,['dayman'],3
+240,committe,['committeman'],3
+241,auto body repair,['auto body repairman'],3
+242,render,['renderman'],3
+243,non-hu,['non-human'],3
+244,techno-sha,['techno-shaman'],3
+245,bag,['bagman'],3
+246,tire ,['tire man'],3
+247,taxi,['taximan'],3
+248,nozzle,['nozzleman'],3
+249,crazyger,['crazygerman'],3
+250,char,['charman'],3
+251,lead-,['lead-man'],3
+252,crafst,['crafstman'],3
+253,offset press,['offset pressman'],3
+254,light,['lightman'],3
+255,auto,['automan'],3
+256,candy,['candyman'],3
+257,young,['youngman'],3
+258,kite,['kiteman'],3
+259,.chair,['.chairman'],3
+260,derrick,['derrickman'],3
+261,telephone line,['telephone lineman'],3
+262,bay,['bayman'],3
+263,structural drafts,['structural draftsman'],3
+264,klans,['klansman'],3
+265,camera repair,['camera repairman'],3
+266,ladies-,['ladies-man'],2
+267,republicancongress,['republicancongressman'],2
+268,landscaping fore,['landscaping foreman'],2
+269,alterhu,['alterhuman'],2
+270,rescue,['rescueman'],2
+271,shell fisher,['shell fisherman'],2
+272,jersey,['jerseyman'],2
+273,grill,['grillman'],2
+274,goreschair,['goreschairman'],2
+275,gas journey,['gas journeyman'],2
+276,bagel-,['bagel-man'],2
+277,body-,['body-man'],2
+278,lacoccachair,['lacoccachairman'],2
+279,manly-,['manly-man'],2
+280,ultra,['ultraman'],2
+281,kundi,['kundiman'],2
+282,gate,['gateman'],2
+283,backwoods,['backwoodsman'],2
+284,boards,['boardsman'],2
+285,wood,['woodman'],2
+286,gentl,['gentlman'],2
+287,ulster,['ulsterman'],2
+288,property ,['property man'],2
+289,underwoods,['underwoodsman'],2
+290,arrow,['arrowman'],2
+291,he-,['he-man'],2
+292,prop,['propman'],2
+293,aqua,['aquaman'],2
+294,ra,['raman'],2
+295,hvac journey,['hvac journeyman'],2
+296,wheels,['wheelsman'],2
+297,videospokes,['videospokesman'],2
+298,scat,['scatman'],2
+299,rugby,['rugbyman'],2
+300,lizard,['lizardman'],2
+301,root,['rootman'],2
+302,video,['videoman'],2
+303,beck,['beckman'],2
+304,livestock show,['livestock showman'],2
+305,road,['roadman'],2
+306,clay,['clayman'],2
+307,blues-,['blues-man'],2
+308,instrument,['instrumentman'],2
+309,leg ,['leg man'],2
+310,guberchair,['guberchairman'],2
+311,begger,['beggerman'],2
+312,rig-,['rig-man'],2
+313,ir,['irman'],2
+314,birk,['birkman'],2
+315,programchair,['programchairman'],2
+316,in,['inman'],2
+317,amish,['amishman'],2
+318,inside wire,['inside wireman'],2
+319,infantry assault,['infantry assaultman'],2
+320,handicraft-,['handicraft-man'],2
+321,hang,['hangman'],2
+322,westcountry,['westcountryman'],2
+323,class,['classman'],2
+324,former-chair,['former-chairman'],2
+325,g-,['g-man'],2
+326,straw,['strawman'],2
+327,aard,['aardman'],2
+328,superwindow,['superwindowman'],2
+329,super-hu,['super-human'],2
+330,mystery-,['mystery-man'],2
+331,djsax,['djsaxman'],2
+332,strong-,['strong-man'],2
+333,dray,['drayman'],2
+334,dress,['dressman'],2
+335,driver sales,['driver salesman'],2
+336,canvas,['canvasman'],2
+337,pit,['pitman'],2
+338,drumsha,['drumshaman'],2
+339,tow,['towman'],2
+340,bussnies,['bussniesman'],2
+341,planer,['planerman'],2
+342,state,['stateman'],2
+343,plough,['ploughman'],2
+344,plumbing fore,['plumbing foreman'],2
+345,survivor,['survivorman'],2
+346,sushi,['sushiman'],2
+347,equipment,['equipmentman'],2
+348,cool,['coolman'],2
+349,choker,['chokerman'],2
+350,china,['chinaman'],2
+351,cocks,['cocksman'],2
+352,cod-,['cod-man'],2
+353,company-,['company-man'],2
+354,con,['conman'],2
+355,.front,['.frontman'],2
+356,thottle,['thottleman'],2
+357,throttle,['throttleman'],2
+358,swag,['swagman'],2
+359,cow,['cowman'],2
+360,2014chair,['2014chairman'],2
+361,talis,['talisman'],2
+362,zerowaste,['zerowasteman'],2
+363,nor,['norman'],2
+364,catfisher,['catfisherman'],2
+365,d-,['d-man'],2
+366,non-ger,['non-german'],2
+367,mortar ,['mortar man'],2
+368,pig-,['pig-man'],2
+369,bus,['busman'],2
+370,flower,['flowerman'],2
+371,sono,['sonoman'],2
+372,bug,['bugman'],2
+373,trawler,['trawlerman'],2
+374,aid,['aidman'],2
+375,first-base,['first-baseman'],2
+376,slide,['slideman'],2
+377,slender,['slenderman'],2
+378,brides,['bridesman'],2
+379,buisiness,['buisinessman'],2
+380,powerline,['powerlineman'],2
+381,trivia-,['trivia-man'],2
+382,mediocre,['mediocreman'],2
+383,foundry-,['foundry-man'],2
+384,shungluchair,['shungluchairman'],2
+385,woodscrafts,['woodscraftsman'],2
+386,shore,['shoreman'],2
+387,soul,['soulman'],2
+388,trash ,['trash man'],2
+389,buisness,['buisnessman'],2
+390,mobilechair,['mobilechairman'],2
+391,money-,['money-man'],2
+392,spider-,['spider-man'],2
+393,executivechair,['executivechairman'],2
+394,weight,['weightman'],2
+395,perch,['perchman'],1
+396,prop-,['prop-man'],1
+397,weo,['weoman'],1
+398,policem,['policemman'],1
+399,zo,['zoman'],1
+400,professional&zaken,['professional&zakenman'],1
+401,prawn-fisher,['prawn-fisherman'],1
+402,yes,['yesman'],1
+403,zucker,['zuckerman'],1
+404,railroad fire,['railroad fireman'],1
+405,property,['propertyman'],1
+406,parts,['partsman'],1
+407,wo-,['wo-man'],1
+408,window,['windowman'],1
+409,yachst,['yachstman'],1
+410,welch,['welchman'],1
+411,pak,['pakman'],1
+412,wings,['wingsman'],1
+413,product crafts,['product craftsman'],1
+414,railway-,['railway-man'],1
+415,print,['printman'],1
+416,page,['pageman'],1
+417,prize,['prizeman'],1
+418,pad,['padman'],1
+419,raggae,['raggaeman'],1
+420,rag,['ragman'],1
+421,port,['portman'],1
+422,poker,['pokerman'],1
+423,poultry,['poultryman'],1
+424,whip,['whipman'],1
+425,pens,['pensman'],1
+426,petalu,['petaluman'],1
+427,pro-chair,['pro-chairman'],1
+428,push-hands,['push-handsman'],1
+429,pee,['peeman'],1
+430,wrap-,['wrap-man'],1
+431,radar-,['radar-man'],1
+432,wow,['wowman'],1
+433,pearl,['pearlman'],1
+434,party-,['party-man'],1
+435,pool,['poolman'],1
+436,whale,['whaleman'],1
+437,radio-,['radio-man'],1
+438,work-,['work-man'],1
+439,promo-,['promo-man'],1
+440,pizza,['pizzaman'],1
+441,winch,['winchman'],1
+442,young-,['young-man'],1
+443,property-,['property-man'],1
+444,woman-,['woman-man'],1
+445,pastel,['pastelman'],1
+446,sch,['schman'],1
+447,ranch-,['ranch-man'],1
+448,string,['stringman'],1
+449,torpedo ,['torpedo man'],1
+450,stor,['storman'],1
+451,stock-,['stock-man'],1
+452,tough,['toughman'],1
+453,steel,['steelman'],1
+454,steam locomotive fire,['steam locomotive fireman'],1
+455,states-,['states-man'],1
+456,track ,['track man'],1
+457,trail,['trailman'],1
+458,stage,['stageman'],1
+459,transit,['transitman'],1
+460,squirrel,['squirrelman'],1
+461,sport-fisher,['sport-fisherman'],1
+462,spoon,['spoonman'],1
+463,sponge,['spongeman'],1
+464,spin,['spinman'],1
+465,spel,['spelman'],1
+466,special warfare combatant crew,['special warfare combatant crewman'],1
+467,transport-,['transport-man'],1
+468,spear,['spearman'],1
+469,space-,['space-man'],1
+470,sonar,['sonarman'],1
+471,sole-,['sole-man'],1
+472,outtdoor,['outtdoorman'],1
+473,tree,['treeman'],1
+474,smelter,['smelterman'],1
+475,sinner,['sinnerman'],1
+476,store-,['store-man'],1
+477,strongest,['strongestman'],1
+478,shutter,['shutterman'],1
+479,strore,['stroreman'],1
+480,thechair,['thechairman'],1
+481,thelastgood,['thelastgoodman'],1
+482,tender,['tenderman'],1
+483,theods,['theodsman'],1
+484,third-base,['third-baseman'],1
+485,thompsonchair,['thompsonchairman'],1
+486,technolo,['technoloman'],1
+487,teacher,['teacherman'],1
+488,tanker,['tankerman'],1
+489,tally,['tallyman'],1
+490,tie ,['tie man'],1
+491,tall,['tallman'],1
+492,tales,['talesman'],1
+493,taco,['tacoman'],1
+494,tiller,['tillerman'],1
+495,säkjakt,['säkjaktman'],1
+496,sydneychair,['sydneychairman'],1
+497,swordfisher,['swordfisherman'],1
+498,swing,['swingman'],1
+499,timber,['timberman'],1
+500,sweet-,['sweet-man'],1
+501,sushi-,['sushi-man'],1
+502,survival,['survivalman'],1
+503,surf,['surfman'],1
+504,torontoplant,['torontoplantman'],1
+505,sub-chair,['sub-chairman'],1
+506,torpedo,['torpedoman'],1
+507,sides,['sidesman'],1
+508,trusteeschair,['trusteeschairman'],1
+509,rasta,['rastaman'],1
+510,salary-,['salary-man'],1
+511,running,['runningman'],1
+512,rubber,['rubberman'],1
+513,rough,['roughman'],1
+514,rotu,['rotuman'],1
+515,rot,['rotman'],1
+516,roots,['rootsman'],1
+517,rogerschair,['rogerschairman'],1
+518,vis,['visman'],1
+519,rock-,['rock-man'],1
+520,roadfore,['roadforeman'],1
+521,waffle,['waffleman'],1
+522,wake,['wakeman'],1
+523,walk,['walkman'],1
+524,warda,['wardaman'],1
+525,river,['riverman'],1
+526,wards,['wardsman'],1
+527,ware,['wareman'],1
+528,rich,['richman'],1
+529,retiredwatch,['retiredwatchman'],1
+530,wee-,['wee-man'],1
+531,retaildutch,['retaildutchman'],1
+532,restoration-,['restoration-man'],1
+533,residential crafts,['residential craftsman'],1
+534,repo,['repoman'],1
+535,reeds,['reedsman'],1
+536,records,['recordsman'],1
+537,record,['recordman'],1
+538,sake,['sakeman'],1
+539,sanding-,['sanding-man'],1
+540,shoteychair,['shoteychairman'],1
+541,sandwich,['sandwichman'],1
+542,shore ,['shore man'],1
+543,shop-service,['shop-serviceman'],1
+544,shop,['shopman'],1
+545,turned-gentle,['turned-gentleman'],1
+546,tuto,['tutoman'],1
+547,ship,['shipman'],1
+548,sher,['sherman'],1
+549,shellfisher,['shellfisherman'],1
+550,sheet metal journey,['sheet metal journeyman'],1
+551,sheet metal fore,['sheet metal foreman'],1
+552,sheep,['sheepman'],1
+553,twice-chair,['twice-chairman'],1
+554,shark,['sharkman'],1
+555,shadow-,['shadow-man'],1
+556,serto,['sertoman'],1
+557,selfmade-,['selfmade-man'],1
+558,upsports,['upsportsman'],1
+559,seeds,['seedsman'],1
+560,second-,['second-man'],1
+561,second,['secondman'],1
+562,scythes,['scythesman'],1
+563,script,['scriptman'],1
+564,school,['schoolman'],1
+565,scan-,['scan-man'],1
+566,sax-,['sax-man'],1
+567,vice-elder,['vice-elderman'],1
+568,saturdaypost,['saturdaypostman'],1
+569,societychair,['societychairman'],1
+570,&chair,['&chairman'],1
+571,ordnanc,['ordnancman'],1
+572,cyber,['cyberman'],1
+573,crab-,['crab-man'],1
+574,craftsf,['craftsfman'],1
+575,crash,['crashman'],1
+576,creative,['creativeman'],1
+577,cross,['crossman'],1
+578,crypto,['cryptoman'],1
+579,cunning,['cunningman'],1
+580,d-line,['d-lineman'],1
+581,cow-,['cow-man'],1
+582,dance-,['dance-man'],1
+583,dapper,['dapperman'],1
+584,dead-,['dead-man'],1
+585,defece,['defeceman'],1
+586,demo,['demoman'],1
+587,departmentstunt,['departmentstuntman'],1
+588,derrick ,['derrick man'],1
+589,cowleychair,['cowleychairman'],1
+590,corp,['corpman'],1
+591,devil,['devilman'],1
+592,co-chairchair,['co-chairchairman'],1
+593,chairhu,['chairhuman'],1
+594,chart,['chartman'],1
+595,chiar,['chiarman'],1
+596,chicken,['chickenman'],1
+597,chits,['chitsman'],1
+598,cinecamera,['cinecameraman'],1
+599,co-,['co-man'],1
+600,coal,['coalman'],1
+601,corner-,['corner-man'],1
+602,coal-,['coal-man'],1
+603,coastguards,['coastguardsman'],1
+604,cole,['coleman'],1
+605,conjure,['conjureman'],1
+606,conress,['conressman'],1
+607,control-,['control-man'],1
+608,converyor,['converyorman'],1
+609,detail,['detailman'],1
+610,dfree,['dfreeman'],1
+611,center,['centerman'],1
+612,ex-sports,['ex-sportsman'],1
+613,engles,['englesman'],1
+614,equipment ,['equipment man'],1
+615,esports,['esportsman'],1
+616,etter,['etterman'],1
+617,ex-crew,['ex-crewman'],1
+618,ex-door,['ex-doorman'],1
+619,ex-police,['ex-policeman'],1
+620,ex-stock,['ex-stockman'],1
+621,enforcer,['enforcerman'],1
+622,experiencedbusiness,['experiencedbusinessman'],1
+623,exupéryair,['exupéryairman'],1
+624,fan,['fanman'],1
+625,father-,['father-man'],1
+626,fee,['feeman'],1
+627,fellow-hu,['fellow-human'],1
+628,fen,['fenman'],1
+629,engineer,['engineerman'],1
+630,electro-repair,['electro-repairman'],1
+631,diy-,['diy-man'],1
+632,drive ,['drive man'],1
+633,dober,['doberman'],1
+634,dog-hu,['dog-human'],1
+635,donkey,['donkeyman'],1
+636,drago,['dragoman'],1
+637,drawcrafts,['drawcraftsman'],1
+638,drew,['drewman'],1
+639,drinks,['drinksman'],1
+640,dromo,['dromoman'],1
+641,electedchair,['electedchairman'],1
+642,droughs,['droughsman'],1
+643,droughts,['droughtsman'],1
+644,duty,['dutyman'],1
+645,earth,['earthman'],1
+646,east,['eastman'],1
+647,egx-,['egx-man'],1
+648,elderstates,['elderstatesman'],1
+649,chairchair,['chairchairman'],1
+650,celler,['cellerman'],1
+651,op-,['op-man'],1
+652,assistant-camera,['assistant-cameraman'],1
+653,ant-,['ant-man'],1
+654,anti-sales,['anti-salesman'],1
+655,army,['armyman'],1
+656,art-,['art-man'],1
+657,artistic-hu,['artistic-human'],1
+658,aspokes,['aspokesman'],1
+659,assault-,['assault-man'],1
+660,assistant-sales,['assistant-salesman'],1
+661,amer,['amerman'],1
+662,assult,['assultman'],1
+663,autorifle,['autorifleman'],1
+664,ax-,['ax-man'],1
+665,baikin,['baikinman'],1
+666,bailbonds,['bailbondsman'],1
+667,banks,['banksman'],1
+668,bar-,['bar-man'],1
+669,angry-,['angry-man'],1
+670,amateurplants,['amateurplantsman'],1
+671,barrettchair,['barrettchairman'],1
+672,acu,['acuman'],1
+673,.sales,['.salesman'],1
+674,102chair,['102chairman'],1
+675,24hourhu,['24hourhuman'],1
+676,8,['8man'],1
+677,ab sea,['ab seaman'],1
+678,abstract,['abstractman'],1
+679,abussaudhu,['abussaudhuman'],1
+680,adventure,['adventureman'],1
+681,alsochair,['alsochairman'],1
+682,adventure-sports,['adventure-sportsman'],1
+683,aged-,['aged-man'],1
+684,agribusiness,['agribusinessman'],1
+685,aircraft,['aircraftman'],1
+686,aircrafts,['aircraftsman'],1
+687,all-trades,['all-tradesman'],1
+688,alpha,['alphaman'],1
+689,barge,['bargeman'],1
+690,barrow,['barrowman'],1
+691,card,['cardman'],1
+692,busniess,['busniessman'],1
+693,brig,['brigman'],1
+694,brush,['brushman'],1
+695,buch,['buchman'],1
+696,bucker,['buckerman'],1
+697,bullet,['bulletman'],1
+698,busine,['busineman'],1
+699,busness,['busnessman'],1
+700,bussiness,['bussinessman'],1
+701,bread,['breadman'],1
+702,cable,['cableman'],1
+703,cake,['cakeman'],1
+704,cake-,['cake-man'],1
+705,call,['callman'],1
+706,camerra,['camerraman'],1
+707,caméra,['caméraman'],1
+708,canoes,['canoesman'],1
+709,break,['breakman'],1
+710,brass,['brassman'],1
+711,basta,['bastaman'],1
+712,board,['boardman'],1
+713,bay-,['bay-man'],1
+714,bea,['beaman'],1
+715,belly,['bellyman'],1
+716,beninese-ger,['beninese-german'],1
+717,bindery-,['bindery-man'],1
+718,block-,['block-man'],1
+719,blondeauchair,['blondeauchairman'],1
+720,boats,['boatsman'],1
+721,brands,['brandsman'],1
+722,boiler,['boilerman'],1
+723,bond,['bondman'],1
+724,bones,['bonesman'],1
+725,box,['boxman'],1
+726,boy,['boyman'],1
+727,boy-,['boy-man'],1
+728,brand,['brandman'],1
+729,fer,['ferman'],1
+730,ffresh,['ffreshman'],1
+731,fiddle,['fiddleman'],1
+732,lofts,['loftsman'],1
+733,lift,['liftman'],1
+734,light-,['light-man'],1
+735,lighter,['lighterman'],1
+736,lighting,['lightingman'],1
+737,likechair,['likechairman'],1
+738,link,['linkman'],1
+739,lisichair,['lisichairman'],1
+740,longbow,['longbowman'],1
+741,leopard,['leopardman'],1
+742,lovely-,['lovely-man'],1
+743,magic,['magicman'],1
+744,mail-,['mail-man'],1
+745,main,['mainman'],1
+746,makowerchair,['makowerchairman'],1
+747,market,['marketman'],1
+748,mas,['masman'],1
+749,library,['libraryman'],1
+750,legal,['legalman'],1
+751,mayo,['mayoman'],1
+752,kat,['katman'],1
+753,jentle,['jentleman'],1
+754,ji,['jiman'],1
+755,jouney,['jouneyman'],1
+756,journet,['journetman'],1
+757,journeys,['journeysman'],1
+758,junk,['junkman'],1
+759,kandy,['kandyman'],1
+760,kennel,['kennelman'],1
+761,leg,['legman'],1
+762,kings,['kingsman'],1
+763,kraft,['kraftman'],1
+764,&nbspchair,['&nbspchairman'],1
+765,lauberchair,['lauberchairman'],1
+766,layout,['layoutman'],1
+767,lchair,['lchairman'],1
+768,leathercrafts,['leathercraftsman'],1
+769,master-craft,['master-craftman'],1
+770,mbechair,['mbechairman'],1
+771,fighter,['fighterman'],1
+772,nowhere-,['nowhere-man'],1
+773,musal,['musalman'],1
+774,music-,['music-man'],1
+775,mussal,['mussalman'],1
+776,nags,['nagsman'],1
+777,nelimarkkachair,['nelimarkkachairman'],1
+778,net,['netman'],1
+779,novelty-side,['novelty-sideman'],1
+780,oak,['oakman'],1
+781,multi-fisher,['multi-fisherman'],1
+782,offensive-line,['offensive-lineman'],1
+783,old,['oldman'],1
+784,old-,['old-man'],1
+785,older,['olderman'],1
+786,ombdus,['ombdusman'],1
+787,on-,['on-man'],1
+788,on-crafts,['on-craftsman'],1
+789,multibusiness,['multibusinessman'],1
+790,muffin,['muffinman'],1
+791,mdchair,['mdchairman'],1
+792,moderncave,['moderncaveman'],1
+793,mech,['mechman'],1
+794,med-,['med-man'],1
+795,meta-hu,['meta-human'],1
+796,mexican-ger,['mexican-german'],1
+797,militia,['militiaman'],1
+798,minute-,['minute-man'],1
+799,mironchair,['mironchairman'],1
+800,mold,['moldman'],1
+801,movie,['movieman'],1
+802,money,['moneyman'],1
+803,mor,['morman'],1
+804,moth,['mothman'],1
+805,motion picture camera,['motion picture cameraman'],1
+806,motion-,['motion-man'],1
+807,motor ,['motor man'],1
+808,mountain-,['mountain-man'],1
+809,jazz-,['jazz-man'],1
+810,java,['javaman'],1
+811,jack,['jackman'],1
+812,ghannamchair,['ghannamchairman'],1
+813,furnace-,['furnace-man'],1
+814,galahu,['galahuman'],1
+815,gale,['galeman'],1
+816,garbage-,['garbage-man'],1
+817,gas,['gasman'],1
+818,gear-,['gear-man'],1
+819,generalfore,['generalforeman'],1
+820,gil,['gilman'],1
+821,french-,['french-man'],1
+822,glee-,['glee-man'],1
+823,goat,['goatman'],1
+824,gringo,['gringoman'],1
+825,ground-crew,['ground-crewman'],1
+826,grown-,['grown-man'],1
+827,gueckjourney,['gueckjourneyman'],1
+828,guernsey,['guernseyman'],1
+829,fres,['fresman'],1
+830,freed,['freedman'],1
+831,iyachair,['iyachairman'],1
+832,flute,['fluteman'],1
+833,fihser,['fihserman'],1
+834,fine,['fineman'],1
+835,fire-,['fire-man'],1
+836,firecontroll,['firecontrollman'],1
+837,firstbase,['firstbaseman'],1
+838,fiser,['fiserman'],1
+839,flair,['flairman'],1
+840,foi,['foiman'],1
+841,free-,['free-man'],1
+842,font,['fontman'],1
+843,food,['foodman'],1
+844,forestry fore,['forestry foreman'],1
+845,foxxsha,['foxxshaman'],1
+846,frack,['frackman'],1
+847,frag,['fragman'],1
+848,franco-ger,['franco-german'],1
+849,guz,['guzman'],1
+850,half-ger,['half-german'],1
+851,hammer,['hammerman'],1
+852,hu-,['hu-man'],1
+853,honor-chair,['honor-chairman'],1
+854,hooo,['hoooman'],1
+855,horn-,['horn-man'],1
+856,hotdog,['hotdogman'],1
+857,hotel,['hotelman'],1
+858,hotelfach,['hotelfachman'],1
+859,hounds-,['hounds-man'],1
+860,hue,['hueman'],1
+861,hand-crafts,['hand-craftsman'],1
+862,huntsmanchair,['huntsmanchairman'],1
+863,ideas-,['ideas-man'],1
+864,imusic,['imusicman'],1
+865,indirect fire infantry,['indirect fire infantryman'],1
+866,indoors-,['indoors-man'],1
+867,irrigation fore,['irrigation foreman'],1
+868,iu,['iuman'],1
+869,homless,['homlessman'],1
+870,holy-,['holy-man'],1
+871,hoffmannchair,['hoffmannchairman'],1
+872,hoff,['hoffman'],1
+873,handi,['handiman'],1
+874,hands,['handsman'],1
+875,hannsjourney,['hannsjourneyman'],1
+876,hat-sales,['hat-salesman'],1
+877,hatchet,['hatchetman'],1
+878,hawk,['hawkman'],1
+879,head-,['head-man'],1
+880,headbarns,['headbarnsman'],1
+881,heards,['heardsman'],1
+882,hedgeless_horse,['hedgeless_horseman'],1
+883,help,['helpman'],1
+884,hibichair,['hibichairman'],1
+885,hick,['hickman'],1
+886,hired ,['hired man'],1
+887,history-ger,['history-german'],1
+888,亚慱体育appchair,['亚慱体育appchairman'],1

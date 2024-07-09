@@ -1,0 +1,137 @@
+index,stem,words,total_frequency
+0,sales ,['sales person'],1006
+1,real estate sales,['real estate salesperson'],915
+2,people-,['people-person'],228
+3,contact ,['contact person'],165
+4,key ,['key person'],112
+5,camera ,['camera person'],45
+6,line ,['line person'],23
+7,dog-,['dog-person'],14
+8,counter ,['counter person'],11
+9,new car sales,['new car salesperson'],8
+10,parts ,['parts person'],6
+11,bus ,['bus person'],6
+12,inside sales,['inside salesperson'],6
+13,first-,['first-person'],5
+14,boat ,['boat person'],5
+15,change ,['change person'],4
+16,mer-,['mer-person'],4
+17,furniture sales,['furniture salesperson'],4
+18,publicity ,['publicity person'],4
+19,spokes-,['spokes-person'],4
+20,jewelry sales,['jewelry salesperson'],4
+21,wait,['waitperson'],3
+22,dreaming,['dreamingperson'],3
+23,lay-,['lay-person'],3
+24,contact,['contactperson'],3
+25,lady-,['lady-person'],3
+26,cellar ,['cellar person'],3
+27,life insurance sales,['life insurance salesperson'],2
+28,dice ,['dice person'],2
+29,staff-,['staff-person'],2
+30,grounds ,['grounds person'],2
+31,grounds-,['grounds-person'],2
+32,shy-,['shy-person'],2
+33,soup ,['soup person'],2
+34,key-,['key-person'],2
+35,safety ,['safety person'],2
+36,tired-,['tired-person'],2
+37,dish ,['dish person'],2
+38,kid-,['kid-person'],2
+39,town,['townperson'],2
+40,tri-chair,['tri-chairperson'],2
+41,craft-,['craft-person'],2
+42,warehouse ,['warehouse person'],2
+43,contact-,['contact-person'],2
+44,rhythm-,['rhythm-person'],2
+45,call ,['call person'],2
+46,shoe-sales,['shoe-salesperson'],1
+47,pitch-,['pitch-person'],1
+48,plant-,['plant-person'],1
+49,plants-,['plants-person'],1
+50,scanning-,['scanning-person'],1
+51,repair-,['repair-person'],1
+52,sensitive-,['sensitive-person'],1
+53,sane-,['sane-person'],1
+54,sales&marketing,['sales&marketingperson'],1
+55,sell-,['sell-person'],1
+56,sciclunadraft,['sciclunadraftperson'],1
+57,a,['aperson'],1
+58,summer-,['summer-person'],1
+59,slime-,['slime-person'],1
+60,slur,['slurperson'],1
+61,yacht,['yachtperson'],1
+62,words-,['words-person'],1
+63,word-,['word-person'],1
+64,whole-,['whole-person'],1
+65,web-,['web-person'],1
+66,vicechair,['vicechairperson'],1
+67,vice-,['vice-person'],1
+68,utility ,['utility person'],1
+69,type-,['type-person'],1
+70,type,['typeperson'],1
+71,two-,['two-person'],1
+72,turned-sales,['turned-salesperson'],1
+73,top-,['top-person'],1
+74,third-,['third-person'],1
+75,theatre-,['theatre-person'],1
+76,theater-,['theater-person'],1
+77,tea-,['tea-person'],1
+78,step-,['step-person'],1
+79,startup-,['startup-person'],1
+80,spoke-,['spoke-person'],1
+81,spatial-,['spatial-person'],1
+82,peoples-,['peoples-person'],1
+83,mathematical-,['mathematical-person'],1
+84,parts-,['parts-person'],1
+85,parts counter ,['parts counter person'],1
+86,gallaghersales,['gallaghersalesperson'],1
+87,floor ,['floor person'],1
+88,firsttrans,['firsttransperson'],1
+89,draughst,['draughstperson'],1
+90,dragon-,['dragon-person'],1
+91,doggy-,['doggy-person'],1
+92,documentary-,['documentary-person'],1
+93,details-,['details-person'],1
+94,design-,['design-person'],1
+95,cyber-,['cyber-person'],1
+96,copy,['copyperson'],1
+97,construction ,['construction person'],1
+98,conscious,['consciousperson'],1
+99,clouds,['cloudsperson'],1
+100,city-,['city-person'],1
+101,cat-,['cat-person'],1
+102,camara,['camaraperson'],1
+103,budgie,['budgieperson'],1
+104,bro,['broperson'],1
+105,automotive sales,['automotive salesperson'],1
+106,anti-,['anti-person'],1
+107,animal-,['animal-person'],1
+108,angel-,['angel-person'],1
+109,gift-,['gift-person'],1
+110,gis-,['gis-person'],1
+111,graphic-,['graphic-person'],1
+112,advisory-chair,['advisory-chairperson'],1
+113,of-,['of-person'],1
+114,numbers-,['numbers-person'],1
+115,now-,['now-person'],1
+116,night-,['night-person'],1
+117,nice-,['nice-person'],1
+118,murphychair,['murphychairperson'],1
+119,morning-,['morning-person'],1
+120,menswear sales,['menswear salesperson'],1
+121,mclarendraft,['mclarendraftperson'],1
+122,maths-,['maths-person'],1
+123,math-,['math-person'],1
+124,greens,['greensperson'],1
+125,maintenance-,['maintenance-person'],1
+126,loving-,['loving-person'],1
+127,laundry ,['laundry person'],1
+128,latin-,['latin-person'],1
+129,joint-chair,['joint-chairperson'],1
+130,it-,['it-person'],1
+131,impact-,['impact-person'],1
+132,highlysensitive,['highlysensitiveperson'],1
+133,gym-,['gym-person'],1
+134,gun-,['gun-person'],1
+135,zone-chair,['zone-chairperson'],1

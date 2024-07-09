@@ -17,6 +17,17 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 
+def calculate_meteor(reference, candidate, split_func_args):
+    """
+    Calculate METEOR score similarity between reference and candidate sentences.
+    """
+    reference_tokens = [word_tokenize(reference)]
+    candidate_tokens = word_tokenize(candidate)
+
+    return meteor_score(reference_tokens, candidate_tokens, 
+                        alpha=split_func_args["alpha"], beta=split_func_args["beta"], gamma=split_func_args["gamma"])
+
+
 def meteor_similarity_split(original, response, split_func_args):
     """
     Strategy: 
@@ -26,16 +37,6 @@ def meteor_similarity_split(original, response, split_func_args):
        This sentence is the revision.
     4. Anything following that is the justification.
     """
-    def calculate_meteor(reference, candidate):
-        """
-        Calculate METEOR score similarity between reference and candidate sentences.
-        """
-        reference_tokens = [word_tokenize(reference)]
-        candidate_tokens = word_tokenize(candidate)
-
-        return meteor_score(reference_tokens, candidate_tokens, 
-                            alpha=split_func_args["alpha"], beta=split_func_args["beta"], gamma=split_func_args["gamma"])
-
     sentences = sent_tokenize(response.replace(":", "."))
     strip_chars = (string.whitespace + string.punctuation).replace('.', '')
 
@@ -43,7 +44,8 @@ def meteor_similarity_split(original, response, split_func_args):
     sentence_scores = {}
     for sentence in sentences:
         s = sentence.strip(strip_chars)
-        sentence_scores[s] = calculate_meteor(original, s)
+        if len(s) > 10: # make sure the sentence has more than 10 characters!
+            sentence_scores[s] = calculate_meteor(original, s, split_func_args)
 
     # revision = sentence with the maximum similarity score
     revision = max((s for s in sentence_scores if s != original), key=sentence_scores.get, default=None)

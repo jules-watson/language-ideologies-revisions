@@ -147,6 +147,6 @@ if __name__=="__main__":
     # words_df["word"] = words_df["word"].fillna('')
     # create_csv(gendered_nouns_path, words_df)
 
-    gendered_nouns_df = pd.read_csv(gendered_nouns_path)
-    create_word_lists(output_folder_path, gendered_nouns_df)
-    create_word_list_ess(output_folder_path, gendered_nouns_df)
+    # gendered_nouns_df = pd.read_csv(gendered_nouns_path)
+    # create_word_lists(output_folder_path, gendered_nouns_df)
+    # create_word_list_ess(output_folder_path, gendered_nouns_df)

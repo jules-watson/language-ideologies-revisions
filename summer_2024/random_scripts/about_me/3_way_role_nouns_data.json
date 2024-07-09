@@ -1,0 +1,21 @@
+[
+    ["anchor", "anchorman", "anchorwoman"],
+    ["flight attendant", "steward", "stewardess"],
+    ["businessperson", "businessman", "businesswoman"],
+    ["camera operator", "cameraman", "camerawoman"],
+    ["congressperson", "congressman", "congresswoman"],
+    ["craftsperson", "craftsman", "craftswoman"],
+    ["crewmember", "crewman", "crewwoman"],
+    ["firefighter", "fireman", "firewoman"],
+    ["foreperson", "foreman", "forewoman"],
+    ["layperson", "layman", "laywoman"],
+    ["police officer", "policeman", "policewoman"],
+    ["salesperson", "salesman", "saleswoman"],
+    ["stunt double", "stuntman", "stuntwoman"],
+    ["meteorologist", "weatherman", "weatherwoman"],
+    ["chairperson", "chairman", "chairwoman"],
+    ["spokesperson", "spokesman", "spokeswoman"],
+    ["bartender", "barman", "barwoman"],
+    ["principal", "headmaster", "headmistress"],
+    ["cleaner", "cleaning man", "cleaning lady"]
+]

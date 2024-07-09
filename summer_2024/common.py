@@ -9,6 +9,11 @@ import json
 import pandas as pd
 
 
+gender_list_dict = {
+    2: ['masculine', 'feminine'],
+    3: ['neutral', 'masculine', 'feminine'],
+}
+
 def load_json(data_path):
     """
     Load a json file and return its contents as a dictionary
