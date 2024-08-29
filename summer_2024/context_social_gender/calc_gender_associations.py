@@ -287,7 +287,7 @@ def get_top_and_bottom(bert_df):
 
 # Run the main function
 if __name__ == "__main__":
-    about_me_data_path = "/hal9000/raymliu/about-me/individuals_pages/filtered_data.csv"
+    about_me_data_path = " /ais/hal9000/datasets/AboutMe/about-me/individuals_pages/filtered_data.csv"
     bert_probabilities_path = "context_social_gender/bert_probabilities_data.csv"
     # calculate_bert_probabilities(about_me_data_path, bert_probabilities_path)
 

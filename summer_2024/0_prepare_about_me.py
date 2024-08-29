@@ -224,7 +224,7 @@ def download_about_me(token, download_dir):
 if __name__=="__main__":
     # Download the raw About Me dataset
     # huggingface_token = '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'
-    download_dir = '/hal9000/raymliu/about-me'
+    download_dir = '/ais/hal9000/datasets/AboutMe/about-me'
     # download_about_me(huggingface_token, download_dir)
 
     about_zipped_dir = f'{download_dir}/about_pages_zipped'
