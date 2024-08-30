@@ -1,0 +1,22 @@
+{
+    "neutral": [
+        "they",
+        "them",
+        "their",
+        "theirs",
+        "themself",
+        "themselves"
+    ],
+    "masculine": [
+        "he",
+        "him",
+        "his",
+        "himself"
+    ],
+    "feminine": [
+        "she",
+        "her",
+        "hers",
+        "herself"
+    ]
+}
