@@ -28,9 +28,17 @@ from constants import (
 from common import load_json, load_csv
 
 
+# What can we do to speed this up?
+# [tried it - no] does passing eos_token_id=terminators help ()https://medium.com/@manuelescobar-dev/implementing-and-running-llama-3-with-hugging-faces-transformers-library-40e9754d8c80
+# [tried it - no] does setting max_new_tokens to a power of two help? (512 instead of 500)
+# [] does changing the GPU configuration help - running with a different GPU or more GPUs (instead of gpu:rtx6000:1) 
+# [] does parallelizing calls to the pipeline help, 
+#    -> possibly by using a dataset (I was getting this warning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset)
+#    -> possibly by setting batch + passing multiple samples at once
 MODEL_NAME_TO_MODEL_PATH = {
     "llama-3.1-8B-Instruct": "/scratch/ssd004/scratch/jwatson/meta-llama/Meta-Llama-3.1-8B-Instruct",
 }
+
 
 
 def query_huggingface(processed_path, loaded_stimuli, config):
@@ -73,6 +81,8 @@ def query_huggingface(processed_path, loaded_stimuli, config):
             for _ in range(query_api_args["num_responses"]):
                 response = pipe(
                     chat, 
+                    eos_token_id=pipe.tokenizer.eos_token_id,
+                    pad_token_id=pipe.tokenizer.eos_token_id,
                     max_new_tokens=query_api_args["max_tokens_per_response"])[0]
 
                 assert len(response["generated_text"]) == 2
