@@ -6,6 +6,9 @@ Used this resource: https://huggingface.co/docs/transformers/main/en/conversatio
 
 Author: Julia Watson
 Date: September 2024
+
+To download models, use commands like:
+huggingface-cli download meta-llama/Meta-Llama-3.1-8B-Instruct --local-dir meta-llama/Meta-Llama-3.1-8B-Instruct
 """
 
 from tqdm import trange
@@ -25,7 +28,6 @@ from constants import (
 from common import load_json, load_csv
 
 
-# TODO - download this model and test it
 MODEL_NAME_TO_MODEL_PATH = {
     "llama-3.1-8B-Instruct": "/scratch/ssd004/scratch/jwatson/meta-llama/Meta-Llama-3.1-8B-Instruct",
 }
@@ -59,22 +61,24 @@ def query_huggingface(processed_path, loaded_stimuli, config):
 
         for i in trange(len(loaded_stimuli)):
             prompt = loaded_stimuli.loc[i, "prompt_text"]
-            chat = {
+            chat = [{
                 "role": "user",
                 "content": prompt
-            }
+            }]
 
             # query huggingface model
-            responses = pipe(
-                chat, 
-                max_new_tokens=query_api_args["max_tokens_per_response"],
-                num_return_sequences=query_api_args["num_responses"])
-            
-            for response in responses:
+            # Note: Takes one minute for 3 responses of max 500 tokens, but 10 seconds for 
+            # 1 response of max 500 tokens, so we should query separately, rather than 
+            # using the num_return_sequences paramter.
+            for _ in range(query_api_args["num_responses"]):
+                response = pipe(
+                    chat, 
+                    max_new_tokens=query_api_args["max_tokens_per_response"])[0]
+
                 assert len(response["generated_text"]) == 2
                 assert response["generated_text"][0]["role"] == "user"
                 assert response["generated_text"][1]["role"] == "assistant"
-                
+
                 row_dict = {
                     "index": i,
                     "prompt": prompt,
@@ -112,10 +116,11 @@ def main(config):
 
     input_sentences = load_csv(input_path)
     config = load_json(config_path)
+    query_time = query_huggingface(processed_path, input_sentences, config)
 
     with open(f"{dirname}/{MODEL_NAME}/running_metadata.txt", "a") as metadata:
         metadata.write(f"{date}\nTotal prompts: {str(len(input_sentences))}")
-        metadata.write("Total seconds: " + str(query_huggingface(processed_path, input_sentences, config)))
+        metadata.write("Total seconds: " + str(query_time))
 
 
 if __name__ == "__main__":
