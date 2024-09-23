@@ -17,9 +17,10 @@ MODEL_NAMES = ['gpt-3.5-turbo', 'gpt-4o']
 
 AN_NOUNS = {"anchor", "anchorman", "anchorwoman"}
 
-EXPERIMENT_PATH = "piloting_experiment_3_way"
+#EXPERIMENT_PATH = "piloting_experiment_3_way"
 #EXPERIMENT_PATH = "piloting_if_needed"
 #EXPERIMENT_PATH = "piloting_man"
 #EXPERIMENT_PATH = "piloting_non_binary"
 #EXPERIMENT_PATH = "piloting_woman"
 #EXPERIMENT_PATH = "piloting_experiment_2_way"
+EXPERIMENT_PATH = "piloting_pronouns_genders"
