@@ -14,4 +14,4 @@ These resulting names appear in `names_sampled.json`.
 
 ## Stimuli format
 
-`stimuli_format.csv` contains a list of sentence formats used for the experiment.
+`sentence_formats.csv` contains a list of sentence formats used for the experiment.

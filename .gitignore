@@ -17,3 +17,16 @@ env/
 
 # Ignore any log files
 *.log
+
+# Ignore Python environment version file
+.python-version
+
+# Ignore Python virtual environment libraries
+/lib64
+
+# Ignore Python virtual environment configuration file
+pyvenv.cfg
+
+# Ignore symbolic links to Python binaries
+python
+python3
