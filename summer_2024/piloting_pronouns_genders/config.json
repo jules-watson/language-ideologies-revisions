@@ -34,7 +34,7 @@
       "gamma": 0.3
     },
     "query_api_args": {
-      "num_responses": 3,
+      "num_responses": 1,
       "max_tokens_per_response": 500
     }
   }
