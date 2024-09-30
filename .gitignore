@@ -17,6 +17,8 @@ env/
 
 # Ignore any log files
 *.log
+*.err
+*.out
 
 # Ignore Python environment version file
 .python-version
