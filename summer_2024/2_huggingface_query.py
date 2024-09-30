@@ -130,7 +130,7 @@ def main(config):
 
     with open(f"{dirname}/{MODEL_NAME}/running_metadata.txt", "a") as metadata:
         metadata.write(f"{date}\nTotal prompts: {str(len(input_sentences))}")
-        metadata.write("Total seconds: " + str(query_time))
+        metadata.write("\nTotal seconds: " + str(query_time))
 
 
 if __name__ == "__main__":
