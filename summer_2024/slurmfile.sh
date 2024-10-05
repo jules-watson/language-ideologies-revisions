@@ -2,7 +2,7 @@
 #SBATCH --job-name=lang_ideo_experiment
 #SBATCH --gres=gpu:rtx6000:1
 #SBATCH --qos=normal
-#SBATCH --time=4:00:00
+#SBATCH --time=16:00:00
 #SBATCH -c 4
 #SBATCH --mem=30G
 #SBATCH --output=slurm-%j.out
