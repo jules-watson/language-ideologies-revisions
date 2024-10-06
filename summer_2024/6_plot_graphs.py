@@ -9,6 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import numpy as np
+from common import load_json
 
 from matplotlib.colors import ListedColormap
 from constants import EXPERIMENT_PATH, MODEL_NAMES
@@ -24,11 +25,12 @@ base_colors = [
 model_names_shortened = {
     'gpt-3.5-turbo': 'GPT-3.5',
     'gpt-4-turbo': 'GPT-4',
-    'gpt-4o': 'GPT-4o'
+    'gpt-4o': 'GPT-4o',
+    'llama-3.1-8B-Instruct': 'Llama-3.1-8B'
 }
 
 
-def plot_revision_rates(data_frames, output_path, axe=None, legend=True, **kwargs):
+def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, legend=True, **kwargs):
     """Create a clustered stacked bar plot.
 
     data_frames is a list of pandas dataframes. The dataframes should have
@@ -37,15 +39,15 @@ def plot_revision_rates(data_frames, output_path, axe=None, legend=True, **kwarg
     Adapted from https://github.com/juliawatson/language-ideologies-2024/blob/ae9ddbeb2cb4c78dc8cbcd8f72f7de670b6675ab/fall_2023_main/exploratory/visualize_by_gender.py#L45
     """
     n_df = len(data_frames)
-    n_col = len(data_frames[0].columns)-1
+    n_col = len(data_frames[0].columns)-2  # = total number of columns - number of columns before removed_rate
     n_ind = len(data_frames[0].index)
 
     save_figure = False
     if axe is None:
         if n_ind > 2:
-            figsize=[6.4, 4]
+            figsize=[8, 5]
         else:
-            figsize=[3.2, 4]
+            figsize=[4.8, 6]
 
         plt.figure(figsize=figsize)
         axe = plt.subplot(111)
@@ -92,7 +94,7 @@ def plot_revision_rates(data_frames, output_path, axe=None, legend=True, **kwarg
         xtick_labels += (labels)
 
     axe.set_xticks(xticks)
-    axe.set_xticklabels(xtick_labels, rotation=0, fontsize=7)
+    axe.set_xticklabels(xtick_labels, rotation=0, fontsize=8)
     axe.tick_params(axis=u'both', which=u'both',length=0)
 
     # Create a new axis below the primary x-axis for gender labels
@@ -106,7 +108,8 @@ def plot_revision_rates(data_frames, output_path, axe=None, legend=True, **kwarg
     axe.set_xlabel("Role noun gender in original sentence", labelpad=10)
     axe.set_ylabel("Proportion")
 
-    axe.set_title(f"Revision rates for {EXPERIMENT_PATH}", pad=45)
+    title = output_path.replace('.png', '').replace('.png', '').replace('_', ' ').title()
+    axe.set_title(f"Revision rates for {EXPERIMENT_PATH} - {prompt_wording}", pad=60)
     axe.set_xlim(xticks[0] - xtick_offset * 4, xticks[-1] + xtick_offset * 4)
     axe.set_ylim(0, 1)
 
@@ -135,7 +138,7 @@ def plot_justification_words(justification_freqs_df, output_path, desired_words=
 
     # Prepare data for plotting
     words = df_filtered['word'].tolist()
-    settings = ['GPT-3.5', 'GPT-4', 'GPT-4o']
+    settings = ['GPT-4o', 'Llama-3.1-8B']
     names = [f'frequency_{model_name}' for model_name in MODEL_NAMES]
     frequencies = df_filtered[names].values
 
@@ -170,7 +173,7 @@ def plot_justification_words(justification_freqs_df, output_path, desired_words=
     #ax.legend(loc='best')
 
     # Show the plot
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.95])  # adjust the layout to make room for the title and legend
     plt.savefig(output_path, #bbox_extra_artists=(l1,),
                 bbox_inches='tight',
                 dpi=700)
@@ -179,13 +182,24 @@ def plot_justification_words(justification_freqs_df, output_path, desired_words=
 def main(config):
     dirname = "/".join(config.split("/")[:-1])
     config_path = f"{dirname}/config.json"
+    config = load_json(config_path)
 
-    # revision rates plot
     df_paths = [f'{dirname}/{model_name}/revision_stats.csv' for model_name in MODEL_NAMES]
     dfs = [pd.read_csv(df_path) for df_path in df_paths]
-    output_path = f'{dirname}/revision_bar_graph.png'
-    plot_revision_rates(data_frames=dfs,
-                        output_path=output_path)
+    
+    task_wording_dict = config['task_wording']
+    for prompt_wording in task_wording_dict.keys():
+    
+        filtered_dfs = [df[df['prompt_wording'] == prompt_wording] for df in dfs]
+
+        # Escape slashes in prompt_wording
+        escaped_prompt_wording = prompt_wording.replace('/', ' ')        
+        
+        # revision rates plot for the current prompt
+        output_path = f'{dirname}/revision_bar_graph_{escaped_prompt_wording}.png'
+        plot_revision_rates(data_frames=filtered_dfs,
+                            output_path=output_path,
+                            prompt_wording=prompt_wording)
 
     # justification word counts plot
     # justification_freqs_df = pd.read_csv(f"{dirname}/justification_word_frequencies.csv")
