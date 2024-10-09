@@ -108,7 +108,6 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
     axe.set_xlabel("Role noun gender in original sentence", labelpad=10)
     axe.set_ylabel("Proportion")
 
-    title = output_path.replace('.png', '').replace('.png', '').replace('_', ' ').title()
     axe.set_title(f"Revision rates for {EXPERIMENT_PATH} - {prompt_wording}", pad=60)
     axe.set_xlim(xticks[0] - xtick_offset * 4, xticks[-1] + xtick_offset * 4)
     axe.set_ylim(0, 1)
