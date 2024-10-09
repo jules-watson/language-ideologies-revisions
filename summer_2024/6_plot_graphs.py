@@ -137,7 +137,7 @@ def plot_justification_words(justification_freqs_df, output_path, desired_words=
 
     # Prepare data for plotting
     words = df_filtered['word'].tolist()
-    settings = ['GPT-4o', 'Llama-3.1-8B']
+    settings = MODEL_NAMES
     names = [f'frequency_{model_name}' for model_name in MODEL_NAMES]
     frequencies = df_filtered[names].values
 
