@@ -52,16 +52,23 @@ def compute_stats(rev_data, output_path):
 
     proportions_data = []
 
-    for gender in gender_list:
-        print(f'Analyzing gender {gender}')
-        filtered_data = rev_data[rev_data['role_noun_gender'] == gender]
-        proportions_row = {'role_noun_gender': gender}
-        proportions_row['removed_rate'] = ((filtered_data['variant_removed']) & (filtered_data['variant_added'] == 'None')).mean()
+    # perform proportion calculations for each prompt wording
+    for prompt_wording, prompt_df in rev_data.groupby("task_wording"):
+        print(f'Analyzing prompt wording {prompt_wording}')
+        # calculate proportions for each gender variant
+        for gender in gender_list:
+            print(f'\tAnalyzing gender {gender}')
+            filtered_data = prompt_df[prompt_df['role_noun_gender'] == gender]
+            proportions_row = {
+                'prompt_wording': prompt_wording,
+                'starting_variant': gender,
+                'removed_rate': ((filtered_data['variant_removed']) & (filtered_data['variant_added'] == 'None')).mean()
+            }
 
-        for subbed_gender in gender_list:
-            proportions_row[f'{subbed_gender}_added'] = (filtered_data['variant_added'] == subbed_gender).mean()
-        
-        proportions_data.append(proportions_row)
+            for subbed_gender in gender_list:
+                proportions_row[f'{subbed_gender}_added'] = (filtered_data['variant_added'] == subbed_gender).mean()
+            
+            proportions_data.append(proportions_row)
 
     proportions_df = pd.DataFrame(proportions_data)
     print(proportions_df)
