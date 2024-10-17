@@ -1,13 +1,14 @@
 """
 Plot graphs representing the revision and justification statistics.
 
+TODO: make this use the stacked_grouped_bar_graph function from visualizations.py
+
 Author: Raymond Liu
 Date: Aug 2024
 """
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 import numpy as np
 from common import load_json
 
