@@ -28,6 +28,70 @@ def calculate_meteor(reference, candidate, split_func_args):
                         alpha=split_func_args["alpha"], beta=split_func_args["beta"], gamma=split_func_args["gamma"])
 
 
+def meteor_heuristic_split(original, response, split_func_args):
+    """
+    Strategy: 
+    1. Tokenize the response into sentences without using any split delimiters. 
+    2. Split each tokenized sentence using newlines and colons as delimiters.
+    3. For each split: calculate the similarity with the original sentence, using METEOR scores.
+    4. For each group of 2 or 3 consecutive splits: concatenate them and calculate the METEOR similarity with the original sentence.
+    5. Choose the individual or concatenated split that is the most similar, but not equal to the original response.
+       This sentence is the revision.
+    6. Anything following that is the justification.
+    """
+    response_sentences = sent_tokenize(response)
+    # print("Tokenized sentences:\n", response_sentences)   
+    split_response_sentences = []
+    pattern = r"(.*?(?::\n*|\n+))"  # some text followed by: a colon followed by zero or more newlines OR one or more newlines
+    for sentence in response_sentences:
+        split_sentence = re.findall(pattern, sentence)
+        remaining_part = re.sub(pattern, "", sentence)
+        if remaining_part:  # add the remaining of the sentence after the last delimiter
+            split_sentence.append(remaining_part)
+        split_response_sentences.extend(split_sentence)  # each split includes the delimiter at the end
+    # print("Split sentences:\n", split_response_sentences)
+    
+    strip_chars = (string.whitespace + string.punctuation).replace('.', '').replace('!', '')  # used to strip whitespace and punctuations except periods and exclamation marks from the start and/or end of sentences
+
+    # dict of sentence: similarity score using METEOR scores
+    sentence_scores = {}
+    for i in range(len(split_response_sentences)):
+        s1 = split_response_sentences[i].strip(strip_chars)
+        # print("The current sentence is:\n", s1)
+        if len(s1) > 10 and '"' not in s1 and s1 != original: # make sure the sentence has more than 10 characters, has no double quotes, and is not the original sentence!
+            sentence_scores[s1] = calculate_meteor(original, s1, split_func_args)
+            # print("Recorded METEOR score for:\n", s1)
+            if i < len(split_response_sentences) - 2 and re.match(r'^\d+\..*$', split_response_sentences[i + 2].strip(strip_chars)): # stop looking for revisions if a justification (which starts with a number followed by a period) starts two splits after (after the "Explanation of changes" chunk)
+                break
+            if i < len(split_response_sentences) - 1 and split_response_sentences[i+1].strip(strip_chars) != original:
+                s2 = split_response_sentences[i].lstrip(strip_chars) + ' ' + split_response_sentences[i+1].rstrip(strip_chars)  # concatenate the current and next split
+                if len(s2) > 10 and '"' not in s2:
+                    sentence_scores[s2] = calculate_meteor(original, s2, split_func_args)
+                    # print("Recorded METEOR score for:\n", s2)
+                if i < len(split_response_sentences) - 2 and split_response_sentences[i+2].strip(strip_chars) != original:
+                    s3 = split_response_sentences[i].lstrip(strip_chars) + ' ' + split_response_sentences[i+1] + ' ' + split_response_sentences[i+2].rstrip(strip_chars)  # concatenate the current, next, and next-next split
+                    if len(s3) > 10 and '"' not in s3:
+                        sentence_scores[s3] = calculate_meteor(original, s3, split_func_args)
+                        # print("Recorded METEOR score for:\n", s3)
+
+    # revision = sentence with the maximum similarity score
+    revision = max((s for s in sentence_scores if s != original), key=sentence_scores.get, default=None)
+
+    if revision:
+        # Justification = substring in the response after the revision sentence
+        revision_index = response.find(revision)
+        print("Make sure to check the corresponding justification column for the following revisions, if applicable!")
+        if revision_index == -1: # revision not found
+            print(f"Revision '{revision}'")
+        justification = response[revision_index + len(revision):]
+
+        stripped_revision = revision.strip(strip_chars)
+        stripped_justification = justification.strip(strip_chars)
+
+        return stripped_revision, stripped_justification
+    else:
+        return None, None
+    
 def meteor_similarity_split(original, response, split_func_args):
     """
     Strategy: 
