@@ -55,6 +55,12 @@ def performance_evaluation(split_path, gold_standard_path, index_col='index', re
     # Print the accuracy
     print(f'Revision capture accuracy: {accuracy:.2f}')
 
+    # Print details of mismatched rows
+    if not matches.all():
+        mismatched_rows = merged_df[~matches]
+        for index, row in mismatched_rows.iterrows():
+            print(f"Mismatch at index {row[index_col]}:\nsplit='{row[revision_col + '_split']}'\ngold_standard='{row[revision_col + '_gold_standard']}'\n")
+
 
 def split(config, processed, split_path):
     """
@@ -101,7 +107,7 @@ def main(config):
     print(f"config_path: {config_path}")
     processed_path = f"{dirname}/{MODEL_NAME}/processed.csv"
     print(f"processed_path: {processed_path}")
-    split_path = f"./test_split_llama.csv"
+    split_path = f"./{MODEL_NAME}/test_split_full_iteration2.csv"
     print(f"split_path: {split_path}")
 
     config = load_json(config_path)
@@ -114,7 +120,7 @@ def main(config):
     # condense(split_path, split_condensed_path, ['index', 'sentence', 'revision', 'justification'])
 
     # calculate the revision capture accuracy of the split
-    gold_standard_path = f"{dirname}/{MODEL_NAME}/gold_standard_split_dataset.csv"
+    gold_standard_path = f"./{MODEL_NAME}/gold_standard_split_dataset.csv"
     performance_evaluation(split_path, gold_standard_path)
 
 
