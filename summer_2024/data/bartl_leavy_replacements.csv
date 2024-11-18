@@ -1,0 +1,336 @@
+word,variant,frequency,category,affix_type,replacement
+spokesman,spokesman,18072,man,suffix,spokesperson
+girlfriend,girlfriend,8436,girl,prefix,partner
+boyfriend,boyfriend,6069,boy,prefix,partner
+spokeswoman,spokeswoman,5731,woman,suffix,spokesperson
+congressman,congressman,1702,man,suffix,congressperson
+businessman,businessman,1588,man,suffix,businessperson
+policeman,policeman,1155,man,suffix,police officer
+cowboy,cowboy,523,boy,suffix,cow herder
+freshman,freshman,412,man,suffix,first-year student
+fisherman,fisherman,376,man,suffix,fisher
+cameraman,cameraman,375,man,suffix,cameraperson
+statesman,statesman,293,man,suffix,statesperson
+defenseman,defenseman,233,man,suffix,defender
+man-made,man-made,200,man,prefix,synthetic
+madman,madman,183,man,suffix,maniac
+frontman,frontman,178,man,suffix,frontperson
+congresswoman,congresswoman,163,woman,suffix,congressperson
+playboy,playboy,163,boy,suffix,player
+fanboy,fanboy,159,boy,suffix,fan
+fireman,fireman,131,man,suffix,firefighter
+postman,postman,127,man,suffix,mail carrier
+baseman,baseman,124,man,suffix,baseperson
+strongman,strongman,124,man,suffix,strong person
+foreman,foreman,121,man,suffix,foreperson
+craftsman,craftsman,111,man,suffix,craftsperson
+ombudsman,ombudsman,109,man,suffix,ombudsperson
+hitman,hitman,107,man,suffix,assassin
+businesswoman,businesswoman,101,woman,suffix,businessperson
+superman,superman,94,man,suffix,superhero
+caveman,caveman,89,man,suffix,caveperson
+batsman,batsman,85,man,suffix,batter
+lineman,lineman,74,man,suffix,lineperson
+workman,workman,73,man,suffix,worker
+barman,barman,70,man,suffix,bartender
+showman,showman,69,man,suffix,showperson
+newsman,newsman,68,man,suffix,reporter
+pitchman,pitchman,67,man,suffix,pitcher
+serviceman,serviceman,67,man,suffix,service member
+defenceman,defenceman,61,man,suffix,defender
+snowman,snowman,60,man,suffix,snowperson
+watchman,watchman,60,man,suffix,watcher
+marksman,marksman,58,man,suffix,sharpshooter
+sportsman,sportsman,58,man,suffix,athlete
+hangman,hangman,56,man,suffix,executioner
+weatherman,weatherman,55,man,suffix,weather forecaster
+tomboy,tomboy,55,boy,suffix,boisterous child
+womankind,womankind,53,woman,prefix,humankind
+mailman,mailman,52,man,suffix,mail carrier
+taxman,taxman,47,man,suffix,tax collector
+tribesman,tribesman,47,man,suffix,tribesperson
+wingman,wingman,46,man,suffix,pilot partner
+policewoman,policewoman,46,woman,suffix,police officer
+seaman,seaman,43,man,suffix,sailor
+anchorman,anchorman,39,man,suffix,anchorperson
+conman,conman,37,man,suffix,con artist
+busboy,busboy,37,boy,suffix,restaurant attendant
+assemblyman,assemblyman,36,man,suffix,assembly member
+draftsman,draftsman,35,man,suffix,draftsperson
+crewman,crewman,35,man,suffix,crew member
+freeman,freeman,32,man,suffix,freeperson
+boyish,boyish,32,boy,prefix,childish
+plowboy,plowboy,31,boy,suffix,plower
+journeyman,journeyman,30,man,suffix,artisan
+paperboy,paperboy,28,boy,suffix,newspaper delivery person
+militiaman,militiaman,27,man,suffix,militia member
+man-child,man-child,27,man,prefix,child
+horseman,horseman,26,man,suffix,equestrian
+homeboy,homeboy,26,boy,suffix,fellow member
+headman,headman,25,man,suffix,executioner
+girlish,girlish,25,girl,prefix,feminine
+motorman,motorman,24,man,suffix,operator
+linesman,linesman,23,man,suffix,linesperson
+swordsman,swordsman,23,man,suffix,fencer
+bondsman,bondsman,22,man,suffix,slave
+lawman,lawman,21,man,suffix,law officer
+man-eating,man-eating,21,man,prefix,human-eating
+girliness,girliness,21,girl,prefix,femininity
+warehouseman,warehouseman,20,man,suffix,warehouse worker
+midshipman,midshipman,19,man,suffix,naval officer
+yeoman,yeoman,19,man,suffix,officer
+anchorwoman,anchorwoman,19,woman,suffix,anchorperson
+jokerman,jokerman,18,man,suffix,joker
+spaceman,spaceman,18,man,suffix,astronaut
+showgirl,showgirl,18,girl,suffix,performer
+workingman,workingman,17,man,suffix,worker
+kinsman,kinsman,17,man,suffix,relative
+corpsman,corpsman,15,man,suffix,medical assistant
+bluesman,bluesman,15,man,suffix,bluesperson
+woodsman,woodsman,15,man,suffix,forester
+forewoman,forewoman,15,woman,suffix,foreperson
+man-eater,man-eater,15,man,prefix,cannibal
+newspaperman,newspaperman,14,man,suffix,journalist
+guardsman,guardsman,14,man,suffix,guard
+fangirl,fangirl,14,girl,suffix,fan
+frontiersman,frontiersman,13,man,suffix,explorer
+boatman,boatman,13,man,suffix,boater
+triggerman,triggerman,13,man,suffix,hired gun
+cowgirl,cowgirl,13,girl,suffix,cow herder
+boyband,boyband,13,boy,prefix,band
+iceman,iceman,12,man,suffix,ice vendor
+dairyman,dairyman,12,man,suffix,dairy worker
+freedman,freedman,12,man,suffix,freedperson
+man-hater,man hater,12,man,prefix,hater
+stockman,stockman,11,man,suffix,stock farmer
+longshoreman,longshoreman,11,man,suffix,dockworker
+bagman,bagman,11,man,suffix,travelling salesperson
+swingman,swingman,11,man,suffix,versatile athlete
+man-boobs,man-boobs,11,man,prefix,boobs
+man-power,manpower,11,man,prefix,workforce
+womanism,womanism,11,woman,prefix,feminism
+flagman,flagman,10,man,suffix,traffic guard
+stickman,stickman,10,man,suffix,stick figure
+coachman,coachman,10,man,suffix,coach driver
+counterman,counterman,10,man,suffix,counterperson
+man-crush,man-crush,10,man,prefix,crush
+churchman,churchman,9,man,suffix,cleric
+soundman,soundman,9,man,suffix,audio engineer
+womanist,womanist,9,woman,prefix,feminist
+boyscout,boyscout,9,boy,prefix,scout
+bushman,bushman,8,man,suffix,indigenous person
+boogieman,boogieman,8,man,suffix,monster
+sheepman,sheepman,8,man,suffix,shepherd
+bondman,bondman,8,man,suffix,slave
+deadman,deadman,8,man,suffix,corpse
+footman,footman,8,man,suffix,servant
+man-pack,manpack,8,man,prefix,pack
+man-stopper,manstopper,8,man,prefix,stopping power
+frogman,frogman,7,man,suffix,diver
+selectman,selectman,7,man,suffix,member of the board
+gentlewoman,gentlewoman,7,woman,suffix,refined person
+man-hating,man hating,7,man,prefix,misandry
+seedsman,seedsman,6,man,suffix,seeds dealer
+ploughman,ploughman,6,man,suffix,plower
+lumberman,lumberman,6,man,suffix,logger
+conman,conman,6,man,suffix,con artist
+con-man,con-man,6,man,suffix,con artist
+bowman,bowman,6,man,suffix,archer
+madwoman,madwoman,6,woman,suffix,maniac
+spokewoman,spokewoman,6,woman,suffix,spokeperson
+frontierswoman,frontierswoman,6,woman,suffix,explorer
+charwoman,charwoman,6,woman,suffix,cleaner
+bondwoman,bondwoman,6,woman,suffix,slave
+everywoman,everywoman,6,woman,suffix,ordinary person
+noblewoman,noblewoman,6,woman,suffix,noble person
+doughboy,doughboy,6,boy,suffix,foot soldier
+man-marking,man marking,6,man,prefix,marking
+girllove,girllove,6,girl,prefix,love
+swagman,swagman,5,man,suffix,transient labourer
+groomsman,groomsman,5,man,suffix,groomsperson
+merchantman,merchantman,5,man,suffix,merchant
+landsman,landsman,5,man,suffix,landlubber
+groundsman,groundsman,5,man,suffix,groundskeeper
+placeman,placeman,5,man,suffix,appointee
+bellman,bellman,5,man,suffix,bellhop
+adman,adman,5,man,suffix,advertiser
+fisherwoman,fisherwoman,5,woman,suffix,fisher
+ballboy,ballboy,5,boy,suffix,ball person
+batboy,batboy,5,boy,suffix,bat person
+houseboy,houseboy,5,boy,suffix,domestic worker
+man-whore,man-whore,5,man,prefix,sex worker
+man-hunt,man hunt,5,man,prefix,organized search
+girlfight,girlfight,5,girl,prefix,fight
+wheelman,wheelman,4,man,suffix,driver
+draughtsman,draughtsman,4,man,suffix,draughtsperson
+lifeboatman,lifeboatman,4,man,suffix,lifeboat sailor
+wildman,wildman,4,man,suffix,wild person
+clansman,clansman,4,man,suffix,clan member
+lobsterman,lobsterman,4,man,suffix,lobster catcher
+headsman,headsman,4,man,suffix,executioner
+whiteman,whiteman,4,man,suffix,white person
+newswoman,newswoman,4,woman,suffix,reporter
+ladyboy,ladyboy,4,boy,suffix,genderqueer person
+farmboy,farmboy,4,boy,suffix,farm worker
+man-machine,man-machine,4,man,prefix,human-computer
+boyism,boyism,4,boy,prefix,childism
+targetman,targetman,3,man,suffix,forward
+cavalryman,cavalryman,3,man,suffix,trooper
+oarsman,oarsman,3,man,suffix,rower
+oysterman,oysterman,3,man,suffix,oysterperson
+glovesman,glovesman,3,man,suffix,boxer
+swordman,swordman,3,man,suffix,fencer
+storeman,storeman,3,man,suffix,warehouser
+sideman,sideman,3,man,suffix,side artist
+centerman,centerman,3,man,suffix,center
+busman,busman,3,man,suffix,bus driver
+huntsman,huntsman,3,man,suffix,hunter
+lensman,lensman,3,man,suffix,photographer
+plowman,plowman,3,man,suffix,plower
+frontwoman,frontwoman,3,woman,suffix,frontperson
+cavewoman,cavewoman,3,woman,suffix,caveperson
+servicewoman,servicewoman,3,woman,suffix,service member
+bogeywoman,bogeywoman,3,woman,suffix,monster
+newsboy,newsboy,3,boy,suffix,newspaper delivery person
+bellboy,bellboy,3,boy,suffix,bellhop
+man-hour,man-hour,3,man,prefix,work-hour
+man-hug,man hug,3,man,prefix,pound hug
+woodman,woodman,2,man,suffix,woodworker
+underclassman,underclassman,2,man,suffix,undergraduate
+slaughterman,slaughterman,2,man,suffix,butcher
+packman,packman,2,man,suffix,seller
+packetman,packetman,2,man,suffix,packet sailor
+binman,binman,2,man,suffix,garbage collector
+pieman,pieman,2,man,suffix,pie vendor
+switchman,switchman,2,man,suffix,railroad worker
+spearfisherman,spearfisherman,2,man,suffix,spearfisher
+assman,assman,2,man,suffix,assperson
+classman,classman,2,man,suffix,classmate
+minuteman,minuteman,2,man,suffix,soldier
+cornishman,cornishman,2,man,suffix,Cornish person
+deskman,deskman,2,man,suffix,desk sergeant
+cornerman,cornerman,2,man,suffix,second
+pressman,pressman,2,man,suffix,printer
+stateswoman,stateswoman,2,woman,suffix,statesperson
+man-woman,manwoman,2,woman,suffix,masculine person
+craftswoman,craftswoman,2,woman,suffix,craftsoerson
+washerwoman,washerwoman,2,woman,suffix,washer
+hitwoman,hitwoman,2,woman,suffix,assassin
+fratboy,fratboy,2,boy,suffix,fraternity member
+bargirl,bargirl,2,girl,suffix,bartender
+man-cession,mancession,2,man,prefix,recession
+man-up,man up,2,man,prefix,adult up
+man-month,man-month,2,man,prefix,work-month
+man-servant,man servant,2,man,prefix,servant
+man-magnet,man magnet,2,man,prefix,attractive person
+man-cave,man cave,2,man,prefix,sanctuary
+man-kind,mankind,2,man,prefix,humankind
+man-mark,man-mark,2,man,prefix,mark
+womanly,womanly,2,woman,prefix,feminine
+girldom,girldom,2,girl,prefix,feminine sphere
+girlification,girlification,2,girl,prefix,feminization
+handicraftsman,handicraftsman,1,man,suffix,handicraftsperson
+liftman,liftman,1,man,suffix,lift operator
+rubberman,rubberman,1,man,suffix,latex fetishist
+she-man,she-man,1,man,suffix,feminine person
+washerman,washerman,1,man,suffix,washer
+gateman,gateman,1,man,suffix,gatekeeper
+artilleryman,artilleryman,1,man,suffix,cannoneer
+cutman,cutman,1,man,suffix,medical attendant
+nightwatchman,nightwatchman,1,man,suffix,nightwatchbatter
+townsman,townsman,1,man,suffix,townsperson
+pointsman,pointsman,1,man,suffix,traffic officer
+spearman,spearman,1,man,suffix,lancer
+expressman,expressman,1,man,suffix,expressperson
+gleeman,gleeman,1,man,suffix,minstrel
+prman,prman,1,man,suffix,press agent
+chessman,chessman,1,man,suffix,chess figure
+dutchman,dutchman,1,man,suffix,netherlander
+crossbowman,crossbowman,1,man,suffix,arbalist
+ambulanceman,ambulanceman,1,man,suffix,emergency medical technician
+overman,overman,1,man,suffix,übermensch
+bargeman,bargeman,1,man,suffix,barge operator
+almsman,almsman,1,man,suffix,medical social worker
+cabman,cabman,1,man,suffix,cabdriver
+centreman,centreman,1,man,suffix,centre
+sub-man,sub-man,1,man,suffix,inferior human
+discman,discman,1,man,suffix,portable CD player
+frenchman,frenchman,1,man,suffix,French person
+cocksman,cocksman,1,man,suffix,sexually talented person
+upperclassman,upperclassman,1,man,suffix,student
+winchman,winchman,1,man,suffix,rescue swimmer
+merman,merman,1,man,suffix,merperson
+backwoodsman,backwoodsman,1,man,suffix,explorer
+garageman,garageman,1,man,suffix,mechanic
+markswoman,markswoman,1,woman,suffix,sharpshooter
+swordswoman,swordswoman,1,woman,suffix,fencer
+sportswoman,sportswoman,1,woman,suffix,athlete
+ambulancewoman,ambulancewoman,1,woman,suffix,emergency medical technician
+anti-woman,antiwoman,1,woman,suffix,misogynist
+selectwoman,selectwoman,1,woman,suffix,member of the board
+tribeswoman,tribeswoman,1,woman,suffix,tribesperson
+horsewoman,horsewoman,1,woman,suffix,equestrian
+fisherboy,fisherboy,1,boy,suffix,young fisher
+nancyboy,nancyboy,1,boy,suffix,nancy
+headboy,headboy,1,boy,suffix,student leader
+femboy,femboy,1,boy,suffix,effeminate person
+toyboy,toyboy,1,boy,suffix,toy
+copyboy,copyboy,1,boy,suffix,junior newspaper worker
+callboy,callboy,1,boy,suffix,sex worker
+babygirl,babygirl,1,girl,suffix,baby
+tomgirl,tomgirl,1,girl,suffix,timid child
+callgirl,callgirl,1,girl,suffix,sex worker
+playgirl,playgirl,1,girl,suffix,player
+snowgirl,snowgirl,1,girl,suffix,snowperson
+papergirl,papergirl,1,girl,suffix,newspaper delivery person
+cavegirl,cavegirl,1,girl,suffix,caveperson
+ballgirl,ballgirl,1,girl,suffix,ball person
+farmgirl,farmgirl,1,girl,suffix,farm worker
+slavegirl,slavegirl,1,girl,suffix,slave
+man-bag,man-bag,1,man,prefix,handbag
+man-ass,manass,1,man,prefix,ass
+man-stealing,manstealing,1,man,prefix,kidnapping
+man-year,man-year,1,man,prefix,work-year
+man-rating,man-rating,1,man,prefix,human-rating
+man-trap,man-trap,1,man,prefix,attractive person
+man-friend,manfriend,1,man,prefix,friend
+girlfag,girlfag,1,girl,prefix,woman attracted to gay men 
+girlishly,girlishly,1,girl,prefix,childishly
+girlpower,girlpower,1,girl,prefix,power
+boyishly,boyishly,1,boy,prefix,childishly
+boytoy,boytoy,1,boy,prefix,toy
+spokeman,spokeman,,man,suffix,spokeperson
+gentleman,gentleman,,man,suffix,refined person
+everyman,everyman,,man,suffix,ordinary person
+nobleman,nobleman,,man,suffix,noble person
+bogeyman,bogeyman,,man,suffix,monster
+airmanship,airmanship,,manship,suffix,aerial skill
+batsmanship,batsmanship,,manship,suffix,batting skill
+brinkmanship,brinkmanship,,manship,suffix,extreme strategy
+brinksmanship,brinksmanship,,manship,suffix,extreme strategy
+chairmanship,chairmanship,,manship,suffix,chairpersonship
+churchmanship ,churchmanship ,,manship,suffix,churchpersonship
+craftmanship,craftmanship,,manship,suffix,craftpersonship
+craftsmanship,craftsmanship,,manship,suffix,craftspersonship
+draftsmanship,draftsmanship,,manship,suffix,draftspersonship
+draughtsmanship,draughtsmanship,,manship,suffix,draughtspersonship
+foremanship,foremanship,,manship,suffix,forepersonship
+gamesmanship,gamesmanship,,manship,suffix,unsporting tactic
+gentlemanship,gentlemanship,,manship,suffix,refinedness
+grantsmanship,grantsmanship,,manship,suffix,grant acquisition expertise
+handcraftsmanship,handcraftsmanship,,manship,suffix,handcraftspersonship
+horsemanship,horsemanship,,manship,suffix,equestrian skill
+journeymanship,journeymanship,,manship,suffix,artisanship
+manship,manship,,manship,suffix,courage
+marksmanship,marksmanship,,manship,suffix,sharpshooting skill
+oarsmanship,oarsmanship,,manship,suffix,rowing skill
+penmanship,penmanship,,manship,suffix,calligraphy
+salesmanship,salesmanship,,manship,suffix,selling skill
+seamanship,seamanship,,manship,suffix,marine skill
+showmanship,showmanship,,manship,suffix,performing skill
+sportsmanship,sportsmanship,,manship,suffix,athletic skill
+statesmanship,statesmanship,,manship,suffix,public management skill
+stockmanship,stockmanship,,manship,suffix,livestock raising skill
+swordsmanship,swordsmanship,,manship,suffix,fencing skill
+upmanship,upmanship,,manship,suffix,competitive behavior
+workmanship,workmanship,,manship,suffix,workpersonship

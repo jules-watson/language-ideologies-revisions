@@ -2,42 +2,27 @@
 Download and process the about me dataset from HuggingFace.
 """
 
-from huggingface_hub import snapshot_download, login
+#from huggingface_hub import snapshot_download, login
 from blingfire import text_to_sentences
 
 import ast
-import json
-import gzip
-import re
-import pandas as pd
-import spacy
 from collections import defaultdict
+import gzip
+import json
+import matplotlib.pyplot as plt
+import pandas as pd
+import re
+import spacy
+import seaborn as sns
+
 
 nlp = spacy.load('en_core_web_sm')
 
-# TODO: this should be revised!
-gendered_words = set([
-    'man', 'woman', 'men', 'women', 'boy', 'girl', 'gentleman', 'lady', 'guys', 'gals', 'lads', 'lasses',
-    'father', 'mother', 'dad', 'mom', 'daddy', 'mommy', 'papa', 'mama',
-    'stepfather', 'stepmother', 'stepdad', 'stepmom',
-    'son', 'daughter', 'brother', 'sister', 'bro', 'sis',
-    'stepson', 'stepdaughter', 'brother-in-law', 'sister-in-law',
-    'uncle', 'aunt', 'nephew', 'niece',
-    'grandfather', 'grandmother', 'grandpa', 'grandma', 'granddad', 'grandmom',
-    'king', 'queen',
-    'husband', 'wife', 'boyfriend', 'girlfriend', 'fiancé', 'fiancée',
-    'sir', 'madam', 'miss', 'mr', 'mrs', 'ms',
-])
+ROLE_NOUNS_PATH = "data/role_nouns_expanded.csv"
+
 
 first_person_pronouns = re.compile(r'\b(I|me|my|mine|myself|we|us|our|ours|ourselves)\b', re.IGNORECASE)
 third_person_pronouns = re.compile(r'\b(he|she|him|her|his|hers|himself|herself)\b', re.IGNORECASE)
-
-def read_about_me(data_path):
-    print(f'Reading {data_path}')
-
-    df = pd.read_csv(data_path, index_col=0)
-
-    print(df.head())
 
 
 def get_individuals_hostnames(about_page_meta_path):
@@ -63,11 +48,13 @@ def get_individuals_hostnames(about_page_meta_path):
         print("Retrieved individuals hostnames!")
 
         return individuals_hostnames
-
+    
 
 def save_data_to_csv(about_pages_paths, output_dir, individuals_hns):
     """
     Unzip and save the about me dataset as CSV files, with their corresponding roles
+    
+    Select only pages about individuals (i.e., with hostnames in individuals_hns)
 
     Note: sentence tokenizer taken from 
     https://github.com/lucy3/whos_filtered/blob/main/code/identity_measures/personas/get_role_occurrences.py
@@ -89,24 +76,10 @@ def save_data_to_csv(about_pages_paths, output_dir, individuals_hns):
                     for sent_id, sent_metadata_list in individuals_hns[line_dict['hostname']].items():
                         sent = sentences[sent_id].replace('\x00', '') 
 
-                        third_person_count = len(third_person_pronouns.findall(sent))
-                        first_person_count = len(first_person_pronouns.findall(sent))
-                        
-                        if third_person_count > first_person_count:
-                            perspective = 'MORE_THIRD'
-                        elif third_person_count > 0 and third_person_count < first_person_count:
-                            perspective = 'LESS_THIRD'
-                        elif first_person_count > 0 and third_person_count == 0:
-                            perspective = 'COMPLETE_FIRST'
-                        else:
-                            perspective = 'NONE'
-
                         data.append({
                             'file_number': i,
                             'hostname': line_dict['hostname'],
-                            # 'url': line_dict['url'],
-                            'sentence': sent, # line_dict['text']
-                            'perspective': perspective,
+                            'sentence': sent,
                             'roles_data': sent_metadata_list
                         })
 
@@ -114,24 +87,63 @@ def save_data_to_csv(about_pages_paths, output_dir, individuals_hns):
     df.to_csv(f'{output_dir}/data_with_roles.csv', index=True)
 
 
-def filter_csv(data_path, output_dir):
-    """
-    Filter the data with roles, based on various criteria.
-    """
-    df = pd.read_csv(data_path)
+def load_role_nouns_sets(role_nouns_path=ROLE_NOUNS_PATH):
+    role_nouns_df = pd.read_csv(role_nouns_path)
+    role_nouns = list(role_nouns_df["neutral"]) + list(role_nouns_df["feminine"]) + list(role_nouns_df["masculine"])
+    return set(role_nouns)
 
-    print(f'We start with {df.shape[0]} rows.')
 
-    # role noun in our list of role nouns
-    with open(f'data/role_nouns_3_way.json', 'r') as f:
-        role_nouns_three_way = json.load(f)
-    
-    with open(f'data/role_nouns_2_way.json', 'r') as f:
-        role_nouns_two_way = json.load(f)
+def  load_gendered_words():
+    # SINGULAR FORMS ONLY - we use lemmas when checking for gendered words
+    gendered_words = set([
+        # WORDS ABOUT GENDER
+        'man', 'woman',  
+        'boy', 'girl',  
+        'gentleman', 'lady', 
+        'guy', 'gal', 
+        'lad', 'lass', 
+        'dude',
+        'transman', 'transwoman', 'transmasculine', 'transfeminine', 'transmasc', 'transfemme',
+        'nonbinary', 'genderqueer', 
+        'lesbian',
 
-    role_nouns_three_way_set = set([role_noun for trio in role_nouns_three_way for role_noun in trio])
-    role_nouns_two_way_set = set([role_noun for trio in role_nouns_two_way for role_noun in trio])
-    role_nouns_set = role_nouns_three_way_set.union(role_nouns_two_way_set)
+        # KINSHIP TERMS - Kemp et al (2012); Watson et al. (2023 CogSci)
+        'father', 'mother', 'dad', 'mom', 'mum', 'daddy', 'mommy', 'papa', 'mama',
+        'stepfather', 'stepmother', 'stepdad', 'stepmom',
+        'son', 'daughter',
+        'brother', 'sister', 'bro', 'sis',
+        'stepson', 'stepdaughter',
+        'grandson', 'granddaughter',
+        'uncle', 'aunt', 'auntie',
+        'nephew', 'niece',
+        'grandfather', 'grandmother', 'grandpa', 'grandma', 'granddad', 'grandmom',
+        'husband', 'wife', 'hubby',
+        'boyfriend', 'girlfriend', 'bf', 'gf',
+        'fiancé', 'fiancée', 'fiance', 'fiancee',
+
+        # ROYALTY
+        'king', 'queen', 'prince', 'princess',
+
+        # ADDRESS TERMS
+        'sir', 'madam', 'miss', 'mr', 'mrs', 'ms',
+    ])
+
+    # words with gendered affixes from Bartl & Leavy
+    bartl_leavy_df = pd.read_csv("data/bartl_leavy_replacements.csv")
+    bartl_leavy_df["has_variant"] = (bartl_leavy_df["word"] !=  bartl_leavy_df["variant"])
+    gendered_words.update([item.lower() for item in bartl_leavy_df["word"]])
+    gendered_words.update([item.lower() for item in bartl_leavy_df[bartl_leavy_df["has_variant"]]["variant"]])
+
+    # Papineau role nouns (2-way and 3-way)
+    with open("data/papineau_role_nouns_full.json", "r") as f:
+        papineau_role_nouns = json.load(f)
+    for rn_set in papineau_role_nouns:
+        gendered_words.update(rn_set)
+
+    return gendered_words
+
+
+def filter_role_nouns(df, role_nouns_set):
 
     def filter_and_retain_roles(roles_metadata_str):
         """
@@ -142,57 +154,59 @@ def filter_csv(data_path, output_dir):
         filtered_roles = [role_tuple for role_tuple in roles_metadata_list if role_tuple[0] in role_nouns_set]
         return filtered_roles
         
-    # Apply the function to filter and retain roles, and filter out rows with an empty list
+    # Apply the function to filter and retain roles, and select rows with exactly 1 role noun
     df['filtered_roles_data'] = df['roles_data'].apply(filter_and_retain_roles)
-    filtered_df = df[df['filtered_roles_data'].apply(bool)]
+    df["n_roles"] = df["filtered_roles_data"].apply(len)
+    filtered_df = df[df['n_roles'] == 1]
+    
     print(f'After filtering for the specific role nouns: we have {filtered_df.shape[0]} rows.')
+    return filtered_df
 
-    # first person
-    print(f'A perspective count here:') 
-    for p in ['MORE_THIRD', 'LESS_THIRD', 'COMPLETE_FIRST', 'NONE']:
-        print(f'   there are {filtered_df[filtered_df["perspective"] == p].shape[0]} rows with perspective {p}')
+
+def assess_perspective(sent):
+    third_person_count = len(third_person_pronouns.findall(sent))
+    first_person_count = len(first_person_pronouns.findall(sent))
+
+    if first_person_count > 0 and third_person_count == 0:
+        return "COMPLETE_FIRST"
+    return "OTHER"
+
+
+def filter_first_person(filtered_df):
+    filtered_df.loc[:, "perspective"] = filtered_df["sentence"].apply(assess_perspective)
     filtered_df = filtered_df[filtered_df['perspective'] == 'COMPLETE_FIRST']
     print(f'After filtering for first person perspective: we have {filtered_df.shape[0]} rows.')
+    return filtered_df
 
-    # length limit (500 characters)
-    filtered_df = filtered_df[filtered_df['sentence'].str.len() <= 500]
-    print(f'After filtering for length (max 500 chars): we have {filtered_df.shape[0]} rows.')
 
-    def label_role_nouns(row):
-        """
-        Label each sentence based on the type of role nouns they have
-        """
-        roles_metadata = row['filtered_roles_data']
-        if len(roles_metadata) > 1:
-            return "MORE_THAN_ONE"
-        elif roles_metadata[0][0] in role_nouns_three_way_set:
-            return "THREE_WAY"
-        else:
-            assert roles_metadata[0][0] in role_nouns_two_way_set
-            return "TWO_WAY"
-    
-    filtered_df['role_noun_type'] = filtered_df.apply(label_role_nouns, axis=1)
-    filtered_df.drop(filtered_df[filtered_df['role_noun_type'] == 'MORE_THAN_ONE'].index, inplace=True)
-    print(f'After filtering for max 1 gendered role noun: we have {filtered_df.shape[0]} rows.')
-    print(f"   Within those rows: {filtered_df[filtered_df['role_noun_type'] == 'THREE_WAY'].shape[0]} three way rows and {filtered_df[filtered_df['role_noun_type'] == 'TWO_WAY'].shape[0]} two way rows.")
+def filter_remove_quotes(filtered_df):
+    filtered_df.loc[:, "contains_quotes"] = filtered_df["sentence"].apply(lambda sent: 1 if "\"" in sent else 0)
+    filtered_df = filtered_df[filtered_df["contains_quotes"] == 0]
+    print(f'After filtering to remove quotes: we have {filtered_df.shape[0]} rows.')
+    return filtered_df
 
-    # remove proper nouns and gendered terms
-    gendered_words.update(role_nouns_set)
+
+def filter_gendered_words(filtered_df, role_nouns_set, gendered_words):
 
     def filter_sentences(row): 
         """
         Return True if a sentence has no pronouns, and no gendered words (or just 1 gendered word that is a role noun)
         """
-        doc = nlp(row['sentence'])
-        tokens = {token.text.lower() for token in doc}
-        proper_nouns = [token for token in doc if token.pos_ == 'PROPN']
+        doc = row["tokens"]
+        lemmas = {token.lemma_.lower() for token in doc}
         
-        # Check for proper nouns
-        if proper_nouns:
+        # Check NER for mentions of people
+        for ent in doc.ents:
+            if ent.label_ ==  "PERSON":
+                return False
+        
+        # Exclude sentences containing the word "name" 
+        # (want to exclude cases like  "My name is ...")
+        if "name" in lemmas:
             return False
         
         # Check for gendered words
-        gendered_words_in_sentence = tokens.intersection(gendered_words)
+        gendered_words_in_sentence = lemmas.intersection(gendered_words)
         
         if len(gendered_words_in_sentence) == 0:
             return True
@@ -205,10 +219,49 @@ def filter_csv(data_path, output_dir):
     filtered_df = filtered_df[filtered_df['keep']].drop(columns=['keep'])
 
     print(f'After filtering for proper nouns and gendered terms: we have {filtered_df.shape[0]} rows.')
+    return filtered_df
+
+
+def filter_csv(data_path, output_dir):
+    """
+    Filter the data with roles, based on various criteria.
+    """
+    df = pd.read_csv(data_path)
+    print(f'We start with {df.shape[0]} rows.')  #  5721074
+
+    # Load role nouns and gendered words
+    role_nouns_set = load_role_nouns_sets()
+    gendered_words = load_gendered_words()
+
+    # Filter to select only sentences that contain exactly one role noun from our role noun set
+    filtered_df = filter_role_nouns(df, role_nouns_set)
+
+    # first person
+    filtered_df = filter_first_person(filtered_df)
+
+    # remove sentences containing quotation marks
+    filtered_df = filter_remove_quotes(filtered_df)
+
+    # add column to filtered_df with spacy output (so we can use it for next steps)
+    filtered_df.loc[:, "tokens"] = filtered_df["sentence"].apply(nlp)
+
+    # remove proper nouns and gendered terms
+    filtered_df = filter_gendered_words(filtered_df, role_nouns_set, gendered_words)
     
+    # make a histogram of sentence lengths
+    filtered_df["sentence_length"] = filtered_df["tokens"].apply(len)
+    sns.histplot(data=filtered_df, x="sentence_length")
+    plt.savefig("random_scripts/Nov18/about_me_filtering_sentence_lengths.png")
+    plt.xlim(0, 200)
+
+    # length limit (20 words)
+    filtered_df = filtered_df[filtered_df['sentence_length'] <= 20]
+    print(f'After filtering for length (max 20 words): we have {filtered_df.shape[0]} rows.')
+
     # Write final filtered data to file
     filtered_df.reset_index(drop=True, inplace=True)
-    filtered_df.to_csv(f'{output_dir}/filtered_data.csv', index=True, index_label='index')
+    filtered_df.drop(columns=["tokens"]).to_csv(
+        f'{output_dir}/filtered_data.csv', index=True, index_label='index')
 
 
 def download_about_me(token, download_dir):
@@ -219,6 +272,56 @@ def download_about_me(token, download_dir):
     login(token=token)
     repo_id = "allenai/aboutme" 
     snapshot_download(repo_id=repo_id, repo_type="dataset", local_dir=download_dir)
+
+
+def compute_fitering_stats(filtered_data_path, output_dir):
+    # Load filtered data
+    filtered_df = pd.read_csv(filtered_data_path, index_col=0)
+    filtered_df["filtered_roles_data"] = filtered_df["filtered_roles_data"].apply(eval)
+
+    # Load role nouns data
+    role_nouns_df = pd.read_csv(ROLE_NOUNS_PATH)
+    role_nouns_df["role_noun_set"] = role_nouns_df["neutral"]
+    role_nouns_lookup = role_nouns_df.melt(value_vars=["neutral", "masculine", "feminine"], id_vars=["role_noun_set"])
+    role_nouns_lookup = role_nouns_lookup.rename(columns={"variable": "gender", "value": "variant"})
+    role_nouns_lookup = role_nouns_lookup.set_index("variant")
+
+    # Use role_nouns_df to add columns to filtered_df, corresponding to 
+    # gender (neut/fem/masc) and role noun set (the neutral role noun variant)
+    filtered_df["gender"] = filtered_df["filtered_roles_data"].apply(
+        lambda roles_data: role_nouns_lookup.loc[roles_data[0][0]]["gender"]
+    )
+    filtered_df["role_noun_set"] = filtered_df["filtered_roles_data"].apply(
+        lambda roles_data: role_nouns_lookup.loc[roles_data[0][0]]["role_noun_set"]
+    )
+
+    # Save a table with each role noun set as a row, and columns for neut/masc/fem
+    result_df = []
+    for curr_role_noun, curr_df in filtered_df[["role_noun_set", "gender"]].groupby("role_noun_set"):
+        curr_gender_df = curr_df.groupby("gender").count()
+        curr_result =  {
+            "role_noun_set": curr_role_noun,
+        }
+        for gender in ["neutral", "masculine", "feminine"]:
+            if gender in curr_gender_df.index:
+                curr_result[gender] = curr_gender_df.loc[gender]["role_noun_set"]
+            else:
+                curr_result[gender] = 0
+        result_df.append(curr_result)
+    result_df =  pd.DataFrame(result_df)
+    result_df.to_csv(f"{output_dir}/filtered_role_noun_counts.csv")
+
+    # Create visualizations for each role noun set, with neut/masc/fem as columns
+    for _, row in result_df.iterrows():
+        labels = ["neutral", "masculine", "feminine"]
+        values = [row[label] for label in labels]
+
+        fig, ax = plt.subplots()
+        ax.bar(labels, values, label=labels)
+        ax.set_ylabel('Number of items')
+        ax.set_title(f"{row['role_noun_set']} counts")
+        plt.savefig(f"{output_dir}/filtered_role_noun_counts_{row['role_noun_set']}.png")
+
 
 
 if __name__=="__main__":
@@ -232,11 +335,42 @@ if __name__=="__main__":
     about_page_meta_path = f'{about_zipped_dir}/about_pages_meta.json.gz'
 
     # Retrieve the hostnames corresponding to individuals
-    individuals_hostnames = get_individuals_hostnames(about_page_meta_path)
+    # individuals_hostnames = get_individuals_hostnames(about_page_meta_path)
 
     # Unzip and save the data as a CSV file
-    about_pages_paths = [f'{about_zipped_dir}/about_pages-{i}.json.gz' for i in range(14)]
-    save_data_to_csv(about_pages_paths, individuals_dir, individuals_hostnames)
+    # about_pages_paths = [f'{about_zipped_dir}/about_pages-{i}.json.gz' for i in range(14)]
+    # save_data_to_csv(about_pages_paths, individuals_dir, individuals_hostnames)
 
     # Filter the CSV file for relevant rows
-    filter_csv(f'{individuals_dir}/data_with_roles.csv', individuals_dir)
+    # filter_csv(f'{individuals_dir}/data_with_roles.csv', individuals_dir)
+
+    # CURRENT - filters out PEOPLE entities using spacy NER + sentences containing the word "name"
+    # We start with 5721074 rows.
+    # After filtering for the specific role nouns: we have 106467 rows.
+    # After filtering for first person perspective: we have 28303 rows.
+    # After filtering to remove quotes: we have 27584 rows.
+    # After filtering for proper nouns and gendered terms: we have 19203 rows.
+    # After filtering for length (max 20 words): we have 6610 rows.
+
+    # PREVIOUS VERSION - filters out ALL PROPER NOUNS
+    # We start with 5721074 rows.
+    # After filtering for the specific role nouns: we have 106467 rows.
+    # After filtering for first person perspective: we have 28303 rows.
+    # After filtering to remove quotes: we have 27584 rows.
+    # After filtering for proper nouns and gendered terms: we have 7657 rows.
+    # After filtering for length (max 20 words): we have 3578 rows.
+
+    
+
+    # Compute stats + make visualizations based on filtered data
+    compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov18")
+
+    # Role noun sets with > 5 occurrences of each variant
+    #        role_noun_set  neutral  masculine  feminine
+    # 4     businessperson       21        214       117
+    # 5    camera operator      141        156         7
+    # 7        chairperson       88        432        10
+    # 12      craftsperson       39        300        14
+    # 20  flight attendant      259        138        25
+    # 37       salesperson      271        246        14
+    # 39            server       86         67       133
