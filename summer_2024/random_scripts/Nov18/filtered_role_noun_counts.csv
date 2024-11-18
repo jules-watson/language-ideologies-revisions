@@ -1,51 +1,50 @@
 ,role_noun_set,neutral,masculine,feminine
 0,alderperson,0,6,0
-1,anchor,81,2,4
-2,assemblyperson,0,1,1
-3,bartender,164,4,0
-4,businessperson,21,214,117
-5,camera operator,141,156,7
-6,caveperson,0,8,4
-7,chairperson,88,432,10
+1,anchor,76,2,2
+2,assemblyperson,0,1,0
+3,bartender,155,4,0
+4,businessperson,19,190,103
+5,camera operator,128,142,6
+6,caveperson,0,7,3
+7,chairperson,80,385,8
 8,clergyperson,3,4,3
-9,congressperson,0,11,5
+9,congressperson,0,10,4
 10,councilperson,1,19,6
-11,cow herder,0,34,48
-12,craftsperson,39,300,14
+11,cow herder,0,28,44
+12,craftsperson,36,271,14
 13,crewmember,0,4,0
-14,delivery person,2,0,0
-15,draftsperson,11,67,1
-16,emergency medical technician,26,0,0
-17,farm worker,4,1,12
-18,fencer,16,1,0
-19,firefighter,334,20,0
-20,flight attendant,259,138,25
-21,foreperson,1,73,2
-22,frontperson,0,16,2
-23,gentleperson,0,31,0
-24,handyperson,0,238,2
-25,layperson,18,29,2
-26,maniac,84,14,3
-27,meteorologist,97,9,0
-28,newspaper delivery person,0,15,1
+14,delivery person,1,0,0
+15,draftsperson,10,59,1
+16,emergency medical technician,22,0,0
+17,farm worker,3,1,11
+18,fencer,15,1,0
+19,firefighter,311,18,0
+20,flight attendant,244,124,21
+21,foreperson,1,66,2
+22,frontperson,0,15,2
+23,gentleperson,0,30,0
+24,handyperson,0,211,2
+25,layperson,16,28,2
+26,maniac,75,13,3
+27,meteorologist,92,6,0
+28,newspaper delivery person,0,13,1
 29,ombudsperson,0,11,1
-30,outdoorsperson,1,141,8
-31,pioneer,219,0,0
+30,outdoorsperson,1,126,8
+31,pioneer,194,0,0
 32,point-person,1,0,0
-33,police officer,306,15,2
+33,police officer,281,14,2
 34,postal carrier,1,6,1
-35,repairperson,1,26,0
-36,reporter,1133,3,0
-37,salesperson,271,246,14
+35,repairperson,1,20,0
+36,reporter,1046,3,0
+37,salesperson,232,215,14
 38,select board member,0,4,0
-39,server,86,67,133
-40,service member,0,0,1
-41,sharpshooter,0,13,0
-42,showperson,0,6,0
-43,sound engineer,151,4,0
-44,spokesperson,109,27,2
-45,statesperson,0,4,0
-46,stunt double,3,17,0
-47,tradesperson,7,44,0
-48,tribesperson,0,1,0
-49,wingperson,0,13,5
+39,server,79,65,121
+40,sharpshooter,0,10,0
+41,showperson,0,6,0
+42,sound engineer,138,4,0
+43,spokesperson,104,21,2
+44,statesperson,0,4,0
+45,stunt double,3,15,0
+46,tradesperson,7,40,0
+47,tribesperson,0,1,0
+48,wingperson,0,10,5
