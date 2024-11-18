@@ -93,6 +93,15 @@ def load_role_nouns_sets(role_nouns_path=ROLE_NOUNS_PATH):
     return set(role_nouns)
 
 
+def load_role_nouns_lookup():
+    role_nouns_df = pd.read_csv(ROLE_NOUNS_PATH)
+    role_nouns_df["role_noun_set"] = role_nouns_df["neutral"]
+    role_nouns_lookup = role_nouns_df.melt(value_vars=["neutral", "masculine", "feminine"], id_vars=["role_noun_set"])
+    role_nouns_lookup = role_nouns_lookup.rename(columns={"variable": "gender", "value": "variant"})
+    role_nouns_lookup = role_nouns_lookup.set_index("variant")
+    return role_nouns_lookup
+
+
 def  load_gendered_words():
     # SINGULAR FORMS ONLY - we use lemmas when checking for gendered words
     gendered_words = set([
@@ -280,11 +289,7 @@ def compute_fitering_stats(filtered_data_path, output_dir):
     filtered_df["filtered_roles_data"] = filtered_df["filtered_roles_data"].apply(eval)
 
     # Load role nouns data
-    role_nouns_df = pd.read_csv(ROLE_NOUNS_PATH)
-    role_nouns_df["role_noun_set"] = role_nouns_df["neutral"]
-    role_nouns_lookup = role_nouns_df.melt(value_vars=["neutral", "masculine", "feminine"], id_vars=["role_noun_set"])
-    role_nouns_lookup = role_nouns_lookup.rename(columns={"variable": "gender", "value": "variant"})
-    role_nouns_lookup = role_nouns_lookup.set_index("variant")
+    role_nouns_lookup = load_role_nouns_lookup()
 
     # Use role_nouns_df to add columns to filtered_df, corresponding to 
     # gender (neut/fem/masc) and role noun set (the neutral role noun variant)
@@ -321,6 +326,38 @@ def compute_fitering_stats(filtered_data_path, output_dir):
         ax.set_ylabel('Number of items')
         ax.set_title(f"{row['role_noun_set']} counts")
         plt.savefig(f"{output_dir}/filtered_role_noun_counts_{row['role_noun_set']}.png")
+
+
+def sample_sentences(filtered_data_path, output_dir, n=6):
+    # Load filtered data
+    filtered_df = pd.read_csv(filtered_data_path, index_col=0)
+    filtered_df["filtered_roles_data"] = filtered_df["filtered_roles_data"].apply(eval)
+
+    # Load role nouns data
+    role_nouns_lookup = load_role_nouns_lookup()
+
+    # Use role_nouns_df to add columns to filtered_df, corresponding to 
+    # gender (neut/fem/masc) and role noun set (the neutral role noun variant)
+    filtered_df["gender"] = filtered_df["filtered_roles_data"].apply(
+        lambda roles_data: role_nouns_lookup.loc[roles_data[0][0]]["gender"]
+    )
+    filtered_df["role_noun_set"] = filtered_df["filtered_roles_data"].apply(
+        lambda roles_data: role_nouns_lookup.loc[roles_data[0][0]]["role_noun_set"]
+    )
+    filtered_df["role_noun"] = filtered_df["filtered_roles_data"].apply(
+        lambda roles_data: roles_data[0][0]
+    )
+
+
+    # Sample N sentences per role noun set
+    result_df = []
+    for _, curr_df in filtered_df.groupby("role_noun"):
+        sample_size = min(len(curr_df), n)
+        result_df.append(curr_df.sample(sample_size))
+
+    result_df = pd.concat(result_df)
+    result_df.to_csv(f"{output_dir}/role_noun_sample_nov18.csv")
+
 
 
 
@@ -363,7 +400,7 @@ if __name__=="__main__":
     
 
     # Compute stats + make visualizations based on filtered data
-    compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov18")
+    # compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov18")
 
     # Role noun sets with > 5 occurrences of each variant
     #        role_noun_set  neutral  masculine  feminine
@@ -374,3 +411,6 @@ if __name__=="__main__":
     # 20  flight attendant      259        138        25
     # 37       salesperson      271        246        14
     # 39            server       86         67       133
+
+
+    sample_sentences(f'{individuals_dir}/filtered_data.csv', "data")
