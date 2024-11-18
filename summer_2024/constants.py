@@ -25,4 +25,5 @@ AN_NOUNS = {"anchor", "anchorman", "anchorwoman"}
 #EXPERIMENT_PATH = "piloting_non_binary"
 #EXPERIMENT_PATH = "piloting_woman"
 #EXPERIMENT_PATH = "piloting_experiment_2_way"
-EXPERIMENT_PATH = "piloting_pronouns_genders"
+# EXPERIMENT_PATH = "piloting_pronouns_genders"
+EXPERIMENT_PATH = "piloting_pronouns_genders_if_applicable_wording"
