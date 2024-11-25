@@ -188,8 +188,14 @@ def filter_first_person(filtered_df):
     return filtered_df
 
 
+def contains_quotes(sent):
+    if "\"" in sent or "“" in sent or "”" in sent:
+        return 1
+    return 0
+    
+
 def filter_remove_quotes(filtered_df):
-    filtered_df.loc[:, "contains_quotes"] = filtered_df["sentence"].apply(lambda sent: 1 if "\"" in sent else 0)
+    filtered_df.loc[:, "contains_quotes"] = filtered_df["sentence"].apply(contains_quotes)
     filtered_df = filtered_df[filtered_df["contains_quotes"] == 0]
     print(f'After filtering to remove quotes: we have {filtered_df.shape[0]} rows.')
     return filtered_df
@@ -231,6 +237,7 @@ def filter_gendered_words(filtered_df, role_nouns_set, gendered_words):
     return filtered_df
 
 
+
 def filter_csv(data_path, output_dir):
     """
     Filter the data with roles, based on various criteria.
@@ -256,7 +263,11 @@ def filter_csv(data_path, output_dir):
 
     # remove proper nouns and gendered terms
     filtered_df = filter_gendered_words(filtered_df, role_nouns_set, gendered_words)
-    
+
+    # remove duplicate sentences
+    filtered_df = filtered_df.drop_duplicates(subset=['sentence'], keep='first')
+    print(f'After filtering to remove duplicate sentences: we have {filtered_df.shape[0]} rows.')
+
     # make a histogram of sentence lengths
     filtered_df["sentence_length"] = filtered_df["tokens"].apply(len)
     sns.histplot(data=filtered_df, x="sentence_length")
@@ -385,11 +396,13 @@ if __name__=="__main__":
     # We start with 5721074 rows.
     # After filtering for the specific role nouns: we have 106467 rows.
     # After filtering for first person perspective: we have 28303 rows.
-    # After filtering to remove quotes: we have 27584 rows.
-    # After filtering for proper nouns and gendered terms: we have 19203 rows.
-    # After filtering for length (max 20 words): we have 6610 rows.
+    # After filtering to remove quotes: we have 26442 rows.
+    # After filtering for proper nouns and gendered terms: we have 18638 rows.
+    # After filtering to remove duplicate sentences: we have 17255 rows.
+    # After filtering for length (max 20 words): we have 6001 rows.
 
-    # PREVIOUS VERSION - filters out ALL PROPER NOUNS
+    # PREVIOUS VERSION - filters out ALL PROPER NOUNS 
+    # (also only considered \" quotes but not the asymmetrical double quotes)
     # We start with 5721074 rows.
     # After filtering for the specific role nouns: we have 106467 rows.
     # After filtering for first person perspective: we have 28303 rows.
@@ -403,14 +416,13 @@ if __name__=="__main__":
     # compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov18")
 
     # Role noun sets with > 5 occurrences of each variant
-    #        role_noun_set  neutral  masculine  feminine
-    # 4     businessperson       21        214       117
-    # 5    camera operator      141        156         7
-    # 7        chairperson       88        432        10
-    # 12      craftsperson       39        300        14
-    # 20  flight attendant      259        138        25
-    # 37       salesperson      271        246        14
-    # 39            server       86         67       133
-
+    #     Unnamed: 0     role_noun_set  neutral  masculine  feminine
+    # 4            4    businessperson       19        190       103
+    # 5            5   camera operator      128        142         6
+    # 7            7       chairperson       80        385         8
+    # 12          12      craftsperson       36        271        14
+    # 20          20  flight attendant      244        124        21
+    # 37          37       salesperson      232        215        14
+    # 39          39            server       79         65       121
 
     sample_sentences(f'{individuals_dir}/filtered_data.csv', "data")
