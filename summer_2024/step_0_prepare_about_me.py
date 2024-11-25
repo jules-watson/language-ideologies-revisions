@@ -400,12 +400,13 @@ def sample_sentences(filtered_data_path, output_dir, n=6):
         sentence = sentence.replace(" (EMT)", "")
 
         # (b) replace variants with lowercase versions
+        print(row["filtered_roles_data"])
         _, curr_start, curr_end = row["filtered_roles_data"][0]
         sentence = sentence[:curr_start] + sentence[curr_start:curr_end].lower() + sentence[curr_end:]
 
         return sentence
 
-
+    result_df["sentence_processed"] = result_df.apply(process_sentence, axis=1)
     result_df.to_csv(f"{output_dir}/role_noun_sample_nov25.csv")
 
 
