@@ -19,7 +19,7 @@ import seaborn as sns
 nlp = spacy.load('en_core_web_sm')
 
 ROLE_NOUNS_PATH = "data/role_nouns_expanded.csv"
-
+NAMES_PATH = "data/1998.txt"    # 1998 US Social Security names dataset
 
 first_person_pronouns = re.compile(r'\b(I|me|my|mine|myself|we|us|our|ours|ourselves)\b', re.IGNORECASE)
 third_person_pronouns = re.compile(r'\b(he|she|him|her|his|hers|himself|herself)\b', re.IGNORECASE)
@@ -105,8 +105,9 @@ def load_role_nouns_lookup():
 def  load_gendered_words():
     # SINGULAR FORMS ONLY - we use lemmas when checking for gendered words
     gendered_words = set([
-        # WORDS ABOUT GENDER
+        # WORDS ABOUT GENDER and SEX
         'man', 'woman',  
+        'male', 'female',
         'boy', 'girl',  
         'gentleman', 'lady', 
         'guy', 'gal', 
@@ -130,8 +131,10 @@ def  load_gendered_words():
         'boyfriend', 'girlfriend', 'bf', 'gf',
         'fiancé', 'fiancée', 'fiance', 'fiancee',
 
-        # ROYALTY
+        # ROYALTY / FANTASY
         'king', 'queen', 'prince', 'princess',
+        'priest', 'priestess',
+        'superman', 'superwoman',
 
         # ADDRESS TERMS
         'sir', 'madam', 'miss', 'mr', 'mrs', 'ms',
@@ -150,6 +153,11 @@ def  load_gendered_words():
         gendered_words.update(rn_set)
 
     return gendered_words
+
+
+def load_names():
+    df = pd.read_csv(NAMES_PATH, names=["name", "sex", "count"])
+    return set(df["name"])
 
 
 def filter_role_nouns(df, role_nouns_set):
@@ -201,14 +209,15 @@ def filter_remove_quotes(filtered_df):
     return filtered_df
 
 
-def filter_gendered_words(filtered_df, role_nouns_set, gendered_words):
+def filter_gendered_words(filtered_df, role_nouns_set, gendered_words, names):
 
     def filter_sentences(row): 
         """
-        Return True if a sentence has no pronouns, and no gendered words (or just 1 gendered word that is a role noun)
+        Return True if a sentence has no gendered pronouns, 
+        and no gendered words (or just 1 gendered word that is a role noun)
         """
         doc = row["tokens"]
-        lemmas = {token.lemma_.lower() for token in doc}
+        lemmas = [token.lemma_.lower() for token in doc]
         
         # Check NER for mentions of people
         for ent in doc.ents:
@@ -220,22 +229,33 @@ def filter_gendered_words(filtered_df, role_nouns_set, gendered_words):
         if "name" in lemmas:
             return False
         
-        # Check for gendered words
-        gendered_words_in_sentence = lemmas.intersection(gendered_words)
-        
-        if len(gendered_words_in_sentence) == 0:
-            return True
-        elif len(gendered_words_in_sentence) == 1:
-            return gendered_words_in_sentence.pop() in role_nouns_set 
-        else:
+        # Exclude sentences containing names from the names list - only considers
+        # them to be a match if capitalization matches
+        names_in_sentence = {token.text for token in doc if token.text in names}
+        if len(names_in_sentence) > 0:
             return False
+        
+        # Check for gendered words
+        gendered_words_in_sentence = [word for word in lemmas if word in gendered_words]
+        if (len(gendered_words_in_sentence) == 1 and 
+            gendered_words_in_sentence[0] not in role_nouns_set):
+            return False
+        elif len(gendered_words_in_sentence) > 1:
+            return False
+        
+        # Check for multiple role nouns
+        role_nouns_re = re.compile(r'\b(' + "|".join(role_nouns_set) +  r')\b', re.IGNORECASE)
+        role_nouns_in_sentence = role_nouns_re.findall(row["sentence"])
+        if len(role_nouns_in_sentence) > 1:
+            return False
+    
+        return True
 
     filtered_df['keep'] = filtered_df.apply(filter_sentences, axis=1)
     filtered_df = filtered_df[filtered_df['keep']].drop(columns=['keep'])
 
     print(f'After filtering for proper nouns and gendered terms: we have {filtered_df.shape[0]} rows.')
     return filtered_df
-
 
 
 def filter_csv(data_path, output_dir):
@@ -248,6 +268,7 @@ def filter_csv(data_path, output_dir):
     # Load role nouns and gendered words
     role_nouns_set = load_role_nouns_sets()
     gendered_words = load_gendered_words()
+    names = load_names()
 
     # Filter to select only sentences that contain exactly one role noun from our role noun set
     filtered_df = filter_role_nouns(df, role_nouns_set)
@@ -262,7 +283,7 @@ def filter_csv(data_path, output_dir):
     filtered_df.loc[:, "tokens"] = filtered_df["sentence"].apply(nlp)
 
     # remove proper nouns and gendered terms
-    filtered_df = filter_gendered_words(filtered_df, role_nouns_set, gendered_words)
+    filtered_df = filter_gendered_words(filtered_df, role_nouns_set, gendered_words, names)
 
     # remove duplicate sentences
     filtered_df = filtered_df.drop_duplicates(subset=['sentence'], keep='first')
@@ -271,12 +292,17 @@ def filter_csv(data_path, output_dir):
     # make a histogram of sentence lengths
     filtered_df["sentence_length"] = filtered_df["tokens"].apply(len)
     sns.histplot(data=filtered_df, x="sentence_length")
-    plt.savefig("random_scripts/Nov18/about_me_filtering_sentence_lengths.png")
+    plt.savefig("random_scripts/Nov25/about_me_filtering_sentence_lengths.png")
     plt.xlim(0, 200)
 
     # length limit (20 words)
-    filtered_df = filtered_df[filtered_df['sentence_length'] <= 20]
-    print(f'After filtering for length (max 20 words): we have {filtered_df.shape[0]} rows.')
+    # mean: 22.70511312855732
+    # median: 20
+    # sd: 12.418984527567865
+    sent_min = filtered_df['sentence_length'].mean() - filtered_df['sentence_length'].std()  # 10.3
+    sent_max = filtered_df['sentence_length'].mean() + filtered_df['sentence_length'].std()  # 35.1
+    filtered_df = filtered_df[(filtered_df['sentence_length'] <= sent_max) & (filtered_df['sentence_length'] >= sent_min)]
+    print(f'After filtering for length (11-35 words): we have {filtered_df.shape[0]} rows.')
 
     # Write final filtered data to file
     filtered_df.reset_index(drop=True, inplace=True)
@@ -359,15 +385,29 @@ def sample_sentences(filtered_data_path, output_dir, n=6):
         lambda roles_data: roles_data[0][0]
     )
 
-
     # Sample N sentences per role noun set
     result_df = []
     for _, curr_df in filtered_df.groupby("role_noun"):
         sample_size = min(len(curr_df), n)
         result_df.append(curr_df.sample(sample_size))
-
     result_df = pd.concat(result_df)
-    result_df.to_csv(f"{output_dir}/role_noun_sample_nov18.csv")
+
+    # Process sentences
+    def process_sentence(row):
+        sentence = row["sentence"]
+
+        # (a) remove "(EMT)"
+        sentence = sentence.replace(" (EMT)", "")
+
+        # (b) replace variants with lowercase versions
+        print(row["filtered_roles_data"])
+        _, curr_start, curr_end = row["filtered_roles_data"][0]
+        sentence = sentence[:curr_start] + sentence[curr_start:curr_end].lower() + sentence[curr_end:]
+
+        return sentence
+
+    result_df["sentence_processed"] = result_df.apply(process_sentence, axis=1)
+    result_df.to_csv(f"{output_dir}/role_noun_sample_nov25.csv")
 
 
 
@@ -392,7 +432,17 @@ if __name__=="__main__":
     # Filter the CSV file for relevant rows
     # filter_csv(f'{individuals_dir}/data_with_roles.csv', individuals_dir)
 
-    # CURRENT - filters out PEOPLE entities using spacy NER + sentences containing the word "name"
+    # CURRENT VERSION - added a couple more role noun sets (substring cases); 
+    # filter out names from US Social Security dataset
+    # We start with 5721074 rows.
+    # After filtering for the specific role nouns: we have 133350 rows.
+    # After filtering for first person perspective: we have 47698 rows.
+    # After filtering to remove quotes: we have 45063 rows.
+    # After filtering for proper nouns and gendered terms: we have 23040 rows.
+    # After filtering to remove duplicate sentences: we have 21206 rows.
+    # After filtering for length (11-35 words): we have 16220 rows.
+
+    # INTERMEDIATE VERSION - filters out PEOPLE entities using spacy NER + sentences containing the word "name"
     # We start with 5721074 rows.
     # After filtering for the specific role nouns: we have 106467 rows.
     # After filtering for first person perspective: we have 28303 rows.
@@ -410,19 +460,20 @@ if __name__=="__main__":
     # After filtering for proper nouns and gendered terms: we have 7657 rows.
     # After filtering for length (max 20 words): we have 3578 rows.
 
-    
 
     # Compute stats + make visualizations based on filtered data
-    # compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov18")
+    # compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov25")
 
-    # Role noun sets with > 5 occurrences of each variant
-    #     Unnamed: 0     role_noun_set  neutral  masculine  feminine
-    # 4            4    businessperson       19        190       103
-    # 5            5   camera operator      128        142         6
-    # 7            7       chairperson       80        385         8
-    # 12          12      craftsperson       36        271        14
-    # 20          20  flight attendant      244        124        21
-    # 37          37       salesperson      232        215        14
-    # 39          39            server       79         65       121
+    # Role noun sets with > 5 occurrences of each variant (current version - Nov 25)
+    #     Unnamed: 0    role_noun_set  neutral  masculine  feminine
+    # 5            5   businessperson       25        268       163
+    # 6            6  camera operator      254        249        13
+    # 8            8      chairperson      161        687        15
+    # 13          13     craftsperson       51        372        23
+    # 18          18              fan     7232         41        94
+    # 28          28           maniac       82         17         7
+    # 38          38      salesperson      345        371        28
+    # 40          40           server      146        102       267
+    # 44          44     spokesperson      215         39         5
 
     sample_sentences(f'{individuals_dir}/filtered_data.csv', "data")
