@@ -28,4 +28,8 @@ AN_NOUNS = {"anchor", "anchorman", "anchorwoman"}
 # EXPERIMENT_PATH = "piloting_pronouns_genders"
 # EXPERIMENT_PATH = "piloting_pronouns_genders_if_applicable_wording"
 # EXPERIMENT_PATH =  "piloting_pronouns_genders_please_revise_prompt_wording"
-EXPERIMENT_PATH =  "piloting_pronouns_genders_please_revise_if_needed_prompt_wording"
+# EXPERIMENT_PATH =  "piloting_pronouns_genders_please_revise_if_needed_prompt_wording"
+
+# EXPERIMENT_PATH = "analyses/piloting_jan1/improve_if_needed"
+# EXPERIMENT_PATH = "analyses/piloting_jan1/revise"
+EXPERIMENT_PATH = "analyses/piloting_jan1/revise_if_needed"

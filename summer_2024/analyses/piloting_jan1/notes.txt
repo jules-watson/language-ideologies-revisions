@@ -1,0 +1,36 @@
+* [DONE] make configs for the 3 wordings we want to study; 
+    * [DONE] verify that the 4th wording is fully covered (which dir?)
+      analyses/piloting_pronouns_genders
+    * [DONE] spell out the wordings + associated dirs:
+      analyses/piloting_pronouns_genders/       (improve): 
+        Please improve the following sentence and explain the changes made:
+      analyses/piloting_jan1/revise/            (revise) : 
+        Please revise the following sentence and explain the changes made:
+      analyses/piloting_jan1/improve_if_needed/ (improve if needed): 
+        Please improve the following sentence if needed and explain the changes made:
+      analyses/piloting_jan1/revise_if_needed/  (revise if needed): 
+        Please revise the following sentence if needed and explain the changes made:
+    * [DONE] create the relevant dirs
+    * [DONE] copy over the piloting_pronouns_genders config file to each
+    * [DONE] update the configs by:
+        - [DONE] updating the wording
+        - [DONE] are there other fields that need to be updated
+        - [DONE] updating the file path for creating stimuli
+
+* [DONE] write script to extract stimuli sentences from the 4th wording and put
+  them in data/piloting_pronouns_genders_sample.csv (put the script in random_scripts/)
+
+* [DONE] add code to part_1_stimuli.py to generate stimuli for the 3 wordings
+    * [DONE] run this code for all 3 new configs
+
+* [TODO] start running code for llama
+    * [TODO] commit code to github + merge to main branch
+    * [TODO] pull code to vector server
+    * [TODO] is there any debugging I need to do?
+    * [TODO] start running llama code for all 3 configs
+
+
+Next steps:
+* determine if there's a bug in how masks are processed by SBERT
+* when we re-run analyses, make sure we re-run justification analyes with 
+  updated splitting algorithm
