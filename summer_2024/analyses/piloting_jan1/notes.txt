@@ -23,14 +23,14 @@
 * [DONE] add code to part_1_stimuli.py to generate stimuli for the 3 wordings
     * [DONE] run this code for all 3 new configs
 
-* [TODO] start running code for llama
-    * [TODO] commit code to github + merge to main branch
-    * [TODO] pull code to vector server
-    * [TODO] is there any debugging I need to do?
-    * [TODO] start running llama code for all 3 configs
+* [DONE] start running code for llama
+    * [DONE] commit code to github + merge to main branch
+    * [DONE] pull code to vector server
+    * [DONE] start running llama code for all 3 configs
 
 
 Next steps:
+* Collect responses for GPT model
 * determine if there's a bug in how masks are processed by SBERT
 * when we re-run analyses, make sure we re-run justification analyes with 
   updated splitting algorithm
