@@ -21,6 +21,8 @@ def stacked_grouped_bar_graph(data_frames, output_path, prompt_wording, label_co
     """
     n_df = len(data_frames)
     n_col = len(data_frames[0].columns)-2  # = total number of columns - number of columns before removed_rate
+    for data_frame in data_frames:
+        assert len(data_frame.columns) == n_col + 2
     n_ind = len(data_frames[0].index)
 
     save_figure = False

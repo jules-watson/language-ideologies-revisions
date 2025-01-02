@@ -232,8 +232,8 @@ def get_cluster_keywords(config_path, cluster_df, min_frequency=100, n_keywords=
     cluster_keywords_df.to_csv(output_path)
 
 
-def get_visualization_df(df, prompt_wording):
-    n_clusters = len(set(df["cluster"]))
+def get_visualization_df(df, prompt_wording, n_clusters):
+    # n_clusters = len(set(df["cluster"]))
     df_list = []
     for gender_label in ['neutral', 'masculine', 'feminine']:
         gender_df = df[df["role_noun_gender"] == gender_label]
@@ -255,17 +255,21 @@ def visualize_topics_by_llm(config_path, cluster_df):
     dirname = "/".join(config_path.split("/")[:-1])
 
     task_wording_dict = config['task_wording']
+    n_clusters = len(set(cluster_df["cluster"]))
+
     for prompt_wording in task_wording_dict.keys():
         prompt_df = cluster_df[cluster_df['task_wording'] == prompt_wording]
 
         model_dfs = [prompt_df[prompt_df["model_name"] == model_name] for model_name in MODEL_NAMES]
         visualization_dfs = [
-            get_visualization_df(df, prompt_wording) 
+            get_visualization_df(df, prompt_wording, n_clusters) 
             for df in model_dfs]
         
         # revision rates plot for the current prompt
         escaped_prompt_wording = prompt_wording.replace('/', ' ')        
         output_path = f'{dirname}/justification_bar_graph_{escaped_prompt_wording}.png'
+        print(output_path)
+        print(visualization_dfs)
         stacked_grouped_bar_graph(
             data_frames=visualization_dfs,
             output_path=output_path,
