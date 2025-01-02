@@ -19,6 +19,9 @@ def analyze_revisions(split_data, role_nouns_path, output_path):
     - whether or not original variant was removed
     - the gender of the variant within the revised sentence
     """
+    # Fill NaN values in 'revision' with empty strings
+    split_data['revision'] = split_data['revision'].fillna('')
+
     with open(role_nouns_path, 'r') as f:
         role_nouns = json.load(f)
         gender_list = gender_list_dict[len(role_nouns[0])]

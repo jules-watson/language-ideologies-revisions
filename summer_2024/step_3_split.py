@@ -10,11 +10,12 @@ import csv
 
 from constants import MODEL_NAME, EXPERIMENT_PATH
 from common import load_json
-from split_algos import meteor_similarity_split
+from split_algos import meteor_similarity_split, meteor_heuristic_split
 
 # Current splitting function
 split_func_dict = {
-    "meteor_similarity": meteor_similarity_split
+    "meteor_similarity": meteor_similarity_split,
+    "meteor_heuristic": meteor_heuristic_split
 }
 
 
