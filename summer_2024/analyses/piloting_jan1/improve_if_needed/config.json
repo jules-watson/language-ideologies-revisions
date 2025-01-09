@@ -28,7 +28,7 @@
       "sentence_format",
       "task_wording"
     ],
-    "split_func": "meteor_similarity",
+    "split_func": "meteor_heuristic",
     "split_func_args": {
       "alpha": 0.5,
       "beta": 2.0,

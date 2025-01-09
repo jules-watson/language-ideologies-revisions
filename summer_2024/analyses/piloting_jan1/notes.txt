@@ -28,9 +28,53 @@
     * [DONE] pull code to vector server
     * [DONE] start running llama code for all 3 configs
 
+* [DONE] start collecting responses for GPT models
+    * [DONE] try running part 2 script for one of the jan1 pilots
+    * [DONE] get GPT querying running
+    * [DONE] run locally in screens for all 3 pilots
+    * [DONE] turn on amphetamine so computer won't die
 
-Next steps:
-* Collect responses for GPT model
-* determine if there's a bug in how masks are processed by SBERT
-* when we re-run analyses, make sure we re-run justification analyes with 
-  updated splitting algorithm
+* [DONE] run splitting algorithm
+    * [DONE] Make a copy of piloting_pronouns_genders (raw files only) in jan1 (called "improve")
+    * [DONE] change "meteor_similarity" to "meteor_heuristic" in each of the jan1 configs
+    * [DONE] Go through and delete split algo files
+        * [DONE] Double check
+    * [DONE] run split algorithm for 
+        * [DONE] gpt-4o
+            * [x] improve
+                * [DONE] does splitting make more sense? YES!
+            * [x] improve if needed
+            * [x] revise
+            * [x] revise if needed
+        * [DONE] llama-3.1-8B-Instruct
+            * [x] improve
+            * [x] improve if needed
+            * [x] revise
+            * [x] revise if needed
+        * [DONE] Double check they're all split
+          
+* [DONE] determine if there's a bug in how masks are processed by SBERT
+  There's no bug - SBERT is processing masks correctly. I used a different tokenizer
+  for the keyword analysis, which is what was splitting "[MASK]" into "[", "MASK", "]"
+
+* [TODO] run justifications for 2, 3, 6 clusters
+  NOTE:
+    * 3 clusters is optimal for improve / piloting_pronouns_genders (updated splitting)
+    * 2 clusters is optimal for revise_if_needed (updated sentences to match piloting_pronouns_genders)
+    * 6 clusters *was* optimal for revise_if_needed (original mismatched sentence set)
+  
+  * [DONE] re-run step 6 for improve and revise_if_needed + verify that the n clust matches above
+  * [DONE] run step 4 for gpt + llama for improve_if_needed and revise
+      * [DONE] gpt
+          * [DONE] improve_if_needed
+          * [DONE] revise
+      * [DONE] llama
+          * [DONE] improve_if_needed
+          * [DONE] revise
+  * [DONE] run step 6 for 2, 3, 6 for all 4 wordings
+      * [DONE] improve
+      * [DONE] revise_if_needed
+      * [DONE] improve_if_needed
+      * [DONE] revise
+
+
