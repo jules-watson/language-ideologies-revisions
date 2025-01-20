@@ -227,13 +227,15 @@ def get_cluster_keywords(config_path, cluster_df, min_frequency=100, n_keywords=
             "cluster": cluster,
             "keywords": "\t".join(list(cluster_word_associations[f"cluster_{cluster}"].nlargest(n_keywords).index))
         })
+    n_cluster = len(set(cluster_df["cluster"]))
     cluster_keywords_df = pd.DataFrame(cluster_keywords_list)
-    output_path = config_path.replace("config.json", "cluster_keywords.csv")
+    output_path = config_path.replace(
+        "config.json", f"{n_cluster}_cluster_keywords.csv")
     cluster_keywords_df.to_csv(output_path)
 
 
-def get_visualization_df(df, prompt_wording):
-    n_clusters = len(set(df["cluster"]))
+def get_visualization_df(df, prompt_wording, n_clusters):
+    # n_clusters = len(set(df["cluster"]))
     df_list = []
     for gender_label in ['neutral', 'masculine', 'feminine']:
         gender_df = df[df["role_noun_gender"] == gender_label]
@@ -255,17 +257,21 @@ def visualize_topics_by_llm(config_path, cluster_df):
     dirname = "/".join(config_path.split("/")[:-1])
 
     task_wording_dict = config['task_wording']
+    n_clusters = len(set(cluster_df["cluster"]))
+
     for prompt_wording in task_wording_dict.keys():
         prompt_df = cluster_df[cluster_df['task_wording'] == prompt_wording]
 
         model_dfs = [prompt_df[prompt_df["model_name"] == model_name] for model_name in MODEL_NAMES]
         visualization_dfs = [
-            get_visualization_df(df, prompt_wording) 
+            get_visualization_df(df, prompt_wording, n_clusters) 
             for df in model_dfs]
         
         # revision rates plot for the current prompt
         escaped_prompt_wording = prompt_wording.replace('/', ' ')        
-        output_path = f'{dirname}/justification_bar_graph_{escaped_prompt_wording}.png'
+        output_path = f'{dirname}/{n_clusters}_cluster_justification_bar_graph_{escaped_prompt_wording}.png'
+        print(output_path)
+        print(visualization_dfs)
         stacked_grouped_bar_graph(
             data_frames=visualization_dfs,
             output_path=output_path,
@@ -273,7 +279,7 @@ def visualize_topics_by_llm(config_path, cluster_df):
             label_col="starting_variant")
 
 
-def main(config_path):
+def main(config_path, n_clust=None):
     # Load and prepare data for sbert
     justifications_processed_path = config_path.replace("config.json", "sbert_input_for_justifications.csv")
     if os.path.exists(justifications_processed_path):
@@ -302,11 +308,17 @@ def main(config_path):
     assert len(sbert_embeddings) == len(justifications_processed_df)
 
     # Cluster sbert embeddings
-    cluster_labels = cluster_sbert_embeddings(sbert_embeddings)
+    if n_clust is None:
+        cluster_labels = cluster_sbert_embeddings(sbert_embeddings)
+    else:
+        cluster_labels = cluster_sbert_embeddings(
+            sbert_embeddings, min_clust=n_clust, max_clust=n_clust)
     justifications_processed_df["cluster"] = list(cluster_labels)
     cluster_keywords = get_cluster_keywords(config_path, justifications_processed_df)
     visualize_topics_by_llm(config_path, justifications_processed_df)
 
 
 if __name__ == "__main__":
-    main(f"{EXPERIMENT_PATH}/config.json")
+    main(f"{EXPERIMENT_PATH}/config.json", n_clust=2)
+    main(f"{EXPERIMENT_PATH}/config.json", n_clust=3)
+    main(f"{EXPERIMENT_PATH}/config.json", n_clust=6)
