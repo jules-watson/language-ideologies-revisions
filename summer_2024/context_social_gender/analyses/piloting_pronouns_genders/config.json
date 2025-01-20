@@ -1,0 +1,10 @@
+{
+    "notes": "",
+    "domain": "role_nouns",
+    "role_nouns": "data/role_nouns_3_way_pilot.json",
+    "sentence_data": "/hal9000/datasets/AboutMe/about-me/individuals_pages/filtered_data.csv",
+    "task_wording": {
+      "simple": "{} I am a"
+    }
+  }
+  
