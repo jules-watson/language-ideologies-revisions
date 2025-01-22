@@ -78,3 +78,11 @@
       * [DONE] revise
 
 
+=== Jan 22, 2024 ===
+
+Number of optimal clusters by wording (updatetd splitting)
+* improve: 3
+* improve_if_needed: 5
+* revise: 5
+* revise_if_needed: 2
+
