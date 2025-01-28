@@ -35,6 +35,7 @@ def get_cluster_alignment_matrix(keywords_a, keywords_b):
     n_clusters = len(keywords_a)
 
     result = np.zeros((n_clusters, n_clusters))
+    overlapping_keywords = [[{}] * n_clusters for _ in range(n_clusters)]
 
     for i in range(n_clusters):
         for j in range(n_clusters):
@@ -47,8 +48,9 @@ def get_cluster_alignment_matrix(keywords_a, keywords_b):
             curr_jaccard_distance = len(curr_intersection) / len(curr_union)
 
             result[i, j] = curr_jaccard_distance
+            overlapping_keywords[i][j] = curr_intersection
     
-    return result
+    return result, overlapping_keywords
 
 
 def get_cluster_mapping(cluster_alignment_matrix):
@@ -108,7 +110,8 @@ def compute_keyword_alignment(keywords_a, keywords_b):
             map to each other in the cluster mapping.
     """
     # generate cluster alignment matrix
-    cluster_alignment_matrix = get_cluster_alignment_matrix(keywords_a, keywords_b)
+    cluster_alignment_matrix, overlapping_keywords = get_cluster_alignment_matrix(
+        keywords_a, keywords_b)
 
     # determine the cluster mapping
     cluster_mapping = get_cluster_mapping(cluster_alignment_matrix)
@@ -117,7 +120,9 @@ def compute_keyword_alignment(keywords_a, keywords_b):
     cluster_alignment_score = get_cluster_alignment_score(
         cluster_alignment_matrix, cluster_mapping)
 
-    return cluster_alignment_matrix, cluster_mapping, cluster_alignment_score
+    return (
+        cluster_alignment_matrix, overlapping_keywords, cluster_mapping,
+        cluster_alignment_score)
 
 
 def main(wordings, keywords_format_str, n_clusters):
@@ -130,7 +135,8 @@ def main(wordings, keywords_format_str, n_clusters):
     for wording_a, wording_b in itertools.combinations(wordings, 2):
 
         # compute cluster alignments, based on keywords
-        cluster_alignment_matrix, cluster_mapping, cluster_alignment_score = compute_keyword_alignment(
+        (cluster_alignment_matrix, overlapping_keywords, cluster_mapping, 
+         cluster_alignment_score) = compute_keyword_alignment(
             wording_to_keywords[wording_a],
             wording_to_keywords[wording_b]
         )
@@ -141,6 +147,10 @@ def main(wordings, keywords_format_str, n_clusters):
 
         cluster_mapping_output_path = f"{output_dir}/{n_clusters}_cluster_alignment_mapping_{wording_a}_{wording_b}.csv"
         np.savetxt(cluster_mapping_output_path, np.array(cluster_mapping), delimiter=",", fmt="%d")
+
+        overlapping_keywords_df = pd.DataFrame(overlapping_keywords)
+        overlapping_keywords_output_path = f"{output_dir}/{n_clusters}_overlapping_keywords_{wording_a}_{wording_b}.csv"
+        overlapping_keywords_df.to_csv(overlapping_keywords_output_path)
 
         # update wordings_matrix
         wording_a_index = wordings.index(wording_a)
