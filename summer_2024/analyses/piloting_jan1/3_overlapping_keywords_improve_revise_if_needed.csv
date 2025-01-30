@@ -1,4 +1,4 @@
 ,0,1,2
-0,set(),"{'language', 'reflect', 'aligning', 'Since', 'Pronoun', 'Gender-Neutral', 'he/him', 'align', 'aligns', 'Inclusive', 'gender-neutral', 'use', 'inclusive', 'Gender-neutral', 'gender', 'Language', 'neutrality', 'changed', 'identity', 'Term', 'friend', 'they/them', 'ensure', 'with', 'appropriate', 'pronouns', 'your', 'inclusivity', 'preference', 'nonbinary', 'gender-specific'}","{'-', 'changed', 'to', 'Changed'}"
-1,"{'may', 'outdated', 'be', 'an', 'somewhat', 'not', 'it', 'or', 'as', 'good', 'might', 'bit', 'but'}",set(),"{'Removed', 'wordy', 'original', 'phrase'}"
-2,"{'professional', 'business', 'formal', 'accurate', 'forecasts', 'being', 'just', 'weather', 'a', 'studies'}",set(),"{'concise', 'formal'}"
+0,set(),"{'with', 'Pronoun', 'your', 'appropriate', 'reflect', 'ensure', 'gender-specific', 'aligns', 'Term', 'changed', 'nonbinary', 'use', 'Since', 'pronouns', 'identity', 'Gender-Neutral', 'neutrality', 'he/him', 'align', 'they/them', 'aligning', 'Inclusive', 'preference', 'inclusivity', 'inclusive', 'gender', 'Gender-neutral', 'language', 'gender-neutral', 'friend', 'Language'}","{'Changed', '-', 'changed', 'to'}"
+1,"{'good', 'it', 'somewhat', 'might', 'bit', 'be', 'outdated', 'an', 'but', 'not', 'as', 'may', 'or'}",set(),"{'original', 'phrase', 'Removed', 'wordy'}"
+2,"{'professional', 'weather', 'studies', 'forecasts', 'formal', 'being', 'just', 'a', 'business', 'accurate'}",set(),"{'concise', 'formal'}"

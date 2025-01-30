@@ -10,8 +10,11 @@ different wordings and numbers of clusters. This will inform:
         our conditions).
 """
 
+import csv
 import itertools
+import networkx as nx
 import numpy as np 
+import os
 import pandas as pd
 
 
@@ -125,6 +128,73 @@ def compute_keyword_alignment(keywords_a, keywords_b):
         cluster_alignment_score)
 
 
+def generate_cluster_map_graph(wordings, n_clusters, output_dir):
+    g = nx.Graph()
+    for wording_a in wordings:
+        for wording_b in wordings:
+            
+            # load mappings between clusters for wording_a and wording_b
+            cluster_mapping_path = f"{output_dir}/{n_clusters}_cluster_alignment_mapping_{wording_a}_{wording_b}.csv"
+            if os.path.exists(cluster_mapping_path):
+                with open(cluster_mapping_path, "r") as f:
+                    csv_reader = csv.reader(f)
+                    
+                    # add edges indicating what clusters map to each other
+                    for node1, node2 in csv_reader:
+                        g.add_edge(f"{wording_a}.{node1}", f"{wording_b}.{node2}")
+    return g
+
+
+def is_recurring_cluster_theme(clique, wordings):
+    wordings_in_clique = [item.split(".")[0] for item in clique]
+    if set(wordings_in_clique) == set(wordings):
+        return True
+    return False
+
+
+def get_shared_keywords(d):
+    """d is a dict mapping wording: keywords
+    
+    it captures the keywords associated with a clique of clusters
+    that have been ideified as overlapping in keywords
+    """
+    result = None
+    for v in d.values():
+        if result is None:
+            result = set(v)
+        else:
+            result = result.intersection(set(v))
+    return result
+
+
+def identify_recurring_cluster_themes(wordings, n_clusters, output_dir, wording_to_keywords):
+    graph = generate_cluster_map_graph(wordings, n_clusters, output_dir)
+
+    # Identify recurring cluster themes 
+    # These are cliques in the graph where all wordings are represented
+    recurring_cluster_themes = []
+    for clique in nx.enumerate_all_cliques(graph):
+        if is_recurring_cluster_theme(clique, wordings):
+            recurring_cluster_themes.append(clique)
+
+    # identify keywords shared across all wordings + save recurring cluster themes to file
+    output_path = f"{output_dir}/{n_clusters}_recurring_cluster_themes.csv"
+    with open(output_path, "w") as f:
+        csv_writer = csv.DictWriter(f, fieldnames=["cluster_ids", "shared_keywords"] + wordings)
+        csv_writer.writeheader()
+        for clique in recurring_cluster_themes:
+            clique_tuples = [item.split(".") for item in clique]
+            curr_dict = {
+                wording: wording_to_keywords[wording][int(cluster_id)]
+                for wording, cluster_id in clique_tuples
+            }
+
+            curr_dict["shared_keywords"] = get_shared_keywords(curr_dict)
+            curr_dict["cluster_ids"] = clique
+
+            csv_writer.writerow(curr_dict)
+
+
 def main(wordings, keywords_format_str, n_clusters):
     # load dictionary mapping wordings to keywords
     wording_to_keywords = load_wording_to_keywords(wordings, keywords_format_str, n_clusters)
@@ -162,6 +232,9 @@ def main(wordings, keywords_format_str, n_clusters):
     wordings_matrix_output_path = f"{output_dir}/{n_clusters}_wordings_matrix.csv"
     wordings_df = pd.DataFrame(wordings_matrix, columns=wordings, index=wordings)
     wordings_df.to_csv(wordings_matrix_output_path)
+
+    # analyze overlapping clusters
+    identify_recurring_cluster_themes(wordings, n_clusters, output_dir, wording_to_keywords)
 
 
 if __name__ == "__main__":
