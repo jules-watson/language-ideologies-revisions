@@ -30,7 +30,6 @@ def add_prompt(data, role_noun, role_noun_set, sentence, task_wording):
     """
     Add one row to the stimuli.csv file.
     """
-    print("task wording:", task_wording)  
     for task_wording_label, task_wording in task_wording.items():
         data["role_noun"].append(role_noun)
         data["role_noun_set"].append(role_noun_set)
@@ -44,25 +43,20 @@ def main_role_nouns(config, output_dir):
     """
     Create the stimuli file for role nouns.
     """
-    role_nouns = load_json(config["role_nouns"]) 
     sentence_data = pd.read_csv(config["sentence_data"])
 
     data = collections.defaultdict(list)
 
-    # Iterate through the role nouns
-    for role_noun_set in role_nouns:
-        neutral_role_noun = role_noun_set[0] 
-        matching_rows = sentence_data[sentence_data['sentence'].str.contains(f"{neutral_role_noun}", case=False, na=False)]
-        selected_rows = matching_rows.sample(min(10, len(matching_rows)))
+    neutral_role_noun_rows = sentence_data[sentence_data['role_noun_gender'].str.lower() == 'neutral']
 
-        for _, row in selected_rows.iterrows():
-            sentence = row['sentence']
-            add_prompt(
-                    data=data,
-                    role_noun=neutral_role_noun,
-                    role_noun_set=role_noun_set,
-                    sentence=sentence,
-                    task_wording=config["task_wording"])
+    for _, row in neutral_role_noun_rows.iterrows():
+        add_prompt(
+                data=data,
+                role_noun=row['role_noun'],
+                role_noun_set=row['role_noun_set'],
+                sentence=row['sentence'],
+                task_wording=config["task_wording"])
+        
 
     df = pd.DataFrame(data)
     df.index.name = "index"
