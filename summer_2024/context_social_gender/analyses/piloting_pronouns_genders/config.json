@@ -5,7 +5,11 @@
     "sentence_data": "../data/piloting_pronouns_genders_sample.csv",
     "task_wording": {
       "simple": "I am a"
+<<<<<<< HEAD
     },
     "experiment_type": "single-token"
+=======
+    }
+>>>>>>> f1ffc69... updated config.json, implemented part_1_stimuli.py, added stimuli.csv
   }
   
