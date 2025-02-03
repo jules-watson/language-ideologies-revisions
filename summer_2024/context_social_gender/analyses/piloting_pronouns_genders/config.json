@@ -5,6 +5,7 @@
     "sentence_data": "../data/piloting_pronouns_genders_sample.csv",
     "task_wording": {
       "simple": "I am a"
-    }
+    },
+    "experiment_type": "single-token"
   }
   
