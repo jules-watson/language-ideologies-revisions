@@ -6,6 +6,6 @@
     "task_wording": {
       "simple": "I am a"
     },
-    "experiment_type": "single-token"
-  }
-  
+    "experiment_type": "single-token",
+    "single_next_tokens": ["man", "woman", "person"]
+}
