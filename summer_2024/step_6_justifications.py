@@ -319,6 +319,9 @@ def main(config_path, n_clust=None):
 
 
 if __name__ == "__main__":
-    main(f"{EXPERIMENT_PATH}/config.json", n_clust=2)
-    main(f"{EXPERIMENT_PATH}/config.json", n_clust=3)
-    main(f"{EXPERIMENT_PATH}/config.json", n_clust=6)
+    # main(f"{EXPERIMENT_PATH}/config.json", n_clust=2)
+    # main(f"{EXPERIMENT_PATH}/config.json", n_clust=3)
+    # main(f"{EXPERIMENT_PATH}/config.json", n_clust=6)
+
+    main(f"{EXPERIMENT_PATH}/config.json")
+
