@@ -102,9 +102,9 @@ def get_sentence_token_logprobs(logprobs, sentence_tokens):
     return np.array(result)
 
 
-def run_model(sentence, continuation):
+def run_model(sentence, continuation, is_single_token):
     """
-    Query the model for the log probability of a given variant. 
+    Query the model for the log probability of a given noun. 
     """
 
     # Tokenize the sentence
@@ -116,60 +116,84 @@ def run_model(sentence, continuation):
         # shape: [n_tokens, vocab_size]
         output_logits = model(input_ids=sentence_tokens.input_ids).logits[0]
 
-    # normalize to get probabilities -- make this a testable function
+    # Normalize to get probabilities
     logprobs = torch.log_softmax(output_logits, axis=1)
-    # assert torch.allclose(torch.sum(torch.exp(logprobs), axis=1), torch.tensor(1.).to("cuda"))
 
-    if isinstance(continuation, dict):
+    if is_single_token:
         logprob_dict = {}
-        for adj, adj_id in continuation.items():
-            # Access the log probability of the adjective as the last token continuation (last position means i = -1), j = id
-            adj_logprob = logprobs[-1, adj_id].item()
-            clean_adj = adj.lstrip(WHITESPACE_CHARACTER) # removes leading whitespace
-            logprob_dict[clean_adj] = adj_logprob
+        
+        for noun, noun_id in continuation.items():
+            # Access the log probability of the noun as the next token in the sequence
+            noun_logprob = logprobs[-1, noun_id].item()
+            
+            # Remove leading whitespace from the noun
+            noun_stripped = noun.lstrip(WHITESPACE_CHARACTER)
+            
+            # Store the log probability in the dictionary with the stripped noun as the key
+            logprob_dict[noun_stripped] = noun_logprob
+        
         return logprob_dict
     else:
-        # use normalized probabilities to compute the probability of the continuation -- make this a testable function
+        # Use normalized probabilities to compute the probability of the continuation
         sentence_logprobs = get_sentence_token_logprobs(logprobs, sentence_tokens)
         string_tokens = tokenizer.convert_ids_to_tokens(sentence_tokens["input_ids"][0])[1:]
-        return compute_probability(sentence_logprobs, string_tokens, continuation)  
+        return compute_probability(sentence_logprobs, string_tokens, continuation)
 
-
-def query_llama(output_path, loaded_sentences_df, continuation_col, model_name):
+def get_fieldnames(loaded_sentences_df, continuation, is_single_token):
     """
-    For each row in loaded_sentences_df, calculate the log probability of the continuation 
-    and save into output_path. 
+    Determine the fieldnames for the CSV output based on if the continuation is a sinlge or multiple tokens.
     """
-    if isinstance(continuation_col, dict): # continuation_col is dict if single-token
-        # Set fieldnames with one column per adjective
-        fieldnames = list(loaded_sentences_df.columns) + ["model"] + list(continuation_col.keys())
-    else: 
-        fieldnames = list(loaded_sentences_df.columns) + ["model", "logprob"]
+    base_fieldnames = list(loaded_sentences_df.columns) + ["model"]
+    
+    if is_single_token:  
+        continuation_fieldnames = list(continuation.keys())
+        return base_fieldnames + continuation_fieldnames
+    else:  
+        return base_fieldnames + ["logprob"]
 
+def create_output_row(row, fieldnames, model_name, continuation, is_single_token):
+    """
+    Create an output row for the CSV file with log probabilities of the next token(s).
+    """
+    output_row = {fname: row[fname] for fname in fieldnames if fname in row}
+    output_row["model"] = model_name
+    
+    if is_single_token:  
+        model_output = run_model(row["prompt"], continuation, is_single_token)
+        output_row.update(model_output)
+    else:  
+        output_row["logprob"] = run_model(row["prompt"], row[continuation], is_single_token)
+    
+    return output_row
+            
+
+def query_llama(output_path, loaded_sentences_df, continuation, model_name):
+    """
+    For each row in loaded_sentences_df, calculate the log probability of the 
+    next token(s) and save it to output_path. 
+    """
+    # continuation will only be a dict in the single-token case
+    is_single_token = isinstance(continuation, dict)
+    
+    # Determine fieldnames for the CSV output depending on if we have a single or multiple next tokens
+    fieldnames = get_fieldnames(loaded_sentences_df, continuation, is_single_token)
+    
+    # Open the output file and write the header
     with open(output_path, "w") as f:
         csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
         csv_writer.writeheader()
+        
         start_time = time.time()
         
-        for i,row in tqdm.tqdm(loaded_sentences_df.iterrows()):
-            output_row = {}
-            for fname in fieldnames:
-                if fname in row:
-                    output_row[fname] = row[fname]
-            
-            output_row["model"] = model_name
-
-            if isinstance(continuation_col, dict): 
-                model_output = run_model(row["prompt"], continuation_col)
-                output_row.update(model_output)
-            else:
-                output_row["logprob"] = run_model(row["prompt"], row[continuation_col])
-
+        # Process each row in the DataFrame
+        for _, row in tqdm.tqdm(loaded_sentences_df.iterrows(), total=loaded_sentences_df.shape[0]):
+            output_row = create_output_row(row, fieldnames, model_name, continuation, is_single_token)
             csv_writer.writerow(output_row)
+        
         end_time = time.time()
         
         return end_time - start_time
-            
+
         
 def main(config_path):  
     """
@@ -187,20 +211,20 @@ def main(config_path):
     output_path = f"{dirname}/{constants.MODEL_NAME}/logprobs.csv"
     experiment_type = config["experiment_type"]
 
-    if experiment_type=="multi-token": # multi-token case
-        continuation_col = config["continuation_col"]
-    elif experiment_type=="single-token": # single-token case
-        item_path = config.get("item_path")
-        item_df = pd.read_csv(item_path) #only considering case for adj for now 
-        single_token_adjectives = {}
-        # Add token IDs for single-token adjectives
-        for item in item_df["adjectives"]:
-            # item_token = MODEL_NAME_TO_WHITESPACE_CHARACTER[constants.MODEL_NAME] + adj
-            item_token = WHITESPACE_CHARACTER + item
+    # Determine the continuation column based on single or multi-token case
+    if experiment_type=="multi-token":  # multi-token case
+        continuation = config["continuation"]
+
+    elif experiment_type == "single-token":  # single-token case
+        nouns = config.get("single_next_tokens", [])
+        single_token_nouns = {}
+        # Add token IDs for single-token nouns
+        for noun in nouns:
+            token = WHITESPACE_CHARACTER + noun
             vocab = tokenizer.get_vocab()
-            if item_token in vocab:
-                single_token_adjectives[item] = vocab[item_token]
-        continuation_col = single_token_adjectives
+            if token in vocab:
+                single_token_nouns[noun] = vocab[token]
+        continuation = single_token_nouns
 
     if not os.path.exists(f"{dirname}/{constants.MODEL_NAME}"):
         os.mkdir(f"{dirname}/{constants.MODEL_NAME}")
@@ -209,14 +233,13 @@ def main(config_path):
     runtime_str = query_llama(
         output_path, 
         input_sentences_df, 
-        continuation_col=continuation_col,
+        continuation=continuation,
         model_name=constants.MODEL_NAME)
 
     with open(f"{dirname}/{constants.MODEL_NAME}/running_metadata.txt", "a") as metadata:
         metadata.write(f"{date}\nTotal prompts: {str(len(input_sentences_df))}\nDevice: {device}\n")
         metadata.write("Total seconds: " + str(runtime_str))
       
-
 
 if __name__ == "__main__":    
     assert("llama" in constants.MODEL_NAME.lower())
