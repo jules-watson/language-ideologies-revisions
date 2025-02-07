@@ -12,4 +12,4 @@
 source /h/jwatson/some_env/bin/activate
 
 # put your command here
-python step_2_huggingface_query.py
+python context_social_gender/part_2_huggingface_query.py

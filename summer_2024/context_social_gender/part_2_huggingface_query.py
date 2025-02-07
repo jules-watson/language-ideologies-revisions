@@ -16,6 +16,14 @@ import tqdm
 import csv
 import datetime
 import numpy as np
+import sys
+
+# Get the parent directory path
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Add parent directory to sys.path
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
 
 import constants
 from common import load_json
@@ -159,10 +167,10 @@ def create_output_row(row, fieldnames, model_name, continuation, is_single_token
     output_row["model"] = model_name
     
     if is_single_token:  
-        model_output = run_model(row["prompt"], continuation, is_single_token)
+        model_output = run_model(row["prompt_text"], continuation, is_single_token)
         output_row.update(model_output)
     else:  
-        output_row["logprob"] = run_model(row["prompt"], row[continuation], is_single_token)
+        output_row["logprob"] = run_model(row["prompt_text"], row[continuation], is_single_token)
     
     return output_row
             
@@ -244,7 +252,4 @@ def main(config_path):
 if __name__ == "__main__":    
     assert("llama" in constants.MODEL_NAME.lower())
     set_up_model()
-    # main("analyses/pilot_adjective/config.json")
-    # main("analyses/pilot_adjectives_expanded_single_token/config.json")
-    # main("analyses/pilot_context_gender_associations/config.json")
-    main("analyses/pilot_overt_stereotypes/config.json")
+    main(f"{constants.EXPERIMENT_PATH}/config.json")
