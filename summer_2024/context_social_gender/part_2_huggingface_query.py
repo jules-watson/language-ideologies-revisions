@@ -1,9 +1,9 @@
 """
-TODO: this needs to be adapted to fit our pipeline and prompts.
+Calculate the log probability of "man", "woman", and "person" as the next 
+single token for each sentence in the stimuli.csv file.
 
-You will want to use the single-token parts of this script
-(since we're looking at the probabilities of "man", "woman", and "person",
-which are each one token).
+Author: Xi (Joy) Wang
+Date: Feb 2025
 """
 
 
