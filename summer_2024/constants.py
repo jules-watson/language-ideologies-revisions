@@ -38,4 +38,4 @@ AN_NOUNS = {"anchor", "anchorman", "anchorwoman"}
 # EXPERIMENT_PATH = "analyses/piloting_jan1/revise"
 # EXPERIMENT_PATH = "analyses/piloting_jan1/revise_if_needed"
 
-EXPERIMENT_PATH = "context_social_gender/analyses/piloting_pronouns_genders"
+EXPERIMENT_PATH = "analyses/piloting_pronouns_genders"
