@@ -26,7 +26,7 @@ from common import load_json
 from constants import EXPERIMENT_PATH
 
 
-def add_prompt(data, role_noun, role_noun_set, sentence, task_wording):
+def add_prompt(data, role_noun, role_noun_set, sentence, sentence_format, task_wording):
     """
     Add one row to the stimuli.csv file.
     """
@@ -34,6 +34,7 @@ def add_prompt(data, role_noun, role_noun_set, sentence, task_wording):
         data["role_noun"].append(role_noun)
         data["role_noun_set"].append(role_noun_set)
         data["sentence"].append(sentence)
+        data["sentence_format"].append(sentence_format)
         data["task_wording"].append(task_wording_label)
         final_sentence = f"{sentence} {task_wording}"
         data["prompt_text"].append(final_sentence)
@@ -55,6 +56,7 @@ def main_role_nouns(config, output_dir):
                 role_noun=row['role_noun'],
                 role_noun_set=row['role_noun_set'],
                 sentence=row['sentence'],
+                sentence_format=row['sentence_format'],
                 task_wording=config["task_wording"])
         
 
