@@ -45,7 +45,7 @@ def clean_keywords(keyword_list):
     return keyword_list
 
 
-def load_justifications(config_paths):
+def load_justifications(config_paths, revised_to=None):
     # Load justifications into a single spreadsheet
     df = pd.DataFrame()
     for config_path in config_paths:
@@ -53,6 +53,17 @@ def load_justifications(config_paths):
         curr_df = pd.read_csv(justifications_processed_path)
         curr_df["prompt_wording"] = config_path.split("/")[-2]
         df = pd.concat([df, curr_df])
+    
+    # These are all cases that were revised
+    assert df["variant_removed"].all()
+
+    # filter based on what response was revised to
+    if isinstance(revised_to, str):
+        if revised_to == "alternative_wording":
+            df = df[df['variant_added'].isnull()]  # no other variant was added
+        else:  # one of masculine, neutral, feminine
+            df = df[df["variant_added"] == revised_to]
+    
     return df
 
 
@@ -140,13 +151,13 @@ def is_negative(justification):
 
 
 
-def analyze_justifications(method):
+def analyze_justifications(method, revised_to=None):
     """
     method: str in {"keywords", "categories"}
     """
 
     # load justifications
-    justifications_df = load_justifications(CONFIG_PATHS)
+    justifications_df = load_justifications(CONFIG_PATHS, revised_to=revised_to)
 
     # assess frequency of keywords in justifications
     if method == "keywords":
@@ -195,7 +206,8 @@ def analyze_justifications(method):
     count_df = justifications_df.groupby(["task_wording", "role_noun_gender"]).count()
     output_df["count"] = count_df[analysis_cols[0]] # Could be any column
 
-    output_df.to_csv(OUTPUT_PATH.format(method))
+    output_str = method if revised_to is None else f"{method}-{revised_to}"
+    output_df.to_csv(OUTPUT_PATH.format(output_str))
 
 
 def run_heuristic_algorithm(
@@ -267,7 +279,13 @@ def run_heuristic_algorithm(
 
 
 if __name__ == "__main__":
-    analyze_justifications(method="keywords")
+    # analyze_justifications(method="keywords")
 
     # run_heuristic_algorithm(mode="test")
-    analyze_justifications(method="categories")
+    # analyze_justifications(method="categories")
+
+    # analyze_justifications(method="keywords", revised_to="alternative_wording")
+    # analyze_justifications(method="categories", revised_to="alternative_wording")
+
+    analyze_justifications(method="keywords", revised_to="neutral")
+    analyze_justifications(method="categories", revised_to="neutral")
