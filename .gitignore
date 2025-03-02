@@ -32,3 +32,7 @@ pyvenv.cfg
 # Ignore symbolic links to Python binaries
 python
 python3
+
+# specific files
+summer_2024/random_scripts/mar1_analyses/contextual_emebddings.csv
+
