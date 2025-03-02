@@ -86,9 +86,14 @@ def analyze_justifications(
     themes_df = pd.read_csv(THEME_WORDS_PATH)
     themes_df["name"] = [item.split("\t")[0] for item in themes_df["seed_set"]]
     themes_df = themes_df.set_index("name")
+    theme_to_word_sets = {
+        theme: list(set(row["theme_words"].split("\t") + row["seed_set"].split("\t")))
+        for theme, row in themes_df.iterrows()
+    }
 
+    # Assess which jutifications contain the relevant keywords
     heuristic_functions = {
-        theme: lambda just, theme=theme: contains_words(just, words=themes_df.loc[theme]["theme_words"].split("\t"))
+        theme: lambda just, theme=theme: contains_words(just, words=theme_to_word_sets[theme])
         for theme in themes
     }
     for category, heuristic_fn in heuristic_functions.items():
@@ -106,7 +111,6 @@ def analyze_justifications(
         output_df = output_df.reindex(
             ['gender declaration nonbinary', 'gender declaration woman', 'gender declaration man'], 
             level='task_wording')
-
 
     # Add count column to output_df
     count_df = justifications_df.groupby([groupby_col]).count()
