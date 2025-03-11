@@ -1,0 +1,6 @@
+To generate data/role_noun_sample_mar7.csv (the sentence data file),
+I manually modified data/role_noun_sample_nov28.csv in the following ways:
+* changed "completed EMT training (Emergency Medical Technician)" -> "completed emergency medical technician training"
+* (other usages of EMT were automatically removed in creating the nov 28 file)
+
+
