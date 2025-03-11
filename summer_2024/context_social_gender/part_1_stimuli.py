@@ -26,7 +26,7 @@ from common import load_json
 from constants import EXPERIMENT_PATH
 
 
-def add_prompt(data, role_noun, role_noun_set, sentence, task_wording):
+def add_prompt(data, role_noun, role_noun_set, sentence, sentence_format, task_wording):
     """
     Add one row to the stimuli.csv file.
     """
@@ -34,6 +34,7 @@ def add_prompt(data, role_noun, role_noun_set, sentence, task_wording):
         data["role_noun"].append(role_noun)
         data["role_noun_set"].append(role_noun_set)
         data["sentence"].append(sentence)
+        data["sentence_format"].append(sentence_format)
         data["task_wording"].append(task_wording_label)
         final_sentence = f"{sentence} {task_wording}"
         data["prompt_text"].append(final_sentence)
@@ -55,24 +56,11 @@ def main_role_nouns(config, output_dir):
                 role_noun=row['role_noun'],
                 role_noun_set=row['role_noun_set'],
                 sentence=row['sentence'],
+                sentence_format=row['sentence_format'],
                 task_wording=config["task_wording"])
         
 
     df = pd.DataFrame(data)
-    df.index.name = "index"
-    output_path = f"{output_dir}/stimuli.csv"
-    df.to_csv(output_path)
-
-
-def main_jan1(config, output_dir):
-    sentences_df = pd.read_csv(config["sentence_data"])
-    prompts_df = pd.DataFrame(list(config["task_wording"].keys()), columns=["task_wording"])
-
-    df = pd.merge(sentences_df, prompts_df, how='cross')
-    df["prompt_text"] = [
-        f"{config['task_wording'][row['task_wording']]} {row['sentence']}" for _, row in df.iterrows()
-    ]
-
     df.index.name = "index"
     output_path = f"{output_dir}/stimuli.csv"
     df.to_csv(output_path)
@@ -85,13 +73,9 @@ def main(config_path):
     
     # Run the correct main function for the domain
     if config["domain"] == "role_nouns":
-        if ("stimuli_method" in config and 
-            config["stimuli_method"] == "jan1_piloting_pronouns_genders"):
-            main_jan1(config, config_dir)
-        else:
-            # This is the default for now - it is for piloting and
-            # downsamples sentences
-            main_role_nouns(config, config_dir)
+        # This is the default for now - it is for piloting and
+        # downsamples sentences
+        main_role_nouns(config, config_dir)
     else:
         raise ValueError(f"Domain type not supported: {config['domain']}")
     

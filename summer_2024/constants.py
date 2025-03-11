@@ -41,3 +41,4 @@ MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct"]
 # EXPERIMENT_PATH = "context_social_gender/analyses/piloting_pronouns_genders"
 
 EXPERIMENT_PATH = "analyses/full_revise_if_needed"
+
