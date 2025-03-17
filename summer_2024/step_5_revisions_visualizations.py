@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from common import load_json
 
+from random_scripts.plot_gender_association_scores import plot_gender_association_scores
+
 from matplotlib.colors import ListedColormap
 from constants import EXPERIMENT_PATH, MODEL_NAMES
 
@@ -179,27 +181,45 @@ def plot_justification_words(justification_freqs_df, output_path, desired_words=
                 dpi=700)
 
 
-def main(config):
-    dirname = "/".join(config.split("/")[:-1])
-    config_path = f"{dirname}/config.json"
-    config = load_json(config_path)
 
-    df_paths = [f'{dirname}/{model_name}/revision_stats.csv' for model_name in MODEL_NAMES]
-    dfs = [pd.read_csv(df_path) for df_path in df_paths]
+
+
+def main(config):
+    dirname = "/".join(config.split("/")[:-1])  
+    config_path = f"{dirname}/config.json"  # path to the config file
+    config = load_json(config_path)  # load the config file
+
+    df_paths = [f'{dirname}/{model_name}/revision_stats.csv' for model_name in MODEL_NAMES]  # for every model, retrieve the path to the revision_stats csv 
+    dfs = [pd.read_csv(df_path) for df_path in df_paths]  # load the revision_stats csvs for every model as dataframes
     
-    task_wording_dict = config['task_wording']
-    for prompt_wording in task_wording_dict.keys():
+    task_wording_dict = config['task_wording']  # get the task wording dict 
+    for prompt_wording in task_wording_dict.keys():  # every task wording name
     
-        filtered_dfs = [df[df['prompt_wording'] == prompt_wording] for df in dfs]
+        filtered_revision_stats_dfs = [df[df['prompt_wording'] == prompt_wording] for df in dfs] # filter the dataframes to keep only the rows for the current prompt wording
 
         # Escape slashes in prompt_wording
         escaped_prompt_wording = prompt_wording.replace('/', ' ')        
         
         # revision rates plot for the current prompt
         output_path = f'{dirname}/revision_bar_graph_{escaped_prompt_wording}.png'
-        plot_revision_rates(data_frames=filtered_dfs,
+        plot_revision_rates(data_frames=filtered_revision_stats_dfs,
                             output_path=output_path,
                             prompt_wording=prompt_wording)
+
+        # plot sentences' feminine and genderedness scores against their revision status
+        if prompt_wording == 'unknown gender' and 'gender_association_scores' in config: 
+            revision_df_paths = [f'{dirname}/{model_name}/revision.csv' for model_name in MODEL_NAMES]  # for every model, retrieve the path to the revision csv 
+            revision_dfs = [pd.read_csv(revision_df_path) for revision_df_path in revision_df_paths]  # load the revision csvs for every model as dataframes
+            filtered_revision_dfs = [df[df['task_wording'] == 'unknown gender'] for df in revision_dfs]
+
+            gender_associations_df = pd.read_csv(config['gender_association_scores'])
+
+            plot_gender_association_scores(
+                data_frames=filtered_revision_dfs,
+                output_dir=dirname,
+                model_names=MODEL_NAMES, 
+                gender_associations_df=gender_associations_df
+            )
 
     # justification word counts plot
     # justification_freqs_df = pd.read_csv(f"{dirname}/justification_word_frequencies.csv")
@@ -208,6 +228,7 @@ def main(config):
     #                          output_path = output_path,
     #                          desired_words=['professional', 'tone', 'clarity', 'inclusive', 'engaging'])
 
+        
 
 
 if __name__=="__main__":
