@@ -11,14 +11,15 @@ REQUESTS_PER_MINUTE_LIMIT = 10000
 #MODEL_NAME = "gpt-3.5-turbo"
 #MODEL_NAME = "gpt-4-turbo"
 # MODEL_NAME = "gpt-4o"
-MODEL_NAME = "llama-3.1-8B-Instruct"
+# MODEL_NAME = "llama-3.1-8B-Instruct"
+MODEL_NAME = "gemma-2-9b-it"
 
 # FOR context_social_gender analysis (non-Instruct model)
 # MODEL_NAME = "llama-3.1-8B"
 
 # MODEL_NAMES = ["gpt-3.5-turbo", 'gpt-4-turbo', 'gpt-4o']
 # MODEL_NAMES = ['gpt-3.5-turbo', 'gpt-4o']
-MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct"]
+MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct", "gemma-2-9b-it"]
 
 # AN_NOUNS = {"anchor", "anchorman", "anchorwoman"}
 

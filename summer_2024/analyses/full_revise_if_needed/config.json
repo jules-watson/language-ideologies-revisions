@@ -37,6 +37,7 @@
     "query_api_args": {
       "num_responses": 1,
       "max_tokens_per_response": 500
-    }
+    },
+    "n_shards": 4
   }
   
