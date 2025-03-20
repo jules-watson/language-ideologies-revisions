@@ -1,0 +1,11 @@
+{
+    "notes": "",
+    "domain": "mar7_full_analysis",
+    "role_nouns": "data/role_nouns_expanded.csv",
+    "sentence_data": "data/role_noun_sample_mar7.csv",
+    "task_wording": {
+      "simple": "I am a"
+    },
+    "experiment_type": "single-token",
+    "single_next_tokens": ["man", "woman", "person"]
+}

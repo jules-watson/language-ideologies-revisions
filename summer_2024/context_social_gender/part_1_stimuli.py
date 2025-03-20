@@ -66,6 +66,48 @@ def main_role_nouns(config, output_dir):
     df.to_csv(output_path)
 
 
+def main_mar7_full_analysis(config, output_dir):
+    
+    # load role noun sets
+    role_nouns_df = pd.read_csv(config["role_nouns"])
+    role_nouns_df["index"] = role_nouns_df["neutral"]
+    role_nouns_df = role_nouns_df.set_index("index")
+
+    # load sentence data
+    about_me_data = pd.read_csv(config["sentence_data"], index_col=0)
+
+    data = collections.defaultdict(list)
+    role_noun_genders = ["neutral", "feminine", "masculine"]
+
+    for _, row in about_me_data.iterrows():
+        sentence = row['sentence_processed']
+        role_noun_original = row["role_noun"]
+        role_noun_neutral = row["role_noun_set"]
+        role_noun_set = [
+            role_nouns_df.loc[role_noun_neutral][curr_gender]
+            for curr_gender in role_noun_genders
+        ]
+
+        # make sentence template
+        assert sentence.count(role_noun_original) == 1
+        sentence_format = sentence.replace(role_noun_original, '[ROLE NOUN]')
+        new_sentence = sentence_format.replace('[ROLE NOUN]', role_noun_neutral)
+
+        # This adds a prompt for the task wording
+        add_prompt(
+            data=data,
+            role_noun=role_noun_neutral,
+            role_noun_set=role_noun_set,
+            sentence=new_sentence,
+            sentence_format=sentence_format,
+            task_wording=config["task_wording"])
+
+    df = pd.DataFrame(data)
+    df.index.name = "index"
+    output_path = f"{output_dir}/stimuli.csv"
+    df.to_csv(output_path)
+
+
 def main(config_path):
     # Load the config
     config = load_json(config_path)
@@ -76,6 +118,8 @@ def main(config_path):
         # This is the default for now - it is for piloting and
         # downsamples sentences
         main_role_nouns(config, config_dir)
+    elif config["domain"] == "mar7_full_analysis":
+        main_mar7_full_analysis(config, config_dir)
     else:
         raise ValueError(f"Domain type not supported: {config['domain']}")
     
