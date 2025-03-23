@@ -23,7 +23,8 @@ import torch
 
 from constants import (
     MODEL_NAME,
-    EXPERIMENT_PATH
+    EXPERIMENT_PATH,
+    USE_SHARDS
 )
 from common import load_json, load_csv
 
@@ -44,7 +45,8 @@ from transformers import pipeline
 #    -> possibly by setting batch + passing multiple samples at once
 MODEL_NAME_TO_MODEL_PATH = {
     "llama-3.1-8B-Instruct": "/scratch/ssd004/scratch/jwatson/meta-llama/Meta-Llama-3.1-8B-Instruct",
-    "gemma-2-9b-it": "google/gemma-2-9b-it"
+    "gemma-2-9b-it": "google/gemma-2-9b-it",
+    "Mistral-Nemo-Instruct-2407": "mistralai/Mistral-Nemo-Instruct-2407"
 }
 
 
@@ -169,7 +171,7 @@ def main(config):
 
     config = load_json(config_path)
 
-    if "n_shards" in config:
+    if "n_shards" in config and USE_SHARDS:
 
         # Split into shards if needed for this model (skip if already done)
         n_shards = config["n_shards"]
@@ -205,7 +207,7 @@ def main(config):
         metadata.write("\nTotal seconds: " + str(query_time))
 
     # Merge shards, if they're all done.
-    if "n_shards" in config:
+    if "n_shards" in config and USE_SHARDS:
         n_shards = config["n_shards"]
         processed_path_format_str = f"{dirname}/{MODEL_NAME}/" + "processed-{}-of" + f"-{n_shards}.csv"
         if all_shards_complete(processed_path_format_str, n_shards):
