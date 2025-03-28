@@ -8,9 +8,10 @@ Date: Aug 2024
 import pandas as pd
 import json
 import ast
+import re
 
 from common import load_json, load_csv, gender_list_dict
-from constants import EXPERIMENT_PATH, MODEL_NAME
+from constants import EXPERIMENT_PATH, MODEL_NAMES
 
 
 def analyze_revisions(split_data, role_nouns_path, output_path):
@@ -22,11 +23,21 @@ def analyze_revisions(split_data, role_nouns_path, output_path):
     # Fill NaN values in 'revision' with empty strings
     split_data['revision'] = split_data['revision'].fillna('')
 
-    with open(role_nouns_path, 'r') as f:
-        role_nouns = json.load(f)
-        gender_list = gender_list_dict[len(role_nouns[0])]
-    
-    split_data['variant_removed'] = split_data.apply(lambda row: row['role_noun'] not in row['revision'], axis=1)
+    if role_nouns_path.endswith(".json"):
+        with open(role_nouns_path, 'r') as f:
+            role_nouns = json.load(f)
+            gender_list = gender_list_dict[len(role_nouns[0])]
+    else:  # it's a csv
+        assert role_nouns_path.endswith(".csv")
+        role_nouns_df = pd.read_csv(role_nouns_path)
+        role_nouns_df["index"] = role_nouns_df["neutral"]
+        role_nouns_df = role_nouns_df.set_index("index")
+
+    split_data['variant_removed'] = split_data.apply(
+        lambda row: re.search(
+                r'\b(' + row['role_noun'] +  r')\b', row['revision'], re.IGNORECASE
+            ) is None, axis=1)
+
 
     # Function to check if the sentence contains any role noun other than the first column role noun
     def check_variant_addition(row):
@@ -34,8 +45,22 @@ def analyze_revisions(split_data, role_nouns_path, output_path):
         primary_role = row['role_noun']
 
         for i, role in enumerate(role_nouns):
-            if role != primary_role and role in row['revision']:
-                return gender_list[i]
+            role_regex = re.compile(r'\b(' + role +  r')\b', re.IGNORECASE)
+            if role != primary_role and role_regex.search(row['revision']):
+                
+                if role_nouns_path.endswith(".json"):
+                    return gender_list[i]
+                else:
+                    assert role_nouns_path.endswith(".csv")
+                    neutral_role = role_nouns[0]
+                    row = role_nouns_df.loc[neutral_role]
+                    if role == neutral_role:
+                        return "neutral"
+                    if role == row["feminine"]:
+                        return "feminine"
+                    if role == row["masculine"]:
+                        return "masculine"
+
         return 'None'
 
     split_data['variant_added'] = split_data.apply(check_variant_addition, axis=1)
@@ -57,10 +82,8 @@ def compute_stats(rev_data, output_path):
 
     # perform proportion calculations for each prompt wording
     for prompt_wording, prompt_df in rev_data.groupby("task_wording"):
-        print(f'Analyzing prompt wording {prompt_wording}')
         # calculate proportions for each gender variant
         for gender in gender_list:
-            print(f'\tAnalyzing gender {gender}')
             filtered_data = prompt_df[prompt_df['role_noun_gender'] == gender]
             proportions_row = {
                 'prompt_wording': prompt_wording,
@@ -74,26 +97,27 @@ def compute_stats(rev_data, output_path):
             proportions_data.append(proportions_row)
 
     proportions_df = pd.DataFrame(proportions_data)
-    print(proportions_df)
 
     proportions_df.to_csv(f'{output_path}/revision_stats.csv', index=False)
 
 
-def main(config):
-    print(f"Calculating revision statistics for: {MODEL_NAME}")
+def main(config_path):
 
-    dirname = "/".join(config.split("/")[:-1])
-    config_path = f"{dirname}/config.json"
-    split_path = f"{dirname}/{MODEL_NAME}/split.csv"
-
+    print(f"config: {config_path}")
+    dirname = "/".join(config_path.split("/")[:-1])
     config = load_json(config_path)
 
-    split_data = load_csv(split_path)
-    role_nouns_path = config['role_nouns']
-    output_path=f"{dirname}/{MODEL_NAME}"
+    for model_name in MODEL_NAMES:
 
-    revision_data = analyze_revisions(split_data, role_nouns_path, output_path)
-    compute_stats(revision_data, output_path)
+        print(f"Calculating revision statistics for: {model_name}")
+        
+        split_path = f"{dirname}/{model_name}/split.csv"
+        split_data = load_csv(split_path)
+        role_nouns_path = config['role_nouns']
+        output_path=f"{dirname}/{model_name}"
+
+        revision_data = analyze_revisions(split_data, role_nouns_path, output_path)
+        compute_stats(revision_data, output_path)
 
 
 if __name__ == "__main__":

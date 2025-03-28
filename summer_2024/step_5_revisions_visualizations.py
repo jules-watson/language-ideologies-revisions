@@ -18,18 +18,27 @@ from matplotlib.colors import ListedColormap
 from constants import EXPERIMENT_PATH, MODEL_NAMES
 
 # Colors for revision bar graph
+# base_colors = [
+#     (0/255, 121/255, 255/255, 1),    # blue - alternative wording
+#     (0/255, 223/255, 162/255, 1),    # green - neutral
+#     (255/255, 165/255, 0/255, 1),  # orange - masculine
+#     (255/255, 0/255, 96/255, 1)      # red - feminine
+# ]
+
 base_colors = [
-    (0/255, 121/255, 255/255, 1),    # blue
-    (0/255, 223/255, 162/255, 1),    # green
-    (255/255, 165/255, 0/255, 1),  # orange
-    (255/255, 0/255, 96/255, 1)      # red
+    (.28, .51, .40, 1),  # green - alternattive wording
+    (.37, .35, .62, 1),    # blue-purple - neutral
+    (.92, .68, .32, 1),    # yellow - masculine
+    (.74, .35, .27, 1)      # orange - feminine
 ]
 
 model_names_shortened = {
     'gpt-3.5-turbo': 'GPT-3.5',
     'gpt-4-turbo': 'GPT-4',
-    'gpt-4o': 'GPT-4o',
-    'llama-3.1-8B-Instruct': 'Llama-3.1-8B'
+    'gpt-4o': 'GPT',
+    'llama-3.1-8B-Instruct': 'llama',
+    'gemma-2-9b-it': 'gemma',
+    'Mistral-Nemo-Instruct-2407': 'mistral'
 }
 
 
@@ -56,7 +65,7 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
         axe = plt.subplot(111)
         save_figure = True
 
-    alphas = [0.7, 0.4, 1]
+    alphas = [0.4, 0.6, 0.8, 1]
     for i, df in enumerate(data_frames):  # for each dataframe
         alpha = alphas[i]
         colormap = ListedColormap([
@@ -85,33 +94,38 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
     for item in xticks:
         if n_df == 2:
             model_ticks += [item - xtick_offset, item + xtick_offset]
-        else:
+        elif n_df == 3:
             model_ticks += [item - xtick_offset, item + xtick_offset, item + 3*xtick_offset]
-    xticks = sorted(list(xticks) + model_ticks)
+        elif n_df == 4:
+            # model_ticks += [item - 3*xtick_offset, item - xtick_offset, item + xtick_offset, item + 3*xtick_offset]
+            model_ticks += [item - 2*xtick_offset, item, item + 2*xtick_offset, item + 4*xtick_offset]
+    # xticks = sorted(list(xticks) + model_ticks)
+    xticks = sorted(model_ticks)
 
     index_items = list(df.index)
     xtick_labels = []
     for item in index_items:
         labels = [model_names_shortened[model_name] for model_name in MODEL_NAMES]
-        labels.insert(1, '\n')
+        # labels = [1, 2, 3, 4]
+        # labels.insert(1, '\n')
         xtick_labels += (labels)
 
     axe.set_xticks(xticks)
-    axe.set_xticklabels(xtick_labels, rotation=0, fontsize=8)
+    axe.set_xticklabels(xtick_labels, rotation=45, fontsize=8)
     axe.tick_params(axis=u'both', which=u'both',length=0)
 
     # Create a new axis below the primary x-axis for gender labels
     axe2 = axe.secondary_xaxis('bottom')
     axe2.xaxis.set_ticks_position('none') 
     axe2.spines['bottom'].set_visible(False)  # Hides the horizontal line (spine)
-    axe2.set_xticks((np.arange(0, 2 * n_ind, 2) + xtick_offset) / 2.)
-    axe2.set_xticklabels(['neutral', 'masculine', 'feminine'])
+    axe2.set_xticks((np.arange(0, 2 * n_ind, 2) + xtick_offset * 3) / 2.)
+    axe2.set_xticklabels(['\n\nneutral', '\n\nmasculine', '\n\nfeminine'])
     axe2.spines['bottom'].set_position(('outward', 8))  # Adjust the distance of the secondary axis below
 
-    axe.set_xlabel("Role noun gender in original sentence", labelpad=10)
+    axe.set_xlabel("\nRole noun gender in original sentence", labelpad=10)
     axe.set_ylabel("Proportion")
 
-    axe.set_title(f"Revision rates for {EXPERIMENT_PATH} - {prompt_wording}", pad=60)
+    axe.set_title(f"Revision rates for: {prompt_wording}", pad=60)
     axe.set_xlim(xticks[0] - xtick_offset * 4, xticks[-1] + xtick_offset * 4)
     axe.set_ylim(0, 1)
 
@@ -125,7 +139,7 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
     if save_figure:
         plt.savefig(output_path, #bbox_extra_artists=(l1,),
                     bbox_inches='tight',
-                    dpi=700)
+                    dpi=300)
 
 
 def plot_justification_words(justification_freqs_df, output_path, desired_words=None):
