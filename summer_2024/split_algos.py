@@ -39,6 +39,12 @@ def meteor_heuristic_split(original, response, split_func_args):
        This sentence is the revision.
     6. Anything following that is the justification.
     """
+    if split_func_args.get("trim_option2", False):
+        # Remove text after "option 2" - added for gemini model, which often lists multiple options
+        option2_start = re.search(r"(\*)*option 2", response, re.IGNORECASE)
+        if option2_start:
+            response = response[:option2_start.start()].strip()
+
     response_sentences = sent_tokenize(response)
     # print("Tokenized sentences:\n", response_sentences)   
 
@@ -116,7 +122,8 @@ def meteor_heuristic_split(original, response, split_func_args):
         return stripped_revision, stripped_justification
     else:
         return None, None
-    
+
+
 def meteor_similarity_split(original, response, split_func_args):
     """
     Strategy: 

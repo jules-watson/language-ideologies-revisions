@@ -7,12 +7,14 @@ Date: May 2024
 
 import pandas as pd
 import csv
+import tqdm
 
-from constants import MODEL_NAME, EXPERIMENT_PATH
+from constants import MODEL_NAMES, EXPERIMENT_PATH
 from common import load_json
 from split_algos import meteor_similarity_split, meteor_heuristic_split
 
-# Current splitting function
+
+# Current splitting functions
 split_func_dict = {
     "meteor_similarity": meteor_similarity_split,
     "meteor_heuristic": meteor_heuristic_split
@@ -25,6 +27,10 @@ def load_processed(data_path):
     """
     result = pd.read_csv(data_path)
     result["usage"] = [eval(item) for item in result["usage"]]
+    
+    if 'Unnamed: 0' in result.columns:
+        result = result.drop('Unnamed: 0', axis=1)
+    
     return result
 
 
@@ -42,7 +48,7 @@ def split(config, processed, split_path):
         csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
         csv_writer.writeheader()
 
-        for _, row in processed.iterrows():
+        for _, row in tqdm.tqdm(processed.iterrows()):
             split_row = row.to_dict()
 
             # Split using corresponding splitting function; will return None, None if unsuccessful.
@@ -60,26 +66,26 @@ def condense(split_path, split_condensed_path, cols):
     split_condensed_df.to_csv(split_condensed_path, index=False)
     
 
-def main(config):
+def main(config_path):
     """
     For each response: split the response into revision and justification.
     """
-    print(f"Splitting model: {MODEL_NAME}")
-    print(f"config: {config}")
-
-    dirname = "/".join(config.split("/")[:-1])
-    config_path = f"{dirname}/config.json"
-    processed_path = f"{dirname}/{MODEL_NAME}/processed.csv"
-    split_path = f"{dirname}/{MODEL_NAME}/split.csv"
-
+    print(f"config: {config_path}")
+    dirname = "/".join(config_path.split("/")[:-1])
     config = load_json(config_path)
-    processed = load_processed(processed_path)
 
-    split(config, processed, split_path) 
+    for model_name in MODEL_NAMES:
 
-    # Created a split_condensed.csv file with only the original sentence, revision, and justification
-    split_condensed_path = f"{dirname}/{MODEL_NAME}/split_condensed.csv"
-    condense(split_path, split_condensed_path, ['index', 'sentence', 'revision', 'justification'])
+        print(f"Splitting model: {model_name}")
+        processed_path = f"{dirname}/{model_name}/processed.csv"
+        split_path = f"{dirname}/{model_name}/split.csv"
+
+        processed = load_processed(processed_path)
+        split(config, processed, split_path) 
+
+        # Created a split_condensed.csv file with only the original sentence, revision, and justification
+        split_condensed_path = f"{dirname}/{model_name}/split_condensed.csv"
+        condense(split_path, split_condensed_path, ['index', 'sentence', 'revision', 'justification'])
 
 
 if __name__ == "__main__":
