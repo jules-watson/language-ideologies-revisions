@@ -1,0 +1,47 @@
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: changed ~ original_masc + original_fem + context_fem + context_neut +  
+    original_masc * context_fem + original_fem * context_masc +  
+    original_gend * context_neut + (1 | sentence_format) + (1 |  
+    role_noun_set)
+   Data: data
+Control: glmerControl(optimizer = "bobyqa")
+
+     AIC      BIC   logLik deviance df.resid 
+  1737.5   1791.2   -858.8   1717.5     1571 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.2492 -0.5217 -0.2931  0.6032  3.9462 
+
+Random effects:
+ Groups          Name        Variance Std.Dev.
+ sentence_format (Intercept) 1.463    1.210   
+ role_noun_set   (Intercept) 1.695    1.302   
+Number of obs: 1581, groups:  sentence_format, 527; role_noun_set, 50
+
+Fixed effects:
+                           Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                 -1.8998     0.5220  -3.640 0.000273 ***
+original_masc                1.3262     0.5065   2.618 0.008838 ** 
+original_fem                 1.5170     0.5071   2.991 0.002777 ** 
+context_fem                 -1.1770     0.5677  -2.073 0.038156 *  
+context_neut                -0.9269     0.7581  -1.223 0.221492    
+original_masc:context_fem    0.9008     0.6386   1.411 0.158389    
+original_fem:context_masc   -0.5377     0.6382  -0.843 0.399503    
+context_neut:original_gend   0.8995     0.7684   1.171 0.241778    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) orgnl_m orgnl_f cntxt_f cntxt_n orgnl_m:_ orgnl_f:_
+originl_msc -0.653                                                    
+original_fm -0.655  0.835                                             
+context_fem -0.340  0.254   0.252                                     
+context_net  0.768 -0.578  -0.578   0.103                             
+orgnl_msc:_  0.213 -0.422  -0.202  -0.659  -0.072                     
+orgnl_fm:c_ -0.218  0.205   0.424   0.656   0.070  -0.587             
+cntxt_nt:r_ -0.559  0.789   0.789  -0.079  -0.725   0.100    -0.100   
+fit warnings:
+fixed-effect model matrix is rank deficient so dropping 2 columns / coefficients

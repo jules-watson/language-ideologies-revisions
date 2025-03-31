@@ -1,0 +1,21 @@
+\begin{tabular}{lllll}
+\toprule
+ & gpt-4o & llama-3.1-8B-Instruct & gemma-2-9b-it & Mistral-Nemo-Instruct-2407 \\
+\midrule
+(Intercept) & \cellcolor[HTML]{dbd9d9} -5.01 & \cellcolor[HTML]{dbd9d9} -3.39 & \cellcolor[HTML]{dbd9d9} -1.37 & \cellcolor[HTML]{dbd9d9} -3.93 \\
+original_masc & \cellcolor[HTML]{bdffea} 1.39 & \cellcolor[HTML]{bdffea} 1.82 & \cellcolor[HTML]{bdffea} 0.42 & \cellcolor[HTML]{bdffea} 2.43 \\
+original_fem & \cellcolor[HTML]{bdffea} 1.89 & \cellcolor[HTML]{bdffea} 2.71 & \cellcolor[HTML]{bdffea} 0.97 & \cellcolor[HTML]{bdffea} 3.31 \\
+context_fem & 0.67 & -0.18 & 0.53 & 0.84 \\
+context_neut & -0.47 & \cellcolor[HTML]{dbd9d9} -1.30 & 0.12 & -1.10 \\
+prompt_gender_dec & \cellcolor[HTML]{bdffea} 2.81 & \cellcolor[HTML]{bdffea} 1.19 & \cellcolor[HTML]{bdffea} 1.01 & \cellcolor[HTML]{bdffea} 1.28 \\
+prompt_pronoun_dec & \cellcolor[HTML]{bdffea} 2.40 & \cellcolor[HTML]{bdffea} 0.95 & \cellcolor[HTML]{bdffea} 0.95 & \cellcolor[HTML]{bdffea} 0.94 \\
+prompt_masc & \cellcolor[HTML]{dbd9d9} 0.41 & 0.23 & 0.11 & 0.03 \\
+prompt_fem & 0.25 & \cellcolor[HTML]{dbd9d9} 0.28 & -0.06 & 0.06 \\
+original_masc:context_fem & -0.37 & 0.26 & -0.19 & -0.53 \\
+original_fem:context_masc & \cellcolor[HTML]{bdffea} 0.84 & \cellcolor[HTML]{bdffea} 0.60 & \cellcolor[HTML]{bdffea} 0.53 & \cellcolor[HTML]{bdffea} 0.78 \\
+context_neut:original_gend & \cellcolor[HTML]{bdffea} 1.62 & \cellcolor[HTML]{bdffea} 1.68 & 0.30 & \cellcolor[HTML]{bdffea} 2.55 \\
+original_masc:prompt_fem & \cellcolor[HTML]{bdffea} 3.98 & \cellcolor[HTML]{bdffea} 1.47 & \cellcolor[HTML]{bdffea} 1.54 & \cellcolor[HTML]{bdffea} 2.05 \\
+original_fem:prompt_masc & \cellcolor[HTML]{bdffea} 3.22 & \cellcolor[HTML]{bdffea} 1.61 & \cellcolor[HTML]{bdffea} 1.46 & \cellcolor[HTML]{bdffea} 1.53 \\
+original_gend:prompt_neut & \cellcolor[HTML]{bdffea} 3.56 & \cellcolor[HTML]{bdffea} 1.41 & \cellcolor[HTML]{bdffea} 1.11 & \cellcolor[HTML]{bdffea} 1.94 \\
+\bottomrule
+\end{tabular}

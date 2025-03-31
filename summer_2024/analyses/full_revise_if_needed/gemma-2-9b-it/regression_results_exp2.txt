@@ -1,0 +1,46 @@
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: changed ~ original_masc + original_fem + context_fem + context_neut +  
+    prompt_gender_dec + prompt_pronoun_dec + prompt_masc + prompt_fem +  
+    original_masc * context_fem + original_fem * context_masc +  
+    original_gend * context_neut + original_masc * prompt_fem +  
+    original_fem * prompt_masc + original_gend * prompt_neut +  
+    (1 | sentence_format) + (1 | role_noun_set)
+   Data: data
+Control: glmerControl(optimizer = "bobyqa")
+
+     AIC      BIC   logLik deviance df.resid 
+ 14211.9  14340.4  -7088.9  14177.9    14212 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-7.9590 -0.5609  0.1182  0.5557  6.4809 
+
+Random effects:
+ Groups          Name        Variance Std.Dev.
+ sentence_format (Intercept) 2.122    1.457   
+ role_noun_set   (Intercept) 1.507    1.227   
+Number of obs: 14229, groups:  sentence_format, 527; role_noun_set, 50
+
+Fixed effects:
+                           Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                -1.37043    0.33255  -4.121 3.77e-05 ***
+original_masc               0.41765    0.16345   2.555  0.01061 *  
+original_fem                0.97493    0.16434   5.933 2.98e-09 ***
+context_fem                 0.53128    0.31109   1.708  0.08767 .  
+context_neut                0.12286    0.44149   0.278  0.78079    
+prompt_gender_dec           1.01039    0.05390  18.745  < 2e-16 ***
+prompt_pronoun_dec          0.95148    0.05375  17.703  < 2e-16 ***
+prompt_masc                 0.11294    0.08734   1.293  0.19598    
+prompt_fem                 -0.06281    0.08773  -0.716  0.47398    
+original_masc:context_fem  -0.18769    0.18763  -1.000  0.31714    
+original_fem:context_masc   0.53329    0.19109   2.791  0.00526 ** 
+context_neut:original_gend  0.30308    0.24297   1.247  0.21226    
+original_masc:prompt_fem    1.53597    0.10276  14.947  < 2e-16 ***
+original_fem:prompt_masc    1.46007    0.10485  13.925  < 2e-16 ***
+original_gend:prompt_neut   1.11494    0.10231  10.898  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+fit warnings:
+fixed-effect model matrix is rank deficient so dropping 3 columns / coefficients

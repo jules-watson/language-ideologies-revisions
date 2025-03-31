@@ -5,6 +5,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignore R files
+.RData
+.Rhistory
+
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
