@@ -187,62 +187,75 @@ def generate_adj_embeddings(config_path, justifications_df):
     adj_embedding_df.to_csv(adj_embedding_output_path)
 
 
-# # TODO make n=15 a parameter in the config file
-# def build_theme_word_sets(seed_sets, n=15):
+def build_theme_word_sets(seed_sets, config_path):
 
-#     # Step 1: load embeddings
-#     # TODO - determine the output path based on the config
-#     adj_embedding_path = f"{OUTPUT_DIR}/adj_embddings.csv"
-#     adj_embedding_df = pd.read_csv(adj_embedding_path)
-#     adj_embedding_df["embedding"] = [eval(item) for item in adj_embedding_df["embedding"]]
-#     adj_embedding_df = adj_embedding_df.set_index("adjective")
+    output_dir = "/".join(config_path.split("/")[:-1])
+    config = load_json(config_path)
+    n = config["n_adj_neighbors"]
 
-#     # Step 3: Construct embeddings for each seed set
-#     seed_embeddings = []
-#     for seed_set in seed_sets:
-#         curr_embeddings = adj_embedding_df.loc[list(seed_set)]
-#         seed_embedding = np.array(list(curr_embeddings["embedding"])).mean(axis=0)
-#         seed_embeddings.append(seed_embedding)
-#     seed_embeddings = np.array(seed_embeddings)
+    # Step 1: load embeddings
+    adj_embedding_path = f"{output_dir}/adj_embddings.csv"
+    adj_embedding_df = pd.read_csv(adj_embedding_path)
+    adj_embedding_df["embedding"] = [eval(item) for item in adj_embedding_df["embedding"]]
+    adj_embedding_df = adj_embedding_df.set_index("adjective")
 
-#     # Step 3: Identify nearest neighbors
-#     X = np.array(list(adj_embedding_df["embedding"]))
-#     nbrs = NearestNeighbors(n_neighbors=n, algorithm='ball_tree').fit(X)
-#     _, indices = nbrs.kneighbors(seed_embeddings)
+    # Step 2: Construct embeddings for each seed set
+    seed_embeddings = []
+    for seed_set_name, seed_set in seed_sets.items():
+        curr_embeddings = adj_embedding_df.loc[list(seed_set)]
+        seed_embedding = np.array(list(curr_embeddings["embedding"])).mean(axis=0)
+        seed_embeddings.append(seed_embedding)
+    seed_embeddings = np.array(seed_embeddings)
+
+    # Step 3: Identify nearest neighbors
+    X = np.array(list(adj_embedding_df["embedding"]))
+    nbrs = NearestNeighbors(n_neighbors=n, algorithm='ball_tree').fit(X)
+    _, indices = nbrs.kneighbors(seed_embeddings)
     
-#     output_dict = collections.defaultdict(list)
-#     assert len(seed_sets) == len(indices)
-#     for seed_set, theme_word_indices in zip(seed_sets, indices):
-#         output_dict["seed_set"].append("\t".join(seed_set))
+    output_dict = collections.defaultdict(list)
+    assert len(seed_sets) == len(indices)
+    for seed_set_name, theme_word_indices in zip(list(seed_sets.keys()), indices):
+        output_dict["name"].append(seed_set_name)
+        curr_seed_set = list(seed_sets[seed_set_name])
+        output_dict["seed_set"].append("\t".join(sorted(curr_seed_set)))
 
-#         theme_words = [adj_embedding_df.index[word_i] for word_i in theme_word_indices]
-#         output_dict["theme_words"].append("\t".join(theme_words))
-#     output_df = pd.DataFrame(output_dict)
+        theme_words = [adj_embedding_df.index[word_i] for word_i in theme_word_indices]
+        output_dict["theme_words"].append("\t".join(sorted(theme_words)))
+        output_dict["all_words"].append(", ".join(theme_words + [item for item in curr_seed_set if item not in theme_words]))
+    output_df = pd.DataFrame(output_dict)
 
-#     # TODO - determine the output path based on the config
-#     theme_words_output_path = f"{OUTPUT_DIR}/theme_words.csv"
-#     output_df.to_csv(theme_words_output_path)
+    theme_words_output_csv = f"{output_dir}/theme_words.csv"
+    theme_words_output_latex = f"{output_dir}/theme_words.tex_table"
+    output_df[["name", "seed_set", "theme_words"]].to_csv(theme_words_output_csv)
+    output_df[["name", "all_words"]].to_latex(theme_words_output_latex, index=False)
 
 
 def main(config_path):
-    # Prepare SBERT inputs for justifications
-    justifications_df = prepare_sbert_inputs(config_path)
+    # # Prepare SBERT inputs for justifications
+    # justifications_df = prepare_sbert_inputs(config_path)
 
-    # prepare adj embeddings by averaging contextual embeddings
-    generate_adj_embeddings(config_path, justifications_df)
+    # # prepare adj embeddings by averaging contextual embeddings
+    # generate_adj_embeddings(config_path, justifications_df)
 
-    # # TODO - update seed sets
-    # seed_sets = [
-    #     {"inclusive", "exclusionary"},
-    #     {"modern", "outdated", "traditional", "contemporary"},
-    #     {"professional"},
-    #     {"standard", "common"},
-    #     {"natural", "fluid", "awkward", "clunky"},
-    #     {"authentic"},
-    #     {"sexist"}
-    # ]
+    seed_sets = {
+        "inclusive": {"inclusive", "exclusionary"},
+        "modern": {"modern", "outdated", "traditional", "contemporary"},
+        "professional": {"professional", "unprofessional"},
+        "standard": {"standard", "unusual", "common", "uncommon"},
+        "natural": {"natural", "fluid", "awkward", "clunky"},
+    }
 
-    # # build_theme_word_sets(seed_sets)
+    # original (Suzanne suggested we add antonyms)
+    # seed_sets = {
+    #     "inclusive": {"inclusive", "exclusionary"},
+    #     "modern": {"modern", "outdated", "traditional", "contemporary"},
+    #     "professional": {"professional"},
+    #     "standard": {"standard", "common"},
+    #     "natural": {"natural", "fluid", "awkward", "clunky"},
+    # }
+
+
+    build_theme_word_sets(seed_sets, config_path)
 
 
 if __name__ == "__main__":

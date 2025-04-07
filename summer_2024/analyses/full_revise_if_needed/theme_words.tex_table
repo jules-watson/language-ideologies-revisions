@@ -1,0 +1,11 @@
+\begin{tabular}{ll}
+\toprule
+name & all_words \\
+\midrule
+inclusive & inclusive, exclusionary, exclusive, limiting, welcoming, outdated, streamlined, problematic, ableist, acceptable \\
+modern & contemporary, modern, traditional, outdated, conventional, archaic, dated, streamlined, sophisticated, refined \\
+professional & professional, unprofessional, casual, proactive, experienced, technical, polished, genderspecific, biased, ableist \\
+standard & uncommon, common, unusual, standard, typical, acceptable, conventional, archaic, traditional, preferred \\
+natural & awkward, streamlined, fluid, natural, abrupt, ambiguous, informal, dated, uncertain, problematic, clunky \\
+\bottomrule
+\end{tabular}

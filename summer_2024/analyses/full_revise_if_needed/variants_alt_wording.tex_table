@@ -1,0 +1,11 @@
+\begin{tabular}{lrrr}
+\toprule
+role_noun_gender & neutral & feminine & masculine \\
+\midrule
+prop_inclusive & 0.06 & 0.28 & 0.28 \\
+prop_modern & 0.05 & 0.10 & 0.12 \\
+prop_professional & 0.12 & 0.10 & 0.11 \\
+prop_standard & 0.11 & 0.06 & 0.06 \\
+prop_natural & 0.08 & 0.04 & 0.05 \\
+\bottomrule
+\end{tabular}
