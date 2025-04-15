@@ -1,11 +1,11 @@
-\begin{tabular}{llll}
+\begin{tabular}{lll}
 \toprule
- & theme & prediction & outcome \\
+theme & prediction & outcome \\
 \midrule
-0 & inclusive &  & *** \\
-1 & modern &  & *** \\
-2 & professional &  & * \\
-3 & standard &  & *** \\
-4 & natural &  & *** \\
+inclusive &  & *** \\
+modern &  & *** \\
+professional &  & * \\
+standard &  & *** \\
+natural &  & *** \\
 \bottomrule
 \end{tabular}

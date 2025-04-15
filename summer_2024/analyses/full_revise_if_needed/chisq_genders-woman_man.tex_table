@@ -1,8 +1,8 @@
-\begin{tabular}{llll}
+\begin{tabular}{lll}
 \toprule
- & theme & prediction & outcome \\
+theme & prediction & outcome \\
 \midrule
-0 & inclusive &  & ** \\
-1 & professional &  & n.s. \\
+inclusive &  & ** \\
+professional &  & n.s. \\
 \bottomrule
 \end{tabular}

@@ -192,7 +192,7 @@ def run_stats_tests(
     # write latex with columns to include in the paper
     output_latex = config_path.replace("config.json", f"chisq_{output_description}.tex_table")
     output_df["prediction"] = ""
-    output_df[["theme", "prediction", "outcome"]].to_latex(output_latex)
+    output_df[["theme", "prediction", "outcome"]].to_latex(output_latex, index=False)
 
 
 
