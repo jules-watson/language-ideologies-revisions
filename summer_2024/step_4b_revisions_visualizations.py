@@ -51,13 +51,13 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
     Adapted from https://github.com/juliawatson/language-ideologies-2024/blob/ae9ddbeb2cb4c78dc8cbcd8f72f7de670b6675ab/fall_2023_main/exploratory/visualize_by_gender.py#L45
     """
     n_df = len(data_frames)
-    n_col = len(data_frames[0].columns)-2  # = total number of columns - number of columns before removed_rate
+    n_col = len(data_frames[0].columns)-3  # = total number of columns - number of columns before removed_rate
     n_ind = len(data_frames[0].index)
 
     save_figure = False
     if axe is None:
         if n_ind > 2:
-            figsize=[8, 5]
+            figsize=[6, 3]
         else:
             figsize=[4.8, 6]
 
@@ -65,7 +65,7 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
         axe = plt.subplot(111)
         save_figure = True
 
-    alphas = [0.4, 0.6, 0.8, 1]
+    alphas = [0.5, 0.75, 1]
     for i, df in enumerate(data_frames):  # for each dataframe
         alpha = alphas[i]
         colormap = ListedColormap([
@@ -105,9 +105,10 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
     index_items = list(df.index)
     xtick_labels = []
     for item in index_items:
-        labels = [model_names_shortened[model_name] for model_name in MODEL_NAMES]
+        # labels = [model_names_shortened[model_name] for model_name in MODEL_NAMES]
         # labels = [1, 2, 3, 4]
         # labels.insert(1, '\n')
+        labels = [list(df["starting_variant"])[0] for df in data_frames]
         xtick_labels += (labels)
 
     axe.set_xticks(xticks)
@@ -119,13 +120,17 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
     axe2.xaxis.set_ticks_position('none') 
     axe2.spines['bottom'].set_visible(False)  # Hides the horizontal line (spine)
     axe2.set_xticks((np.arange(0, 2 * n_ind, 2) + xtick_offset * 3) / 2.)
-    axe2.set_xticklabels(['\n\nneutral', '\n\nmasculine', '\n\nfeminine'])
+    # axe2.set_xticklabels(['\n\nneutral', '\n\nmasculine', '\n\nfeminine'])
+    axe2.set_xticklabels([f'\n\n{model_name}' for model_name in list(data_frames[0]["model_name"])])
     axe2.spines['bottom'].set_position(('outward', 8))  # Adjust the distance of the secondary axis below
 
     axe.set_xlabel("\nRole noun gender in original sentence", labelpad=10)
     axe.set_ylabel("Proportion")
 
-    axe.set_title(f"Revision rates for: {prompt_wording}", pad=60)
+    if legend:
+        axe.set_title(f"Revision rates for: {prompt_wording}", pad=60)
+    else:
+        axe.set_title(f"Revision rates for: {prompt_wording}")
     axe.set_xlim(xticks[0] - xtick_offset * 4, xticks[-1] + xtick_offset * 4)
     axe.set_ylim(0, 1)
 
@@ -135,6 +140,8 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
         handles = handles[:4]
         l1 = axe.legend(handles, legend_labels, loc='upper center', ncol=2, bbox_to_anchor=(0.5, 1.2))
         plt.subplots_adjust(top=0.85)
+    else:
+        axe.get_legend().remove()
 
     if save_figure:
         plt.savefig(output_path, #bbox_extra_artists=(l1,),
@@ -194,55 +201,36 @@ def plot_justification_words(justification_freqs_df, output_path, desired_words=
                 bbox_inches='tight',
                 dpi=700)
 
-
-
-
-
+        
 def main(config):
     dirname = "/".join(config.split("/")[:-1])  
     config_path = f"{dirname}/config.json"  # path to the config file
     config = load_json(config_path)  # load the config file
 
-    df_paths = [f'{dirname}/{model_name}/revision_stats.csv' for model_name in MODEL_NAMES]  # for every model, retrieve the path to the revision_stats csv 
-    dfs = [pd.read_csv(df_path) for df_path in df_paths]  # load the revision_stats csvs for every model as dataframes
+    df = pd.DataFrame()
+    for model_name in MODEL_NAMES:
+        curr_df_path = f'{dirname}/{model_name}/revision_stats.csv'
+        curr_df = pd.read_csv(curr_df_path)
+        curr_df["model_name"] = model_names_shortened[model_name]
+        df = pd.concat([df, curr_df])
     
     task_wording_dict = config['task_wording']  # get the task wording dict 
+    variants = ["neutral", "feminine", "masculine"]
     for prompt_wording in task_wording_dict.keys():  # every task wording name
-    
-        filtered_revision_stats_dfs = [df[df['prompt_wording'] == prompt_wording] for df in dfs] # filter the dataframes to keep only the rows for the current prompt wording
 
+        filtered_df = df[df['prompt_wording'] == prompt_wording]
+        filtered_dfs = [filtered_df[filtered_df['starting_variant'] == variant] for variant in variants]
+    
         # Escape slashes in prompt_wording
-        escaped_prompt_wording = prompt_wording.replace('/', ' ')        
+        escaped_prompt_wording = prompt_wording.replace('/', ' ')
+        title_prompt_wording = "no gender" if prompt_wording == "unknown gender" else prompt_wording 
         
         # revision rates plot for the current prompt
         output_path = f'{dirname}/revision_bar_graph_{escaped_prompt_wording}.png'
-        plot_revision_rates(data_frames=filtered_revision_stats_dfs,
+        plot_revision_rates(data_frames=filtered_dfs,
                             output_path=output_path,
-                            prompt_wording=prompt_wording)
-
-        # plot sentences' feminine and genderedness scores against their revision status
-        if prompt_wording == 'unknown gender' and 'gender_association_scores' in config: 
-            revision_df_paths = [f'{dirname}/{model_name}/revision.csv' for model_name in MODEL_NAMES]  # for every model, retrieve the path to the revision csv 
-            revision_dfs = [pd.read_csv(revision_df_path) for revision_df_path in revision_df_paths]  # load the revision csvs for every model as dataframes
-            filtered_revision_dfs = [df[df['task_wording'] == 'unknown gender'] for df in revision_dfs]
-
-            gender_associations_df = pd.read_csv(config['gender_association_scores'])
-
-            plot_gender_association_scores(
-                data_frames=filtered_revision_dfs,
-                output_dir=dirname,
-                model_names=MODEL_NAMES, 
-                gender_associations_df=gender_associations_df
-            )
-
-    # justification word counts plot
-    # justification_freqs_df = pd.read_csv(f"{dirname}/justification_word_frequencies.csv")
-    # output_path = f'{dirname}/justification_plot.png'
-    # plot_justification_words(justification_freqs_df,
-    #                          output_path = output_path,
-    #                          desired_words=['professional', 'tone', 'clarity', 'inclusive', 'engaging'])
-
-        
+                            prompt_wording=title_prompt_wording,
+                            legend=False)
 
 
 if __name__=="__main__":
