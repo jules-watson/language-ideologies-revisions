@@ -48,3 +48,15 @@ MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct", "gemma-2-9b-it", "Mistral-Nemo
 
 EXPERIMENT_PATH = "analyses/full_revise_if_needed"
 
+
+GENDER_INFORMATION_CONDITIONS = {
+    'gender declaration man',
+    'gender declaration nonbinary',
+    'gender declaration woman',
+    'pronoun declaration he/him',
+    'pronoun declaration she/her',
+    'pronoun declaration they/them',
+    'pronoun usage her',
+    'pronoun usage his',
+    'pronoun usage their'
+}

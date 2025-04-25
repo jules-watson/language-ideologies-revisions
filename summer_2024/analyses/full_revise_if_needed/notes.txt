@@ -17,3 +17,14 @@ Before running llama model:
 * [DONE] Does constants.py have the right model set?
 * [DONE] Is the slurmflile set to the right process type? Anything else to change there?
 * [DONE] Start running the sbatch command, then check that the output looks like it's progressing at the right pace
+
+
+NOTE Apr 24 - contextual_embeddings-all_conditions.csv includes the contextual embeddings for
+all conditions including the no_gender/unknown_gender case. The contextual_embeddings.csv file
+only includes the gender information cases (pronoun usage, pronoun declaration, gender declaration),
+and excludes the no_gender/unknown_gender case.
+
+How long will BERT code take to generate contextual embeddings for adjectives?
+* 22782 sentences
+* 5.5 sentences/sec
+* -> 4142 seconds = 1.15 hours

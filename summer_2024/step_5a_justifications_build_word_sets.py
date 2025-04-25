@@ -12,7 +12,7 @@ import torch
 import warnings
 
 from common import load_csv, load_json
-from constants import EXPERIMENT_PATH, MODEL_NAMES
+from constants import EXPERIMENT_PATH, MODEL_NAMES, GENDER_INFORMATION_CONDITIONS
 
 
 nlp = spacy.load("en_core_web_sm")
@@ -22,7 +22,7 @@ tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 model = BertModel.from_pretrained('bert-base-uncased')
 
 
-def load_revisions(config_path, model_names):
+def load_revisions(config_path, model_names, conditions=GENDER_INFORMATION_CONDITIONS):
     dirname = "/".join(config_path.split("/")[:-1])
 
     revisions_df = pd.DataFrame()
@@ -41,6 +41,7 @@ def load_revisions(config_path, model_names):
         # Add curr_revision_df to the end of revisions_df
         revisions_df = pd.concat([revisions_df, curr_revision_df])
 
+    revisions_df = revisions_df[revisions_df["task_wording"].isin(conditions)]
     return revisions_df
 
 
@@ -68,7 +69,7 @@ def mask_quoted_strings(sentence, role_noun_set):
     return sentence
 
 
-def get_revisions_string_for_sbert_embedding(justification_string, role_noun_set):
+def get_revisions_string_for_bert_embedding(justification_string, role_noun_set):
     # Select only the sentences pertaining to the role noun set
     relevant_sentences = [
         sent for sent in sent_tokenize(justification_string)
@@ -80,21 +81,21 @@ def get_revisions_string_for_sbert_embedding(justification_string, role_noun_set
     return " ".join(relevant_sentences)
 
 
-def prepare_sbert_inputs(config_path):
-    # Load and prepare data for sbert
-    justifications_processed_path = config_path.replace("config.json", "sbert_input_for_justifications.csv")
+def prepare_bert_inputs(config_path):
+    # Load and prepare data for bert
+    justifications_processed_path = config_path.replace("config.json", "bert_input_for_justifications.csv")
     if os.path.exists(justifications_processed_path):
         justifications_processed_df = pd.read_csv(justifications_processed_path)
     else:
         justifications_processed_df = load_revisions(config_path, MODEL_NAMES)
-        justifications_processed_df["sbert_strings"] = [
-            get_revisions_string_for_sbert_embedding(row["justification"], eval(row["role_noun_set"]))
+        justifications_processed_df["bert_strings"] = [
+            get_revisions_string_for_bert_embedding(row["justification"], eval(row["role_noun_set"]))
             for _, row in justifications_processed_df.iterrows()]
 
-        num_rows_no_sbert_string = sum(justifications_processed_df["sbert_strings"] == "")
-        if num_rows_no_sbert_string > 0:
-            warnings.warn(f"Dropping n={num_rows_no_sbert_string} rows where sbert input strings were empty")
-            justifications_processed_df = justifications_processed_df[justifications_processed_df["sbert_strings"] != ""]
+        num_rows_no_bert_string = sum(justifications_processed_df["bert_strings"] == "")
+        if num_rows_no_bert_string > 0:
+            warnings.warn(f"Dropping n={num_rows_no_bert_string} rows where bert input strings were empty")
+            justifications_processed_df = justifications_processed_df[justifications_processed_df["bert_strings"] != ""]
 
         justifications_processed_df.to_csv(justifications_processed_path)
 
@@ -104,7 +105,7 @@ def prepare_sbert_inputs(config_path):
 def extract_adjectives_from_justifications(justifications_df):
     result = collections.Counter()
     for _, row in tqdm.tqdm(justifications_df.iterrows()):
-        justification = row["sbert_strings"]
+        justification = row["bert_strings"]
         adjectives = [tok.text.lower() for tok in nlp(justification) if tok.pos_ == "ADJ"]
         result.update(collections.Counter(adjectives))
     return result
@@ -114,7 +115,7 @@ def get_contextual_embeddings(justifications_df, adjectives):
 
     result = collections.defaultdict(list)
     for _, row in tqdm.tqdm(justifications_df.iterrows()):
-        justification = row["sbert_strings"]
+        justification = row["bert_strings"]
 
         inputs = tokenizer(justification, return_tensors='pt')
         with torch.no_grad():
@@ -166,8 +167,8 @@ def generate_adj_embeddings(config_path, justifications_df):
 
     # Step 2: generate contextual embeddings for each adjective occurrence
     # Will this take too much space? It's ok. 
-    #  - for SBERT embeddings with 13590 data points, it takes 677 MB
-    #  -> for SBERT embeddings with 24460 data points, it would take 1.2185 GB
+    #  - for bert embeddings with 13590 data points, it takes 677 MB
+    #  -> for bert embeddings with 24460 data points, it would take 1.2185 GB
     contextual_embeddings_output_path = f"{output_dir}/contextual_embeddings.csv"
     if os.path.exists(contextual_embeddings_output_path):
         contextual_embeddings = pd.read_csv(contextual_embeddings_output_path)
@@ -231,11 +232,11 @@ def build_theme_word_sets(seed_sets, config_path):
 
 
 def main(config_path):
-    # # Prepare SBERT inputs for justifications
-    # justifications_df = prepare_sbert_inputs(config_path)
+    # Prepare bert inputs for justifications
+    justifications_df = prepare_bert_inputs(config_path)
 
-    # # prepare adj embeddings by averaging contextual embeddings
-    # generate_adj_embeddings(config_path, justifications_df)
+    # prepare adj embeddings by averaging contextual embeddings
+    generate_adj_embeddings(config_path, justifications_df)
 
     seed_sets = {
         "inclusive": {"inclusive", "exclusionary"},
@@ -245,7 +246,7 @@ def main(config_path):
         "natural": {"natural", "fluid", "awkward", "clunky"},
     }
 
-    # original (Suzanne suggested we add antonyms)
+    # original (before we decided to include antonyms in each set for consistency)
     # seed_sets = {
     #     "inclusive": {"inclusive", "exclusionary"},
     #     "modern": {"modern", "outdated", "traditional", "contemporary"},
@@ -253,7 +254,6 @@ def main(config_path):
     #     "standard": {"standard", "common"},
     #     "natural": {"natural", "fluid", "awkward", "clunky"},
     # }
-
 
     build_theme_word_sets(seed_sets, config_path)
 

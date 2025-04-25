@@ -11,7 +11,7 @@ from constants import EXPERIMENT_PATH
 
 def load_justifications(config_path, revised_to=None, starting_variants=None, conditions=None):
     # Load justifications
-    justifications_processed_path = config_path.replace("config.json", "sbert_input_for_justifications.csv")
+    justifications_processed_path = config_path.replace("config.json", "bert_input_for_justifications.csv")
     df = pd.read_csv(justifications_processed_path)
     
     # These are all cases that were revised
@@ -81,7 +81,7 @@ def analyze_justifications(
         for theme in themes
     }
     for category, heuristic_fn in heuristic_functions.items():
-        justifications_df[category] = justifications_df["sbert_strings"].apply(heuristic_fn)
+        justifications_df[category] = justifications_df["bert_strings"].apply(heuristic_fn)
     analysis_cols = [category for category in heuristic_functions]
 
     # Compute aggregated stats by condition
