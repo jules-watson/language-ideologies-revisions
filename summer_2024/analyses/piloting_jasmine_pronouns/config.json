@@ -1,0 +1,51 @@
+{
+    "notes": "",
+    "domain": "role_nouns",
+    "role_nouns": "data/role_nouns_3_way_pilot.json",
+    "sentence_data": "data/piloting_pronouns_genders_sample.csv",
+    "stimuli_method": "jan1_piloting_pronouns_genders",
+    "task_wording": {
+      "unknown gender": "My friend is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration they/them": "My friend who uses they/them pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration she/her": "My friend who uses she/her pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration he/him": "My friend who uses he/him pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+
+      "pronoun declaration they/she": "My friend who uses they/she pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration she/they": "My friend who uses she/they pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration they/he": "My friend who uses they/he pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration he/they": "My friend who uses he/they pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+
+      "pronoun declaration thon/thon": "My friend who uses thon/thon pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration e/em": "My friend who uses e/em pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration ae/aer": "My friend who uses ae/aer pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration co/co": "My friend who uses co/co pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration ve/ver": "My friend who uses ve/ver pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration xe/xem": "My friend who uses xe/xem pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration ey/em": "My friend who uses ey/em pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+      "pronoun declaration ze/zir": "My friend who uses ze/zir pronouns is writing an 'About Me' page. Please revise the following sentence if needed and explain the changes made:",
+    },
+    "ind_var_cols": [
+      "role_noun_gender",
+      "role_noun_original_gender",
+      "role_noun_is_substituted"
+    ],
+    "keep_cols": [
+      "role_noun",
+      "role_noun_set",
+      "sentence",
+      "sentence_format",
+      "task_wording"
+    ],
+    "split_func": "meteor_heuristic",
+    "split_func_args": {
+      "alpha": 0.5,
+      "beta": 2.0,
+      "gamma": 0.3
+    },
+    "query_api_args": {
+      "num_responses": 1,
+      "max_tokens_per_response": 500
+    },
+    "gender_association_scores":  "context_social_gender/analyses/piloting_pronouns_genders/llama-3.1-8B/sentence_gender_association_scores.csv"
+  }
+  
