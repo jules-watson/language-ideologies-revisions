@@ -46,7 +46,8 @@ MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct", "gemma-2-9b-it", "Mistral-Nemo
 # EXPERIMENT_PATH = "context_social_gender/analyses/piloting_pronouns_genders"
 # EXPERIMENT_PATH = "context_social_gender/analyses/full_sample"
 
-EXPERIMENT_PATH = "analyses/full_revise_if_needed"
+# EXPERIMENT_PATH = "analyses/full_revise_if_needed"
+EXPERIMENT_PATH = "analyses/piloting_jasmine_pronouns"
 
 
 GENDER_INFORMATION_CONDITIONS = {
