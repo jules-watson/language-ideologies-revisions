@@ -1,0 +1,11 @@
+\begin{tabular}{lll}
+\toprule
+theme & prediction & outcome \\
+\midrule
+inclusive &  & *** \\
+modern &  & n.s. \\
+professional &  & *** \\
+standard &  & n.s. \\
+natural &  & *** \\
+\bottomrule
+\end{tabular}
