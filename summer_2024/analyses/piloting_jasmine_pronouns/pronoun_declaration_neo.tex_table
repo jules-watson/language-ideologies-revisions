@@ -1,0 +1,9 @@
+\begin{tabular}{lrrrr}
+\toprule
+ & pronoun declaration she/her & pronoun declaration he/him & pronoun declaration they/them & neopronoun average \\
+\midrule
+prop_inclusive & 0.55 & 0.29 & 0.43 & 0.53 \\
+prop_modern & 0.13 & 0.11 & 0.02 & 0.04 \\
+prop_professional & 0.20 & 0.20 & 0.05 & 0.05 \\
+\bottomrule
+\end{tabular}
