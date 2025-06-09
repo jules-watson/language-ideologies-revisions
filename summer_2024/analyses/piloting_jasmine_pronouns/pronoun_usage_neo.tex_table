@@ -1,9 +1,0 @@
-\begin{tabular}{lrrrr}
-\toprule
- & pronoun usage her & pronoun usage his & pronoun usage their & neopronoun average \\
-\midrule
-prop_inclusive & 0.55 & 0.36 & 0.46 & 0.51 \\
-prop_modern & 0.26 & 0.21 & 0.23 & 0.23 \\
-prop_professional & 0.25 & 0.32 & 0.23 & 0.24 \\
-\bottomrule
-\end{tabular}
