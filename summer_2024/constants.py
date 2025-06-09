@@ -10,9 +10,9 @@ REQUESTS_PER_MINUTE_LIMIT = 10000
 
 #MODEL_NAME = "gpt-3.5-turbo"
 #MODEL_NAME = "gpt-4-turbo"
-# MODEL_NAME = "gpt-4o"
+MODEL_NAME = "gpt-4o"
 # MODEL_NAME = "llama-3.1-8B-Instruct"
-MODEL_NAME = "gemma-2-9b-it"
+# MODEL_NAME = "gemma-2-9b-it"
 # MODEL_NAME = "Mistral-Nemo-Instruct-2407"
 
 # USE_SHARDS = False
@@ -23,7 +23,8 @@ USE_SHARDS = True
 
 # MODEL_NAMES = ["gpt-3.5-turbo", 'gpt-4-turbo', 'gpt-4o']
 # MODEL_NAMES = ['gpt-3.5-turbo', 'gpt-4o']
-MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct", "gemma-2-9b-it", "Mistral-Nemo-Instruct-2407"]
+# MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct", "gemma-2-9b-it", "Mistral-Nemo-Instruct-2407"]
+MODEL_NAMES = ["gpt-4o"]
 
 # AN_NOUNS = {"anchor", "anchorman", "anchorwoman"}
 
