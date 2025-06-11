@@ -24,7 +24,8 @@ import torch
 from constants import (
     MODEL_NAME,
     EXPERIMENT_PATH,
-    USE_SHARDS
+    USE_SHARDS,
+    NON_INSTRUCTION_FINETUNED_MODELS
 )
 from common import load_json, load_csv
 
@@ -46,7 +47,11 @@ from transformers import pipeline
 MODEL_NAME_TO_MODEL_PATH = {
     "llama-3.1-8B-Instruct": "/scratch/ssd004/scratch/jwatson/meta-llama/Meta-Llama-3.1-8B-Instruct",
     "gemma-2-9b-it": "google/gemma-2-9b-it",
-    "Mistral-Nemo-Instruct-2407": "mistralai/Mistral-Nemo-Instruct-2407"
+    "Mistral-Nemo-Instruct-2407": "mistralai/Mistral-Nemo-Instruct-2407",
+
+    "llama-3.1-8B": "/scratch/ssd004/scratch/jwatson/meta-llama/Meta-Llama-3.1-8B",
+    "gemma-2-9b": "google/gemma-2-9b",
+    "Mistral-Nemo-Base-2407": "mistralai/Mistral-Nemo-Base-2407",
 }
 
 
@@ -79,10 +84,13 @@ def query_huggingface(processed_path, loaded_stimuli, config):
 
         for i in trange(len(loaded_stimuli)):
             prompt = loaded_stimuli.loc[i, "prompt_text"]
-            chat = [{
-                "role": "user",
-                "content": prompt
-            }]
+            if MODEL_NAME in NON_INSTRUCTION_FINETUNED_MODELS:
+                chat = prompt
+            else:
+                chat = [{
+                    "role": "user",
+                    "content": prompt
+                }]
 
             # query huggingface model
             # Note: Takes one minute for 3 responses of max 500 tokens, but 10 seconds for 
@@ -95,15 +103,19 @@ def query_huggingface(processed_path, loaded_stimuli, config):
                     pad_token_id=pipe.tokenizer.eos_token_id,
                     max_new_tokens=query_api_args["max_tokens_per_response"])[0]
 
-                assert len(response["generated_text"]) == 2
-                assert response["generated_text"][0]["role"] == "user"
-                assert response["generated_text"][1]["role"] == "assistant"
+                if MODEL_NAME in NON_INSTRUCTION_FINETUNED_MODELS:
+                    response_text = response["generated_text"].lstrip(chat)
+                else:
+                    assert len(response["generated_text"]) == 2
+                    assert response["generated_text"][0]["role"] == "user"
+                    assert response["generated_text"][1]["role"] == "assistant"
+                    response_text = response["generated_text"][1]["content"]
 
                 row_dict = {
                     "index": i,
                     "prompt": prompt,
                     "usage": {},
-                    "response": response["generated_text"][1]["content"],
+                    "response": response_text,
                     "id": "",
                     "object": "",
                     "created": time.time(),

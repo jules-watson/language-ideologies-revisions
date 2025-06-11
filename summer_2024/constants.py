@@ -10,13 +10,19 @@ REQUESTS_PER_MINUTE_LIMIT = 10000
 
 #MODEL_NAME = "gpt-3.5-turbo"
 #MODEL_NAME = "gpt-4-turbo"
-MODEL_NAME = "gpt-4o"
+# MODEL_NAME = "gpt-4o"
 # MODEL_NAME = "llama-3.1-8B-Instruct"
 # MODEL_NAME = "gemma-2-9b-it"
 # MODEL_NAME = "Mistral-Nemo-Instruct-2407"
 
-# USE_SHARDS = False
-USE_SHARDS = True
+# Non-instruction-finetuned versions of models from ARR submission
+NON_INSTRUCTION_FINETUNED_MODELS = ["llama-3.1-8B", "Mistral-Nemo-Base-2407", "gemma-2-9b"]
+# MODEL_NAME = "llama-3.1-8B"
+MODEL_NAME = "Mistral-Nemo-Base-2407"
+# MODEL_NAME = "gemma-2-9b"
+
+USE_SHARDS = False
+# USE_SHARDS = True
 
 # FOR context_social_gender analysis (non-Instruct model)
 # MODEL_NAME = "llama-3.1-8B"
@@ -24,7 +30,7 @@ USE_SHARDS = True
 # MODEL_NAMES = ["gpt-3.5-turbo", 'gpt-4-turbo', 'gpt-4o']
 # MODEL_NAMES = ['gpt-3.5-turbo', 'gpt-4o']
 # MODEL_NAMES = ["gpt-4o", "llama-3.1-8B-Instruct", "gemma-2-9b-it", "Mistral-Nemo-Instruct-2407"]
-MODEL_NAMES = ["gpt-4o"]
+# MODEL_NAMES = ["gpt-4o"]
 
 # AN_NOUNS = {"anchor", "anchorman", "anchorwoman"}
 
@@ -42,13 +48,13 @@ MODEL_NAMES = ["gpt-4o"]
 # EXPERIMENT_PATH = "analyses/piloting_jan1/improve"
 # EXPERIMENT_PATH = "analyses/piloting_jan1/improve_if_needed"
 # EXPERIMENT_PATH = "analyses/piloting_jan1/revise"
-# EXPERIMENT_PATH = "analyses/piloting_jan1/revise_if_needed"
+EXPERIMENT_PATH = "analyses/piloting_jan1/revise_if_needed"
 
 # EXPERIMENT_PATH = "context_social_gender/analyses/piloting_pronouns_genders"
 # EXPERIMENT_PATH = "context_social_gender/analyses/full_sample"
 
 # EXPERIMENT_PATH = "analyses/full_revise_if_needed"
-EXPERIMENT_PATH = "analyses/piloting_jasmine_pronouns"
+# EXPERIMENT_PATH = "analyses/piloting_jasmine_pronouns"
 
 
 GENDER_INFORMATION_CONDITIONS = {
