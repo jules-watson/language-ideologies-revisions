@@ -56,15 +56,31 @@ EXPERIMENT_PATH = "analyses/piloting_jan1/revise_if_needed"
 # EXPERIMENT_PATH = "analyses/full_revise_if_needed"
 # EXPERIMENT_PATH = "analyses/piloting_jasmine_pronouns"
 
-
 GENDER_INFORMATION_CONDITIONS = {
-    'gender declaration man',
-    'gender declaration nonbinary',
-    'gender declaration woman',
-    'pronoun declaration he/him',
-    'pronoun declaration she/her',
     'pronoun declaration they/them',
+    'pronoun declaration she/her',
+    'pronoun declaration he/him',
+    'pronoun declaration they/she',
+    'pronoun declaration she/they',
+    'pronoun declaration they/he',
+    'pronoun declaration he/they',
+    'pronoun declaration thon/thon',
+    'pronoun declaration e/em',
+    'pronoun declaration ae/aer',
+    'pronoun declaration co/co',
+    'pronoun declaration ve/ver',
+    'pronoun declaration xe/xem',
+    'pronoun declaration ey/em',
+    'pronoun declaration ze/zir',
+    'pronoun usage their',
     'pronoun usage her',
     'pronoun usage his',
-    'pronoun usage their'
+    'pronoun usage thons',
+    'pronoun usage es',
+    'pronoun usage aer',
+    'pronoun usage cos',
+    'pronoun usage vis',
+    'pronoun usage xyr',
+    'pronoun usage eir',
+    'pronoun usage zir'
 }
