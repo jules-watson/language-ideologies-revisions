@@ -16,11 +16,9 @@ def get_column(model_results_df, p_val_threshold):
         estimate = row["Estimate"]
         p_value = row["Pr(>|z|)"]
         if predictor in NO_PREDICTION and p_value < p_val_threshold:  # significant effect for Intercept or control predictor -- make it gray bc no prediction
-            # result.append(f"\\boldnumcolor{{{estimate:.2f}}}{{{INTERCEPT_EFFECT_COLOR}}}")
             result.append(f"\cellcolor[HTML]{{{INTERCEPT_EFFECT_COLOR}}} {estimate:.2f}")
         elif p_value < p_val_threshold:
             curr_cell_color = NEGATIVE_EFFECT_COLOR if estimate < 0 else POSITIVE_EFFECT_COLOR
-            # result.append(f"\\boldnumcolor{{{estimate:.2f}}}{{{curr_cell_color}}}")
             result.append(f"\cellcolor[HTML]{{{curr_cell_color}}} {estimate:.2f}")
         else:
             result.append(f"{estimate:.2f}")
@@ -48,7 +46,6 @@ def combine_results(config_path, models, experiment_name):
 
     output_path_latex = output_path.replace(".csv", ".tex_table")
     result_df.to_latex(output_path_latex)
-
 
 
 if __name__ == "__main__":

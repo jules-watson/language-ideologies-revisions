@@ -1,9 +1,0 @@
-\begin{tabular}{lrrrr}
-\toprule
-task_wording & pronoun declaration she/they & pronoun declaration they/she & pronoun declaration he/they & pronoun declaration they/he \\
-\midrule
-prop_inclusive & 0.62 & 0.55 & 0.51 & 0.44 \\
-prop_modern & 0.07 & 0.04 & 0.06 & 0.02 \\
-prop_professional & 0.06 & 0.04 & 0.05 & 0.04 \\
-\bottomrule
-\end{tabular}

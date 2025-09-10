@@ -31,19 +31,12 @@ from common import load_json, load_csv
 
 
 # This downloads huggingface models 
-# relevnat for gemini models (not llama)
+# relevant for gemini models (not llama)
 os.environ['HF_HOME'] = "/scratch/ssd004/scratch/jwatson/hf_models/"
 
 from transformers import pipeline
 
 
-# What can we do to speed this up?
-# [tried it - no] does passing eos_token_id=terminators help ()https://medium.com/@manuelescobar-dev/implementing-and-running-llama-3-with-hugging-faces-transformers-library-40e9754d8c80
-# [tried it - no] does setting max_new_tokens to a power of two help? (512 instead of 500)
-# [] does changing the GPU configuration help - running with a different GPU or more GPUs (instead of gpu:rtx6000:1) 
-# [] does parallelizing calls to the pipeline help, 
-#    -> possibly by using a dataset (I was getting this warning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset)
-#    -> possibly by setting batch + passing multiple samples at once
 MODEL_NAME_TO_MODEL_PATH = {
     "llama-3.1-8B-Instruct": "/scratch/ssd004/scratch/jwatson/meta-llama/Meta-Llama-3.1-8B-Instruct",
     "gemma-2-9b-it": "google/gemma-2-9b-it",
@@ -53,7 +46,6 @@ MODEL_NAME_TO_MODEL_PATH = {
     "gemma-2-9b": "google/gemma-2-9b",
     "Mistral-Nemo-Base-2407": "mistralai/Mistral-Nemo-Base-2407",
 }
-
 
 
 def query_huggingface(processed_path, loaded_stimuli, config):
@@ -226,7 +218,6 @@ def main(config):
             result = merge_shards(processed_path_format_str, n_shards)
             merged_output_path = f"{dirname}/{MODEL_NAME}/processed.csv"
             result.to_csv(merged_output_path)
-
 
 
 if __name__ == "__main__":

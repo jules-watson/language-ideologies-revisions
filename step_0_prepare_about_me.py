@@ -1,5 +1,7 @@
 """
 Download and process the about me dataset from HuggingFace.
+
+Authors: Raymond Liu, Jules Watson
 """
 
 #from huggingface_hub import snapshot_download, login
@@ -414,66 +416,25 @@ def sample_sentences(filtered_data_path, output_dir, n=6):
 
 if __name__=="__main__":
     # Download the raw About Me dataset
-    # huggingface_token = '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'
+    huggingface_token = 'TODO_ADD_TOKEN_HERE'
     download_dir = '/ais/hal9000/datasets/AboutMe/about-me'
-    # download_about_me(huggingface_token, download_dir)
+    download_about_me(huggingface_token, download_dir)
 
     about_zipped_dir = f'{download_dir}/about_pages_zipped'
     individuals_dir = f'{download_dir}/individuals_pages'
     about_page_meta_path = f'{about_zipped_dir}/about_pages_meta.json.gz'
 
     # Retrieve the hostnames corresponding to individuals
-    # individuals_hostnames = get_individuals_hostnames(about_page_meta_path)
+    individuals_hostnames = get_individuals_hostnames(about_page_meta_path)
 
     # Unzip and save the data as a CSV file
-    # about_pages_paths = [f'{about_zipped_dir}/about_pages-{i}.json.gz' for i in range(14)]
-    # save_data_to_csv(about_pages_paths, individuals_dir, individuals_hostnames)
+    about_pages_paths = [f'{about_zipped_dir}/about_pages-{i}.json.gz' for i in range(14)]
+    save_data_to_csv(about_pages_paths, individuals_dir, individuals_hostnames)
 
     # Filter the CSV file for relevant rows
-    # filter_csv(f'{individuals_dir}/data_with_roles.csv', individuals_dir)
-
-    # CURRENT VERSION - added a couple more role noun sets (substring cases); 
-    # filter out names from US Social Security dataset
-    # We start with 5721074 rows.
-    # After filtering for the specific role nouns: we have 133350 rows.
-    # After filtering for first person perspective: we have 47698 rows.
-    # After filtering to remove quotes: we have 45063 rows.
-    # After filtering for proper nouns and gendered terms: we have 23040 rows.
-    # After filtering to remove duplicate sentences: we have 21206 rows.
-    # After filtering for length (11-35 words): we have 16220 rows.
-
-    # INTERMEDIATE VERSION - filters out PEOPLE entities using spacy NER + sentences containing the word "name"
-    # We start with 5721074 rows.
-    # After filtering for the specific role nouns: we have 106467 rows.
-    # After filtering for first person perspective: we have 28303 rows.
-    # After filtering to remove quotes: we have 26442 rows.
-    # After filtering for proper nouns and gendered terms: we have 18638 rows.
-    # After filtering to remove duplicate sentences: we have 17255 rows.
-    # After filtering for length (max 20 words): we have 6001 rows.
-
-    # PREVIOUS VERSION - filters out ALL PROPER NOUNS 
-    # (also only considered \" quotes but not the asymmetrical double quotes)
-    # We start with 5721074 rows.
-    # After filtering for the specific role nouns: we have 106467 rows.
-    # After filtering for first person perspective: we have 28303 rows.
-    # After filtering to remove quotes: we have 27584 rows.
-    # After filtering for proper nouns and gendered terms: we have 7657 rows.
-    # After filtering for length (max 20 words): we have 3578 rows.
-
+    filter_csv(f'{individuals_dir}/data_with_roles.csv', individuals_dir)
 
     # Compute stats + make visualizations based on filtered data
-    # compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov25")
-
-    # Role noun sets with > 5 occurrences of each variant (current version - Nov 25)
-    #     Unnamed: 0    role_noun_set  neutral  masculine  feminine
-    # 5            5   businessperson       25        268       163
-    # 6            6  camera operator      254        249        13
-    # 8            8      chairperson      161        687        15
-    # 13          13     craftsperson       51        372        23
-    # 18          18              fan     7232         41        94
-    # 28          28           maniac       82         17         7
-    # 38          38      salesperson      345        371        28
-    # 40          40           server      146        102       267
-    # 44          44     spokesperson      215         39         5
+    compute_fitering_stats(f'{individuals_dir}/filtered_data.csv', "random_scripts/Nov25")
 
     sample_sentences(f'{individuals_dir}/filtered_data.csv', "data")

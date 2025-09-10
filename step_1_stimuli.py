@@ -4,7 +4,7 @@ Generate the stimuli file of prompts to be queried by LLMs.
 This file is inspired from part_1_stimuli.py,
 which can be found at: https://github.com/juliawatson/language-ideologies-2024/blob/main/fall_2023_main/part_1_stimuli.py
 
-Author: Raymond Liu
+Authors: Raymond Liu, Jules Watson
 Date: Jun 2024
 """
 import ast
@@ -36,7 +36,6 @@ def add_prompts(data,
 
         final_sentence = f"{task_wording} {sentence}"
         data["prompt_text"].append(final_sentence)
-
 
 
 def main_role_nouns(config, output_dir):
@@ -84,20 +83,6 @@ def main_role_nouns(config, output_dir):
                         task_wording=config["task_wording"])
 
     df = pd.DataFrame(data)
-    df.index.name = "index"
-    output_path = f"{output_dir}/stimuli.csv"
-    df.to_csv(output_path)
-
-
-def main_jan1(config, output_dir):
-    sentences_df = pd.read_csv(config["sentence_data"])
-    prompts_df = pd.DataFrame(list(config["task_wording"].keys()), columns=["task_wording"])
-
-    df = pd.merge(sentences_df, prompts_df, how='cross')
-    df["prompt_text"] = [
-        f"{config['task_wording'][row['task_wording']]} {row['sentence']}" for _, row in df.iterrows()
-    ]
-
     df.index.name = "index"
     output_path = f"{output_dir}/stimuli.csv"
     df.to_csv(output_path)
@@ -163,9 +148,6 @@ def main(config_path):
         if ("stimuli_method" in config and 
             config["stimuli_method"] == "mar7_full_analysis"):
             main_mar7_full_analysis(config, config_dir)
-        elif ("stimuli_method" in config and 
-            config["stimuli_method"] == "jan1_piloting_pronouns_genders"):
-            main_jan1(config, config_dir)
         else:
             # This is the default for now - it is for piloting and
             # downsamples sentences

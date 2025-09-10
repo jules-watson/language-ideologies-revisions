@@ -1,4 +1,0 @@
-,0,1,2
-0,"{'professional', 'field', 'weather', 'studies', 'forecasts', 'formal', 'in', 'While', 'a', 'who', 'business', 'colloquial', 'accurate', 'but', 'convey', 'the'}",set(),"{'formal', 'concise', 'the', 'modern'}"
-1,"{'it', 'somewhat', 'might', 'informal', 'readers', 'bit', 'be', 'outdated', 'not', 'as', 'may', 'or'}",set(),"{'original', 'phrase', '[', 'sentence', 'Simplified', 'old-fashioned', ']', 'MASK', 'replaced', 'Removed'}"
-2,set(),"{'with', 'Pronoun', 'your', 'appropriate', 'reflect', 'ensure', 'gender-specific', 'aligns', 'The', 'changed', 'she/her', 'nonbinary', 'use', 'Since', 'pronouns', 'uses', 'identity', 'Gender-Neutral', 'neutrality', 'Consistency', ':', 'he/him', 'align', 'they/them', 'aligning', 'inclusivity', 'inclusive', 'gender', 'Gender-neutral', 'language', 'gender-neutral', '*', 'regardless', 'friend', 'Language'}","{'changed', 'to'}"

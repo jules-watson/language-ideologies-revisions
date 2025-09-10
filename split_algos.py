@@ -1,7 +1,7 @@
 """
 Some splitting algorithms to split a query response string into revision sentence and justification.
 
-Author: Raymond Liu
+Author: Raymond Liu and Xi (Joy) Wang
 Date: June 2024
 """
 
@@ -109,9 +109,6 @@ def meteor_heuristic_split(original, response, split_func_args):
 
     if revision:
         # Justification = substring in the response after the revision sentence
-        # revision_index = response.find(revision)
-        # if revision_index == -1: # revision not found
-        #     print(f"Revision '{revision}' not found. Make sure to check the corresponding justification column!\n")
         revision_idx = sentence_scores[revision][1]
         revision_len = sentence_scores[revision][2]
         justification = response[revision_idx + revision_len:]

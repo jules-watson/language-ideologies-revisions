@@ -1,9 +1,7 @@
 """
 Plot graphs representing the revision and justification statistics.
 
-TODO: make this use the stacked_grouped_bar_graph function from visualizations.py
-
-Author: Raymond Liu
+Author: Raymond Liu and Jules Watson
 Date: Aug 2024
 """
 
@@ -17,13 +15,6 @@ from random_scripts.plot_gender_association_scores import plot_gender_associatio
 from matplotlib.colors import ListedColormap
 from constants import EXPERIMENT_PATH, MODEL_NAMES
 
-# Colors for revision bar graph
-# base_colors = [
-#     (0/255, 121/255, 255/255, 1),    # blue - alternative wording
-#     (0/255, 223/255, 162/255, 1),    # green - neutral
-#     (255/255, 165/255, 0/255, 1),  # orange - masculine
-#     (255/255, 0/255, 96/255, 1)      # red - feminine
-# ]
 
 base_colors = [
     (.28, .51, .40, 1),  # green - alternattive wording
@@ -97,17 +88,12 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
         elif n_df == 3:
             model_ticks += [item - xtick_offset, item + xtick_offset, item + 3*xtick_offset]
         elif n_df == 4:
-            # model_ticks += [item - 3*xtick_offset, item - xtick_offset, item + xtick_offset, item + 3*xtick_offset]
             model_ticks += [item - 2*xtick_offset, item, item + 2*xtick_offset, item + 4*xtick_offset]
-    # xticks = sorted(list(xticks) + model_ticks)
     xticks = sorted(model_ticks)
 
     index_items = list(df.index)
     xtick_labels = []
     for item in index_items:
-        # labels = [model_names_shortened[model_name] for model_name in MODEL_NAMES]
-        # labels = [1, 2, 3, 4]
-        # labels.insert(1, '\n')
         labels = [list(df["starting_variant"])[0] for df in data_frames]
         xtick_labels += (labels)
 
@@ -120,7 +106,6 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
     axe2.xaxis.set_ticks_position('none') 
     axe2.spines['bottom'].set_visible(False)  # Hides the horizontal line (spine)
     axe2.set_xticks((np.arange(0, 2 * n_ind, 2) + xtick_offset * 3) / 2.)
-    # axe2.set_xticklabels(['\n\nneutral', '\n\nmasculine', '\n\nfeminine'])
     axe2.set_xticklabels([f'\n\n{model_name}' for model_name in list(data_frames[0]["model_name"])])
     axe2.spines['bottom'].set_position(('outward', 8))  # Adjust the distance of the secondary axis below
 
@@ -144,7 +129,7 @@ def plot_revision_rates(data_frames, output_path, prompt_wording, axe=None, lege
         axe.get_legend().remove()
 
     if save_figure:
-        plt.savefig(output_path, #bbox_extra_artists=(l1,),
+        plt.savefig(output_path,
                     bbox_inches='tight',
                     dpi=300)
 
@@ -193,11 +178,10 @@ def plot_justification_words(justification_freqs_df, output_path, desired_words=
     # Add labels, title, and legend
     ax.set_xticks(index + bar_width)
     ax.set_xticklabels(words)
-    #ax.legend(loc='best')
 
     # Show the plot
     plt.tight_layout(rect=[0, 0, 1, 0.95])  # adjust the layout to make room for the title and legend
-    plt.savefig(output_path, #bbox_extra_artists=(l1,),
+    plt.savefig(output_path,
                 bbox_inches='tight',
                 dpi=700)
 

@@ -246,15 +246,6 @@ def main(config_path):
         "natural": {"natural", "fluid", "awkward", "clunky"},
     }
 
-    # original (before we decided to include antonyms in each set for consistency)
-    # seed_sets = {
-    #     "inclusive": {"inclusive", "exclusionary"},
-    #     "modern": {"modern", "outdated", "traditional", "contemporary"},
-    #     "professional": {"professional"},
-    #     "standard": {"standard", "common"},
-    #     "natural": {"natural", "fluid", "awkward", "clunky"},
-    # }
-
     build_theme_word_sets(seed_sets, config_path)
 
 
