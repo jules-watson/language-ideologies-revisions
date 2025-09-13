@@ -1,4 +1,0 @@
-2025-02-07 21:03:49.438061+00:00
-Total prompts: 117
-Device: cuda
-Total seconds: 8.374048948287964

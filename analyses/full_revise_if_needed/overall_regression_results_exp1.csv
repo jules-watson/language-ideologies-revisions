@@ -1,9 +1,0 @@
-,gpt-4o,llama-3.1-8B-Instruct,gemma-2-9b-it,Mistral-Nemo-Instruct-2407
-(Intercept),\cellcolor[HTML]{dbd9d9} -2.68,\cellcolor[HTML]{dbd9d9} -1.90,-0.94,\cellcolor[HTML]{dbd9d9} -3.16
-original_masc,1.46,\cellcolor[HTML]{bdffea} 1.33,0.41,\cellcolor[HTML]{bdffea} 2.64
-original_fem,1.19,\cellcolor[HTML]{bdffea} 1.52,0.84,\cellcolor[HTML]{bdffea} 2.84
-context_fem,0.86,-1.18,0.34,0.71
-context_neut,1.34,-0.93,-0.06,-1.08
-original_masc:context_fem,-0.13,0.90,-0.07,-0.48
-original_fem:context_masc,1.53,-0.54,0.54,1.01
-context_neut:original_gend,-0.04,0.90,0.45,\cellcolor[HTML]{bdffea} 2.21
